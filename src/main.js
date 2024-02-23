@@ -1,45 +1,7 @@
-console.log('Salut, can vas ? 🫠');
 const canvas = document.querySelector('.gameCanvas'),
 	context = canvas.getContext('2d');
 
-let drawing = false;
-let save = [[]];
-function drawToTheClick(event) {
-	if (drawing) {
-		save.push([event.offsetX, event.offsetY]);
-		//context.lineTo(event.offsetX, event.offsetY);
-		//context.stroke();
-	}
-}
-
-canvas.addEventListener('mousedown', () => {
-	drawing = true;
-	context.beginPath();
-});
-canvas.addEventListener('mouseup', () => (drawing = false));
-canvas.addEventListener('mousemove', drawToTheClick);
-
-/*
-context.strokeRect(275, 175, 50, 50);
-context.arc(300, 200, 25, 0, 360);
-context.stroke();
-*/
-
-/*
-context.beginPath();
-context.lineWidth = 0;
-context.fillStyle = 'green';
-context.rect(100, 50, 100, 100);
-context.stroke();
-context.fill();
-context.beginPath();
-context.lineWidth = 4;
-context.fillStyle = 'blue';
-context.strokeStyle = 'purple';
-context.arc(400, 100, 50, 0, 360);
-context.stroke();
-context.fill();
-*/
+const playerBorder = 10;
 
 let x = 0;
 let y = 0;
@@ -56,76 +18,55 @@ image.addEventListener('load', event => {
 function render() {
 	context.clearRect(0, 0, canvas.width, canvas.height);
 	context.drawImage(image, x, y);
-	save.forEach(element => context.lineTo(element[0], element[1]));
 	context.stroke();
 	requestAnimationFrame(render);
 }
-/*
-function moveMonster() {
-	if (x > canvas.width - image.width) {
-		xDirection = -xDirection;
-	}
-	if (x < 0) {
-		xDirection = -xDirection;
-	}
-	if (y > canvas.height - image.height) {
-		yDirection = -yDirection;
-	}
-	if (y < 0) {
-		yDirection = -yDirection;
-	}
 
-	x += xDirection;
-	y += yDirection;
-}
-*/
+setInterval(movePlayer, 1000 / 60);
 
-setInterval(moveMonster, 1000 / 60);
-
-function moveMonster() {
-	if (x > canvas.width - image.width - 1) {
+function movePlayer() {
+	if (x > canvas.width - image.width - playerBorder) {
 		x -= vitesse;
 	}
-	if (x < 0 + 1) {
+	if (x < playerBorder) {
 		x += vitesse;
 	}
-	if (y > canvas.height - image.height - 1) {
+	if (y > canvas.height - image.height - playerBorder) {
 		y -= vitesse;
 	}
-	if (y < 0 + 1) {
+	if (y < playerBorder) {
 		y += vitesse;
 	}
-
 	x += xDirection;
 	y += yDirection;
 }
 
 function handleKeyboardStart(event) {
-	if (event.key == 'ArrowLeft') {
+	if (event.key == 'ArrowLeft' || event.key == 'q') {
 		xDirection = -vitesse;
 	}
-	if (event.key == 'ArrowRight') {
+	if (event.key == 'ArrowRight' || event.key == 'd') {
 		xDirection = vitesse;
 	}
-	if (event.key == 'ArrowDown') {
+	if (event.key == 'ArrowDown' || event.key == 's') {
 		yDirection = vitesse;
 	}
-	if (event.key == 'ArrowUp') {
+	if (event.key == 'ArrowUp' || event.key == 'z') {
 		yDirection = -vitesse;
 	}
 }
 
 function handleKeyboardEnd(event) {
-	if (event.key == 'ArrowLeft') {
+	if (event.key == 'ArrowLeft' || event.key == 'q') {
 		xDirection = 0;
 	}
-	if (event.key == 'ArrowRight') {
+	if (event.key == 'ArrowRight' || event.key == 'd') {
 		xDirection = 0;
 	}
-	if (event.key == 'ArrowDown') {
+	if (event.key == 'ArrowDown' || event.key == 's') {
 		yDirection = 0;
 	}
-	if (event.key == 'ArrowUp') {
+	if (event.key == 'ArrowUp' || event.key == 'z') {
 		yDirection = 0;
 	}
 }
@@ -133,6 +74,9 @@ function handleKeyboardEnd(event) {
 document.addEventListener('keydown', handleKeyboardStart);
 document.addEventListener('keyup', handleKeyboardEnd);
 
+/**
+ * Canvas resize for each
+ */
 const canvasResizeObserver = new ResizeObserver(() => resampleCanvas());
 canvasResizeObserver.observe(canvas);
 
