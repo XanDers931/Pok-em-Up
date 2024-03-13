@@ -1,5 +1,5 @@
 const URL = '/images/background/background3.png';
-const backgroundSpeed = 5;
+const backgroundSpeed = 0.5;
 let x = 0;
 
 export class Background {
