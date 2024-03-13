@@ -5,15 +5,26 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
+			"name": "Debug server",
+			"type": "node",
+			"request": "launch",
+			"cwd": "${workspaceFolder}",
+			"runtimeExecutable": "npm",
+			"runtimeArgs": ["run-script", "server:watch"],
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+		},		
+		{
 			"name": "Debug on Chrome",
 			"type": "chrome",
 			"request": "launch",
 			"url": "http://localhost:8000",
-			"webRoot": "${workspaceFolder}"
 			/*
+			"webRoot": "${workspaceFolder}"
+			*/
 			"webRoot": "${workspaceFolder}",
 			"runtimeExecutable": "/bin/chromium"
-			*/
 		},
 		{
 			"name": "Debug on Firefox",
