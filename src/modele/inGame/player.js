@@ -62,9 +62,7 @@ export class Player {
 
 	move() {
 		if (left) {
-			console.log('no');
 			if (x > playerBorder) {
-				console.log('yes');
 				xDirection = 0;
 				x -= vitesse;
 			}
