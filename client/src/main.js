@@ -4,6 +4,9 @@
 const canvas = document.querySelector('.gameCanvas'),
 	context = canvas.getContext('2d');
 
+import { getCanvas } from './vue/draw.js';
+getCanvas(canvas);
+
 import View from './View.js';
 import Router from './Router.js';
 
@@ -27,7 +30,7 @@ Router.setMenuElement(document.querySelector('#menu')); // TODO ajouter dans le 
  */
 
 import { Background } from './vue/inGame/background.js';
-let bg = new Background(canvas);
+let bg = new Background(canvas.height, canvas.clientHeight);
 
 import { Player } from './modele/inGame/player.js';
 let p = new Player(canvas, 0, 0);
