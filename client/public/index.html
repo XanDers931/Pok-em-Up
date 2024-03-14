@@ -8,19 +8,6 @@
 	<title>JSAÉ - Pok'em Up</title>
 
 	<link rel="stylesheet" href="css/main.css" />
-	<style>
-		canvas {
-			background-color: white;
-			border: 3px dashed #777;
-			/* modification de la taille du canvas */
-			width: 100%;
-			height: 100%;
-			position: absolute;
-			top: 0;
-			left: 0;
-			border: none;
-		}
-	</style>
 	<script src="build/main.bundle.js" defer></script>
 </head>
 <body>
@@ -29,7 +16,7 @@
 
 		<article class="menu">
 			<h1><em>JSAÉ</em> / Pok'em Up</h1>
-			<div id="menu">
+			<div class="menuButtons">
 				<button href="/game">Jouer</button>
 				<button onclick="options()">Options</button>
 				<button onclick="credits()">Crédits</button>

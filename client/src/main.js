@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * Canvas
  */
@@ -19,10 +20,13 @@ import { getInfo } from './vue/canvasInfo.js';
 
 getCanvas(canvas);
 
+=======
+>>>>>>> bfed230259f20bc133867ec44b3571d892a56947
 import View from './View.js';
+import GameView from './GameView.js';
 import Router from './Router.js';
 
-const gameView = new View(document.querySelector('.viewContent .game'));
+const gameView = new GameView(document.querySelector('.viewContent .game'));
 const menuView = new View(document.querySelector('.viewContent .menu'));
 
 const routes = [
@@ -34,6 +38,7 @@ import { io } from 'socket.io-client';
 const socket = io();
 
 Router.routes = routes;
+<<<<<<< HEAD
 Router.navigate('/game');
 Router.setMenuElement(document.querySelector('#menu')); // TODO ajouter dans le html la classe mainMenu a la liste des boutons du menu
 
@@ -76,3 +81,7 @@ function resampleCanvas() {
 	canvas.width = canvas.clientWidth;
 	canvas.height = canvas.clientHeight;
 }
+=======
+Router.navigate('/');
+Router.setMenuElement(document.querySelector('.menuButtons')); // TODO ajouter dans le html la classe mainMenu a la liste des boutons du menu
+>>>>>>> bfed230259f20bc133867ec44b3571d892a56947
