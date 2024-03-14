@@ -16,7 +16,8 @@ const routes = [
 ];
 
 Router.routes = routes;
-Router.navigate('/');
+Router.navigate('/game');
+//Router.setMenuElement(document.querySelector('#menu')); // TODO ajouter dans le html la classe mainMenu a la liste des boutons du menu
 
 /**
  *  Code
