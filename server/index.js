@@ -23,31 +23,6 @@ addWebpackMiddleware(app);
 
 app.use(express.static('client/public'));
 
-/*
-app.get('/api/episodes', (req, res) => {
-	const content = [];
-	JSON.parse(readFileSync('episodes.json', { encoding: 'utf8' })).forEach(
-		element => {
-			content.push({
-				id: element.id,
-				episode: element.episode,
-				name: element.name,
-			});
-		}
-	);
-	res.end(JSON.stringify(content));
-});
-
-app.get('/api/episodes/:episodeId', (req, res) => {
-	let content;
-	content = JSON.parse(
-		readFileSync('episodes.json', { encoding: 'utf8' })
-	).find(element => element.id == req.params.episodeId);
-	res.end(JSON.stringify(content));
-});
-
-*/
-
 httpServer.listen(PORT, () => {
 	console.log(`Server running at http://localhost:${PORT}/`);
 });
