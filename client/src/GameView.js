@@ -1,26 +1,58 @@
+import View from './View.js';
+import { getCanvas } from './vue/draw.js';
+import { Background } from './vue/inGame/background.js';
+import { Player } from './modele/inGame/player.js';
+
 /**
  * Classe de base des vues de notre application.
  * Permet d'associer une balise HTML à la vue et de l'afficher/masquer.
  */
-export default class View {
+export default class GameView extends View {
 	/**
 	 * Balise HTML associée à la vue
 	 */
-	element;
+
+	canvas;
+	context;
+	bg;
+	p;
 
 	constructor(element) {
-		this.element = element;
+		super(element);
 	}
-	/**
-	 * Affiche la vue en lui ajoutant la classe CSS `active`
-	 */
+
 	show() {
-		this.element.classList.add('active');
+		super.show();
+		this.canvas = this.element.querySelector('.gameCanvas');
+		this.context = this.canvas.getContext('2d');
+		getCanvas(this.canvas);
+
+		this.bg = new Background(this.canvas.height, this.canvas.clientHeight);
+		this.p = new Player(this.canvas, 0, 0);
+
+		requestAnimationFrame(event => this.render(event));
+
+		const canvasResizeObserver = new ResizeObserver(() =>
+			this.resampleCanvas()
+		);
+		canvasResizeObserver.observe(this.canvas);
 	}
-	/**
-	 * Masque la vue en enlevant la classe CSS `active`
-	 */
-	hide() {
-		this.element.classList.remove('active');
+
+	render() {
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+		if (this.bg.getReady()) {
+			this.bg.display();
+		}
+		if (this.p.getReady()) {
+			this.p.display();
+		}
+		this.context.stroke();
+		requestAnimationFrame(event => this.render(event));
+	}
+
+	resampleCanvas() {
+		this.canvas.width = this.canvas.clientWidth;
+		this.canvas.height = this.canvas.clientHeight;
 	}
 }
