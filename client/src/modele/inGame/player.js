@@ -1,5 +1,4 @@
 import { entity } from './entity.js';
-import { draw } from '../../vue/draw.js';
 
 const playerWidhtSize = 64;
 const playerHeightSize = 64;
@@ -25,9 +24,6 @@ let right = false;
 let up = false;
 let down = false;
 
-let lastXdirection = 0;
-let lastYdirection = 0;
-
 export class Player {
 	constructor(canvas, skin, color) {
 		this.canvas = canvas;
@@ -48,18 +44,6 @@ export class Player {
 		});
 	}
 
-	getPlayerWidht() {
-		return playerWidhtSize;
-	}
-
-	getX() {
-		return x;
-	}
-
-	getY() {
-		return y;
-	}
-
 	getReady() {
 		return this.ready;
 	}
@@ -73,29 +57,29 @@ export class Player {
 	}
 
 	display() {
-		draw(this.image, x, y, playerWidhtSize, playerHeightSize);
+		this.context.drawImage(this.image, x, y, playerWidhtSize, playerHeightSize);
 	}
 
 	move() {
-		if (left && lastXdirection == 0) {
+		if (left) {
 			if (x > playerBorder) {
 				xDirection = 0;
 				x -= vitesse;
 			}
 		}
-		if (right && lastXdirection == 1) {
+		if (right) {
 			if (x < canvasWidth - playerBorderRight) {
 				xDirection = 0;
 				x += vitesse;
 			}
 		}
-		if (up && lastYdirection == 0) {
+		if (up) {
 			if (y > playerBorder) {
 				yDirection = 0;
 				y -= vitesse;
 			}
 		}
-		if (down && lastYdirection == 1) {
+		if (down) {
 			if (y < canvasHeight - playerBorderDown) {
 				yDirection = 0;
 				y += vitesse;
@@ -123,19 +107,15 @@ export class Player {
 	handleKeyboardStart(event) {
 		if (event.key == 'ArrowLeft' || event.key == 'q') {
 			left = true;
-			lastXdirection = 0;
 		}
 		if (event.key == 'ArrowRight' || event.key == 'd') {
 			right = true;
-			lastXdirection = 1;
-		}
-		if (event.key == 'ArrowUp' || event.key == 'z') {
-			up = true;
-			lastYdirection = 0;
 		}
 		if (event.key == 'ArrowDown' || event.key == 's') {
 			down = true;
-			lastYdirection = 1;
+		}
+		if (event.key == 'ArrowUp' || event.key == 'z') {
+			up = true;
 		}
 	}
 
@@ -159,19 +139,15 @@ export class Player {
 	handleKeyboardEnd(event) {
 		if (event.key == 'ArrowLeft' || event.key == 'q') {
 			left = false;
-			lastXdirection = 1;
 		}
 		if (event.key == 'ArrowRight' || event.key == 'd') {
 			right = false;
-			lastXdirection = 0;
-		}
-		if (event.key == 'ArrowUp' || event.key == 'z') {
-			up = false;
-			lastYdirection = 1;
 		}
 		if (event.key == 'ArrowDown' || event.key == 's') {
 			down = false;
-			lastYdirection = 0;
+		}
+		if (event.key == 'ArrowUp' || event.key == 'z') {
+			up = false;
 		}
 	}
 
