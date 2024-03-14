@@ -15,4 +15,4 @@ const socket = io();
 
 Router.routes = routes;
 Router.navigate('/');
-Router.setMenuElement(document.querySelector('#menu')); // TODO ajouter dans le html la classe mainMenu a la liste des boutons du menu
+Router.setMenuElement(document.querySelector('.menuButtons')); // TODO ajouter dans le html la classe mainMenu a la liste des boutons du menu
