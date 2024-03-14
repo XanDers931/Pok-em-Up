@@ -22,7 +22,7 @@ export default class Router {
 	static setMenuElement(menuElement) {
 		this.#menuElement = menuElement;
 		// on écoute le clic sur tous les liens du menu
-		const menuLinks = this.#menuElement.querySelectorAll('a');
+		const menuLinks = this.#menuElement.querySelectorAll('button');
 		menuLinks.forEach(link =>
 			link.addEventListener('click', event => {
 				event.preventDefault();

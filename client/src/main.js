@@ -15,9 +15,12 @@ const routes = [
 	{ path: '/game', view: gameView },
 ];
 
+import { io } from 'socket.io-client';
+const socket = io();
+
 Router.routes = routes;
 Router.navigate('/game');
-//Router.setMenuElement(document.querySelector('#menu')); // TODO ajouter dans le html la classe mainMenu a la liste des boutons du menu
+Router.setMenuElement(document.querySelector('#menu')); // TODO ajouter dans le html la classe mainMenu a la liste des boutons du menu
 
 /**
  *  Code
@@ -28,9 +31,6 @@ let bg = new Background(canvas);
 
 import { Player } from './modele/inGame/player.js';
 let p = new Player(canvas, 0, 0);
-
-import { io } from 'socket.io-client';
-const socket = io();
 
 /**
  *  Render
