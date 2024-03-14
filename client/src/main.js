@@ -4,7 +4,19 @@
 const canvas = document.querySelector('.gameCanvas'),
 	context = canvas.getContext('2d');
 
+/**
+ * Canvas implementation
+ */
+
+// me permet d'attendre que le canvas soit charger mais mal fait
+// setTimeout génére une erreur dans le code
+setTimeout(() => {
+	getInfo(canvas);
+}, 100);
+
 import { getCanvas } from './vue/draw.js';
+import { getInfo } from './vue/canvasInfo.js';
+
 getCanvas(canvas);
 
 import View from './View.js';
@@ -40,8 +52,6 @@ let p = new Player(canvas, 0, 0);
  */
 
 requestAnimationFrame(render);
-
-console.log(canvas.width);
 
 function render() {
 	context.clearRect(0, 0, canvas.width, canvas.height);
