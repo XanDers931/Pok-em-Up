@@ -36,7 +36,7 @@ export class Player {
 		x = canvasWidth / 8 - playerWidhtSize / 2;
 		y = canvasHeight / 2 - playerHeightSize / 2;
 		this.image = new Image();
-		this.image.src = this.skin(skin);
+		this.image.src = this.skin();
 		this.ready = false;
 		this.image.addEventListener('load', event => {
 			setInterval(this.move, 1000 / 60);
@@ -61,14 +61,6 @@ export class Player {
 
 	getReady() {
 		return this.ready;
-	}
-
-	getCanvas() {
-		return this.canvas;
-	}
-
-	getCanvasHeight() {
-		return this.canvas.clientHeight;
 	}
 
 	display() {
