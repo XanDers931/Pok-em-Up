@@ -1,9 +1,11 @@
 import View from './View.js';
-import { getCanvas } from './draw.js';
-import { getInfo } from './canvasInfo.js';
 import { Background } from './inGame/background.js';
 import { Player } from '../modele/inGame/player.js';
+<<<<<<< HEAD
 import Router from './Router.js';
+=======
+import { Draw } from './draw.js';
+>>>>>>> a5df693 (Draw change, refactor, background ok, hide player, delete canvasInfo)
 
 export default class GameView extends View {
 	start;
@@ -19,6 +21,7 @@ export default class GameView extends View {
 
 	show() {
 		super.show();
+<<<<<<< HEAD
 		if (this.start == false) {
 			this.start = true;
 
@@ -46,6 +49,16 @@ export default class GameView extends View {
 		if (event.key == 'Escape') {
 			Router.navigate('/');
 		}
+=======
+		this.canvas = this.element.querySelector('.gameCanvas');
+		this.context = this.canvas.getContext('2d');
+		Draw.initialise(this.canvas);
+
+		this.bg = new Background();
+		//this.p = new Player(this.canvas, 0, 0);
+
+		requestAnimationFrame(event => this.render(event));
+>>>>>>> a5df693 (Draw change, refactor, background ok, hide player, delete canvasInfo)
 	}
 
 	render() {
@@ -54,15 +67,12 @@ export default class GameView extends View {
 		if (this.bg.getReady()) {
 			this.bg.display();
 		}
+		/*
 		if (this.p.getReady()) {
 			this.p.display();
 		}
+		*/
 		this.context.stroke();
 		requestAnimationFrame(event => this.render(event));
-	}
-
-	resampleCanvas() {
-		this.canvas.width = this.canvas.clientWidth;
-		this.canvas.height = this.canvas.clientHeight;
 	}
 }

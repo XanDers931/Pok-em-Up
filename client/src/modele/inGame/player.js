@@ -1,7 +1,15 @@
 import { draw } from '../../vue/draw.js';
+//import { getcanvasWitdh, getcanvasHeight } from '../../vue/canvasInfo.js';
 
-const playerWidhtSize = 64;
-const playerHeightSize = 64;
+const defaultPlayerWitdhSize = 96;
+const defaultPlayerHeightSize = 96;
+
+const defaultWitdhScreenSize = 1920;
+const defaultHeigthScreenSize = 1080;
+
+let playerWidhtSize = (100 / defaultPlayerHeightSize) * defaultPlayerWitdhSize;
+let playerHeightSize =
+	(100 / defaultHeigthScreenSize) * defaultPlayerHeightSize;
 
 const playerBorder = 30;
 const playerBorderDown = playerHeightSize + playerBorder;
@@ -16,8 +24,6 @@ let x = 0;
 let y = 0;
 let xDirection = 0;
 let yDirection = 0;
-let canvasHeight;
-let canvasWidth;
 
 let left = false;
 let right = false;
@@ -31,13 +37,13 @@ export class Player {
 	constructor(canvas, skin, color) {
 		this.canvas = canvas;
 		this.context = canvas.getContext('2d');
-		canvasHeight = this.canvas.clientHeight;
-		canvasWidth = this.canvas.clientWidth;
-		x = canvasWidth / 8 - playerWidhtSize / 2;
-		y = canvasHeight / 2 - playerHeightSize / 2;
+
+		x = 100 / 8 - playerWidhtSize / 2;
+		y = 100 / 2 - playerHeightSize / 2;
+		this.ready = false;
 		this.image = new Image();
 		this.image.src = this.skin();
-		this.ready = false;
+
 		this.image.addEventListener('load', event => {
 			setInterval(this.move, 1000 / 60);
 			//setInterval(this.loseSpeed, 1000 / 60);
@@ -64,7 +70,7 @@ export class Player {
 	}
 
 	display() {
-		draw(this.image, x, y, playerWidhtSize, playerHeightSize);
+		//draw(this.image, x, y, playerWidhtSize, playerHeightSize);
 	}
 
 	move() {
@@ -75,7 +81,7 @@ export class Player {
 			}
 		}
 		if (right && lastXdirection == 1) {
-			if (x < canvasWidth - playerBorderRight) {
+			if (x < 100 - playerBorderRight) {
 				xDirection = 0;
 				x += vitesse;
 			}
@@ -87,7 +93,7 @@ export class Player {
 			}
 		}
 		if (down && lastYdirection == 1) {
-			if (y < canvasHeight - playerBorderDown) {
+			if (y < 100 - playerBorderDown) {
 				yDirection = 0;
 				y += vitesse;
 			}
