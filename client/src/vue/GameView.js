@@ -26,7 +26,8 @@ export default class GameView extends View {
 			Draw.initialise(this.canvas);
 
 			this.bg = new Background();
-			//this.p = new Player(this.canvas, 0, 0);
+			// Player argument 1 : skin id
+			this.p = new Player(0);
 
 			requestAnimationFrame(event => this.render(event));
 
@@ -46,11 +47,11 @@ export default class GameView extends View {
 		if (this.bg.getReady()) {
 			this.bg.display();
 		}
-		/*
+
 		if (this.p.getReady()) {
 			this.p.display();
 		}
-		*/
+
 		this.context.stroke();
 		requestAnimationFrame(event => this.render(event));
 	}

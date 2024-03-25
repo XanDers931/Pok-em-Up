@@ -1,5 +1,4 @@
-import { draw } from '../../vue/draw.js';
-//import { getcanvasWitdh, getcanvasHeight } from '../../vue/canvasInfo.js';
+import { Draw } from '../../vue/draw.js';
 
 const defaultPlayerWitdhSize = 96;
 const defaultPlayerHeightSize = 96;
@@ -7,9 +6,8 @@ const defaultPlayerHeightSize = 96;
 const defaultWitdhScreenSize = 1920;
 const defaultHeigthScreenSize = 1080;
 
-let playerWidhtSize = (100 / defaultPlayerHeightSize) * defaultPlayerWitdhSize;
-let playerHeightSize =
-	(100 / defaultHeigthScreenSize) * defaultPlayerHeightSize;
+let playerWidhtSize = 96; //(100 / defaultPlayerHeightSize) * defaultPlayerWitdhSize;
+let playerHeightSize = 96; //(100 / defaultHeigthScreenSize) * defaultPlayerHeightSize;
 
 const playerBorder = 30;
 const playerBorderDown = playerHeightSize + playerBorder;
@@ -34,16 +32,12 @@ let lastXdirection = 0;
 let lastYdirection = 0;
 
 export class Player {
-	constructor(canvas, skin, color) {
-		this.canvas = canvas;
-		this.context = canvas.getContext('2d');
-
-		x = 100 / 8 - playerWidhtSize / 2;
-		y = 100 / 2 - playerHeightSize / 2;
+	constructor(skin) {
 		this.ready = false;
+		x = 500;
+		y = 500;
 		this.image = new Image();
 		this.image.src = this.skin();
-
 		this.image.addEventListener('load', event => {
 			setInterval(this.move, 1000 / 60);
 			//setInterval(this.loseSpeed, 1000 / 60);
@@ -70,7 +64,8 @@ export class Player {
 	}
 
 	display() {
-		//draw(this.image, x, y, playerWidhtSize, playerHeightSize);
+		console.log();
+		Draw.draw(this.image, x, y, playerWidhtSize, playerHeightSize);
 	}
 
 	move() {
