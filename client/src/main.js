@@ -1,6 +1,6 @@
-import View from './View.js';
-import GameView from './GameView.js';
-import Router from './Router.js';
+import View from './vue/View.js';
+import GameView from './vue/GameView.js';
+import Router from './vue/Router.js';
 
 const gameView = new GameView(document.querySelector('.viewContent .game'));
 const menuView = new View(document.querySelector('.viewContent .menu'));

@@ -1,8 +1,8 @@
 import View from './View.js';
-import { getCanvas } from './vue/draw.js';
-import { getInfo } from './vue/canvasInfo.js';
-import { Background } from './vue/inGame/background.js';
-import { Player } from './modele/inGame/player.js';
+import { getCanvas } from './draw.js';
+import { getInfo } from './canvasInfo.js';
+import { Background } from './inGame/background.js';
+import { Player } from '../modele/inGame/player.js';
 
 /**
  * Classe de base des vues de notre application.
