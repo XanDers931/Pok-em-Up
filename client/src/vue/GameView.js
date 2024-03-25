@@ -4,15 +4,8 @@ import { getInfo } from './canvasInfo.js';
 import { Background } from './inGame/background.js';
 import { Player } from '../modele/inGame/player.js';
 import Router from './Router.js';
-/**
- * Classe de base des vues de notre application.
- * Permet d'associer une balise HTML à la vue et de l'afficher/masquer.
- */
-export default class GameView extends View {
-	/**
-	 * Balise HTML associée à la vue
-	 */
 
+export default class GameView extends View {
 	start;
 	canvas;
 	context;

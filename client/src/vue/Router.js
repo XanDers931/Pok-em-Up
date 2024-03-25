@@ -10,28 +10,6 @@ export default class Router {
 	static routes = [];
 	static currentRoute;
 
-	static #menuElement; // propriété statique et privée (#...)
-
-	/**
-	 * Setter qui indique au `Router` la balise HTML contenant le menu de navigation.
-	 * Écoute le clic sur chaque lien et déclenche la méthode `Router.navigate`.
-	 * @param {Element} menuElement
-	 * @see Router.handleMenuLinkClick
-	 * @see Router.navigate
-	 */
-	static setMenuElement(menuElement) {
-		this.#menuElement = menuElement;
-		// on écoute le clic sur tous les liens du menu
-		const menuLinks = this.#menuElement.querySelectorAll('button');
-		menuLinks.forEach(link =>
-			link.addEventListener('click', event => {
-				event.preventDefault();
-				// on récupère le href du lien cliqué pour déclencher navigate(...)
-				const linkHref = event.currentTarget.getAttribute('href');
-				Router.navigate(linkHref);
-			})
-		);
-	}
 	/**
 	 * Affiche la view correspondant à `path` dans le tableau `routes`
 	 * @param {String} path URL de la page à afficher
