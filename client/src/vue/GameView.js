@@ -1,6 +1,7 @@
 import View from './View.js';
 import { Background } from './inGame/background.js';
 import { Player } from '../modele/inGame/player.js';
+import { Ennemy } from '../modele/inGame/ennemies.js';
 import Router from './Router.js';
 import { Draw } from './draw.js';
 
@@ -8,8 +9,9 @@ export default class GameView extends View {
 	start;
 	canvas;
 	context;
-	bg;
-	p;
+	background;
+	player;
+	ennemy;
 
 	constructor(element) {
 		super(element);
@@ -25,9 +27,11 @@ export default class GameView extends View {
 			this.context = this.canvas.getContext('2d');
 			Draw.initialise(this.canvas);
 
-			this.bg = new Background();
+			this.background = new Background();
 			// Player argument 1 : skin id
-			this.p = new Player(1);
+			this.player = new Player(1);
+
+			this.ennemy = new Ennemy('/images/player/1.png', 1, 10);
 
 			requestAnimationFrame(event => this.render(event));
 
@@ -44,12 +48,17 @@ export default class GameView extends View {
 	render() {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-		if (this.bg.getReady()) {
-			this.bg.display();
+		if (this.background.getReady()) {
+			this.background.display();
 		}
 
-		if (this.p.getReady()) {
-			this.p.display();
+		if (this.player.getReady()) {
+			this.player.display();
+		}
+
+		if (this.ennemy.getReady()) {
+			this.ennemy.display();
+			this.ennemy.move();
 		}
 
 		this.context.stroke();

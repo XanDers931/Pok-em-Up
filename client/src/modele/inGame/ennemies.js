@@ -1,5 +1,4 @@
-import { draw } from "../../vue/draw.js";
-import { getcanvasWitdh, getcanvasHeight } from "../../vue/canvasInfo.js";
+import { Draw } from "../../vue/draw.js";
 
 const ennemyWidhtSize = 40;
 const ennemyHeightSize = 40;
@@ -8,6 +7,7 @@ export class Ennemy{
     x;
     y;
     ennemySkin;
+    image;
     ennemySpeed;
     ennemyReady;
 
@@ -27,8 +27,8 @@ export class Ennemy{
     }
 
     spawn(){
-        this.x = getcanvasWitdh()-ennemyWidhtSize;
-        this.y = getRandomArbitrary(0+ennemyHeightSize, getcanvasHeight()-ennemyHeightSize);
+        this.x = Draw.canvas.width-ennemyWidhtSize;
+        this.y = getRandomArbitrary(0+ennemyHeightSize, Draw.canvas.width-ennemyHeightSize);
     }
 
     move(){
@@ -54,7 +54,7 @@ export class Ennemy{
 	}
 
     display() {
-		draw(this.image, this.x, this.y, ennemyWidhtSize, ennemyHeightSize);
+		Draw.draw(this.image, this.x, this.y, ennemyWidhtSize, ennemyHeightSize);
 	}
 
     getEnnemyHeight(){
