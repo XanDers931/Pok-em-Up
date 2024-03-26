@@ -27,7 +27,7 @@ export default class GameView extends View {
 
 			this.bg = new Background();
 			// Player argument 1 : skin id
-			this.p = new Player(0);
+			this.p = new Player(1);
 
 			requestAnimationFrame(event => this.render(event));
 

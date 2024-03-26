@@ -1,10 +1,14 @@
 import { Draw } from '../../vue/draw.js';
 
-const defaultPlayerWitdhSize = 96;
-const defaultPlayerHeightSize = 96;
+const defaultPlayerWitdhSize = 10;
+const defaultPlayerHeightSize = 10;
 
 const defaultWitdhScreenSize = 1920;
 const defaultHeigthScreenSize = 1080;
+
+let xSpeedPossible = 10; // Draw.canvas.width
+
+const generalSpeed = 2;
 
 let playerWidhtSize = 96; //(100 / defaultPlayerHeightSize) * defaultPlayerWitdhSize;
 let playerHeightSize = 96; //(100 / defaultHeigthScreenSize) * defaultPlayerHeightSize;
@@ -20,25 +24,29 @@ const decreaseSpeedMult = 0.9;
 
 let x = 0;
 let y = 0;
-let xDirection = 0;
-let yDirection = 0;
+
+let xSpeed = 0;
+let ySpeed = 0;
 
 let left = false;
 let right = false;
 let up = false;
 let down = false;
 
-let lastXdirection = 0;
-let lastYdirection = 0;
-
 export class Player {
 	constructor(skin) {
 		this.ready = false;
-		x = 500;
-		y = 500;
+
+		xSpeed = 0;
+		ySpeed = 0;
+
+		x = Draw.canvas.width / 8 - playerWidhtSize;
+		y = Draw.canvas.height / 2 - playerHeightSize;
+
 		this.image = new Image();
-		this.image.src = this.skin();
+		this.image.src = this.skin(skin);
 		this.image.addEventListener('load', event => {
+			setInterval(this.gainSpeed, 1000 / 60);
 			setInterval(this.move, 1000 / 60);
 			//setInterval(this.loseSpeed, 1000 / 60);
 			document.addEventListener('keydown', this.handleKeyboardStart);
@@ -64,11 +72,38 @@ export class Player {
 	}
 
 	display() {
-		console.log();
 		Draw.draw(this.image, x, y, playerWidhtSize, playerHeightSize);
 	}
 
+	gainSpeed() {
+		if (left && xSpeed > -maxSpeed) xSpeed -= generalSpeed;
+		if (right && xSpeed <= maxSpeed) xSpeed += generalSpeed;
+		if (up && ySpeed > -maxSpeed) ySpeed -= generalSpeed;
+		if (down && ySpeed <= maxSpeed) ySpeed += generalSpeed;
+	}
+
 	move() {
+		x += xSpeed;
+		y += ySpeed;
+		/*
+		if (left) {
+			xDirection = 0;
+			x -= vitesse;
+		}
+		if (right) {
+			xDirection = 0;
+			x += vitesse;
+		}
+		if (up) {
+			yDirection = 0;
+			y -= vitesse;
+		}
+		if (down) {
+			yDirection = 0;
+			y += vitesse;
+		}
+		*/
+		/*
 		if (left && lastXdirection == 0) {
 			if (x > playerBorder) {
 				xDirection = 0;
@@ -105,29 +140,27 @@ export class Player {
 		if (yDirection <= -maxSpeed) {
 			yDirection = -maxSpeed;
 		}
+		*/
 	}
 
 	handleKeyboardStart(event) {
 		if (event.key == 'ArrowLeft' || event.key == 'q') {
 			left = true;
-			lastXdirection = 0;
 		}
 		if (event.key == 'ArrowRight' || event.key == 'd') {
+			console.log('là');
 			right = true;
-			lastXdirection = 1;
 		}
 		if (event.key == 'ArrowUp' || event.key == 'z') {
 			up = true;
-			lastYdirection = 0;
 		}
 		if (event.key == 'ArrowDown' || event.key == 's') {
 			down = true;
-			lastYdirection = 1;
 		}
 	}
 
-	/*
 	loseSpeed() {
+		/*
 		if (xDirection != 0) {
 			xDirection = xDirection * decreaseSpeedMult;
 		}
@@ -140,29 +173,25 @@ export class Player {
 		if (yDirection < speedBeforeStop && yDirection > -speedBeforeStop) {
 			yDirection = 0;
 		}
+		*/
 	}
-    */
 
 	handleKeyboardEnd(event) {
 		if (event.key == 'ArrowLeft' || event.key == 'q') {
 			left = false;
-			lastXdirection = 1;
 		}
 		if (event.key == 'ArrowRight' || event.key == 'd') {
 			right = false;
-			lastXdirection = 0;
 		}
 		if (event.key == 'ArrowUp' || event.key == 'z') {
 			up = false;
-			lastYdirection = 1;
 		}
 		if (event.key == 'ArrowDown' || event.key == 's') {
 			down = false;
-			lastYdirection = 0;
 		}
 	}
 
-	skin() {
-		return '/images/test.png';
+	skin(id) {
+		return `/images/player/${id}.png`;
 	}
 }
