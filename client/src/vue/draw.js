@@ -1,16 +1,26 @@
 import calculateScore from '../modele/inGame/score.js';
-let canvas;
-let context;
-const image = new Image();
 
-export function getCanvas(canvasModele) {
-	canvas = canvasModele;
-	context = canvas.getContext('2d');
-	return;
-}
+export class Draw {
+	canvas;
+	context;
 
-export function draw(image, x, y, width, height) {
-	context.drawImage(image, x, y, width, height);
+	static initialise(canvas) {
+		this.canvas = canvas;
+		this.context = this.canvas.getContext('2d');
+		const canvasResizeObserver = new ResizeObserver(() =>
+			this.resampleCanvas()
+		);
+		canvasResizeObserver.observe(this.canvas);
+	}
+
+	static draw(image, x, y, width, height) {
+		this.context.drawImage(image, x, y, width, height);
+	}
+
+	static resampleCanvas() {
+		this.canvas.width = this.canvas.clientWidth;
+		this.canvas.height = this.canvas.clientHeight;
+	}
 }
 
 export function drawScore() {

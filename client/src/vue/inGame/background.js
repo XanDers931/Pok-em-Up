@@ -1,5 +1,4 @@
-import { draw } from '../../vue/draw.js';
-import { getcanvasClientHeight, getcanvasHeight } from '../canvasInfo.js';
+import { Draw } from '../../vue/draw.js';
 
 const URL = '/images/background/background3.png';
 const backgroundSpeed = 1;
@@ -7,25 +6,30 @@ let x = 0;
 
 export class Background {
 	constructor() {
-		setTimeout(() => {
-			this.ready = false;
-			this.image = new Image();
-			this.image.src = URL;
-			this.image.addEventListener('load', event => {
-				this.scaledWidth =
-					(this.image.naturalWidth / this.image.naturalHeight) *
-					getcanvasClientHeight();
-				setInterval(this.backgroundMove, 1000 / 60, this.scaledWidth);
-				this.ready = true;
-			});
-		}, 100);
+		this.ready = false;
+		this.on = true;
+		x = 0;
+		this.image = new Image();
+		this.image.src = URL;
+		this.image.addEventListener('load', event => {
+			setInterval(this.backgroundMove, 1000 / 60);
+			this.ready = true;
+		});
 	}
 
-	backgroundMove(value) {
+	backgroundMove() {
+		if (this.on == false) {
+			return;
+		}
+
 		x = x - backgroundSpeed;
-		if (x < -value) {
+		if (x < -Draw.canvas.width) {
 			x = 0;
 		}
+	}
+
+	setOn(bool) {
+		this.on = bool;
 	}
 
 	getReady() {
@@ -33,20 +37,13 @@ export class Background {
 	}
 
 	display() {
-		draw(this.image, x, 0, this.scaledWidth, getcanvasHeight());
-		draw(
+		Draw.draw(this.image, x, 0, Draw.canvas.width, Draw.canvas.height);
+		Draw.draw(
 			this.image,
-			x + this.scaledWidth - 1,
+			x + Draw.canvas.width,
 			0,
-			this.scaledWidth,
-			getcanvasHeight()
-		);
-		draw(
-			this.image,
-			x + this.scaledWidth * 2 - 2,
-			0,
-			this.scaledWidth,
-			getcanvasHeight()
+			Draw.canvas.width,
+			Draw.canvas.height
 		);
 	}
 }

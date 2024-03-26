@@ -1,18 +1,11 @@
 import View from './View.js';
-import { getCanvas } from './draw.js';
-import { getInfo } from './canvasInfo.js';
 import { Background } from './inGame/background.js';
 import { Player } from '../modele/inGame/player.js';
+import Router from './Router.js';
+import { Draw } from './draw.js';
 
-/**
- * Classe de base des vues de notre application.
- * Permet d'associer une balise HTML à la vue et de l'afficher/masquer.
- */
 export default class GameView extends View {
-	/**
-	 * Balise HTML associée à la vue
-	 */
-
+	start;
 	canvas;
 	context;
 	bg;
@@ -20,27 +13,32 @@ export default class GameView extends View {
 
 	constructor(element) {
 		super(element);
+		this.start = false;
 	}
 
 	show() {
 		super.show();
-		this.canvas = this.element.querySelector('.gameCanvas');
-		this.context = this.canvas.getContext('2d');
+		if (this.start == false) {
+			this.start = true;
 
-		setTimeout(() => {
-			getInfo(this.canvas);
-		}, 100);
-		getCanvas(this.canvas);
+			this.canvas = this.element.querySelector('.gameCanvas');
+			this.context = this.canvas.getContext('2d');
+			Draw.initialise(this.canvas);
 
-		this.bg = new Background(this.canvas.height, this.canvas.clientHeight);
-		this.p = new Player(this.canvas, 0, 0);
+			this.bg = new Background();
+			// Player argument 1 : skin id
+			this.p = new Player(1);
 
-		requestAnimationFrame(event => this.render(event));
+			requestAnimationFrame(event => this.render(event));
 
-		const canvasResizeObserver = new ResizeObserver(() =>
-			this.resampleCanvas()
-		);
-		canvasResizeObserver.observe(this.canvas);
+			document.addEventListener('keydown', this.handleEscapePause);
+		}
+	}
+
+	handleEscapePause(event) {
+		if (event.key == 'Escape') {
+			Router.navigate('/');
+		}
 	}
 
 	render() {
@@ -49,15 +47,12 @@ export default class GameView extends View {
 		if (this.bg.getReady()) {
 			this.bg.display();
 		}
+
 		if (this.p.getReady()) {
 			this.p.display();
 		}
+
 		this.context.stroke();
 		requestAnimationFrame(event => this.render(event));
-	}
-
-	resampleCanvas() {
-		this.canvas.width = this.canvas.clientWidth;
-		this.canvas.height = this.canvas.clientHeight;
 	}
 }
