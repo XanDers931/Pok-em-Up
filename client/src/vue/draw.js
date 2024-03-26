@@ -14,7 +14,13 @@ export class Draw {
 	}
 
 	static draw(image, x, y, width, height) {
-		this.context.drawImage(image, x, y, width, height);
+		this.context.drawImage(
+			image,
+			(x * Draw.canvas.width) / 1920,
+			(y * Draw.canvas.height) / 1080,
+			(width * Draw.canvas.width) / 1920,
+			(height * Draw.canvas.height) / 1080
+		);
 	}
 
 	static resampleCanvas() {

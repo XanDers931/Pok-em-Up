@@ -1,17 +1,20 @@
 import { Draw } from '../../vue/draw.js';
 
-let generalSpeed = 0.5;
+const generalSpeed = 0.5;
 
-let playerWidhtSize = 64;
-let playerHeightSize = 64;
+const width = 1920;
+const height = 1080;
 
-let playerBorderLeft = 8;
-let playerBorderRight = playerWidhtSize + playerBorderLeft;
+const playerWidhtSize = 64;
+const playerHeightSize = 64;
 
-let playerBorderTop = 8;
-let playerBorderDown = playerHeightSize + playerBorderTop;
+const playerBorderLeft = 8;
+const playerBorderRight = playerWidhtSize + playerBorderLeft;
 
-let maxSpeed = 10;
+const playerBorderTop = 8;
+const playerBorderDown = playerHeightSize + playerBorderTop;
+
+const maxSpeed = 10;
 const decreaseSpeedMult = 0.96;
 
 let x = 0;
@@ -37,13 +40,8 @@ export class Player {
 		xSpeed = 0;
 		ySpeed = 0;
 
-		x = Draw.canvas.width / 8 - playerWidhtSize;
-		y = Draw.canvas.height / 2 - playerHeightSize;
-
-		const canvasResizeObserver = new ResizeObserver(() =>
-			this.playerSizeUpdate()
-		);
-		canvasResizeObserver.observe(Draw.canvas);
+		x = width / 8 - playerWidhtSize;
+		y = height / 2 - playerHeightSize;
 
 		this.image = new Image();
 		this.image.src = this.skin(skin);
@@ -56,33 +54,6 @@ export class Player {
 			document.addEventListener('keyup', this.handleKeyboardEnd);
 			this.ready = true;
 		});
-	}
-
-	playerSizeUpdate() {
-		playerWidhtSize = (3 / 100) * Draw.canvas.width;
-		playerHeightSize = ((3 * 16) / 9 / 100) * Draw.canvas.height;
-
-		playerBorderLeft = (0.5 / 100) * Draw.canvas.width;
-		playerBorderRight = playerWidhtSize + playerBorderLeft;
-
-		playerBorderTop = ((0.5 * 16) / 9 / 100) * Draw.canvas.height;
-		playerBorderDown = playerHeightSize + playerBorderTop;
-
-		if (first) {
-			first = false;
-		} else {
-			x = (x / oldWidth) * Draw.canvas.width;
-			y = (y / oldHeight) * Draw.canvas.height;
-		}
-
-		oldWidth = Draw.canvas.width;
-		oldHeight = Draw.canvas.height;
-
-		//x = (x / (10 / 100)) * Draw.canvas.width;
-	}
-
-	getPlayerWidht() {
-		return playerWidhtSize;
 	}
 
 	getX() {
@@ -111,9 +82,9 @@ export class Player {
 	move() {
 		// border left, right, top, bottom
 		if (x + xSpeed < playerBorderLeft) xSpeed = 0;
-		if (x + xSpeed > Draw.canvas.width - playerBorderRight) xSpeed = 0;
+		if (x + xSpeed > width - playerBorderRight) xSpeed = 0;
 		if (y + ySpeed < playerBorderTop) ySpeed = 0;
-		if (y + ySpeed > Draw.canvas.height - playerBorderDown) ySpeed = 0;
+		if (y + ySpeed > height - playerBorderDown) ySpeed = 0;
 
 		x += xSpeed;
 		y += ySpeed;
