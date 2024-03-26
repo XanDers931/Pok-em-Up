@@ -1,26 +1,18 @@
 import { Draw } from '../../vue/draw.js';
 
-const defaultPlayerWitdhSize = 10;
-const defaultPlayerHeightSize = 10;
+let generalSpeed = 0.5;
 
-const defaultWitdhScreenSize = 1920;
-const defaultHeigthScreenSize = 1080;
+let playerWidhtSize = 64;
+let playerHeightSize = 64;
 
-let xSpeedPossible = 10; // Draw.canvas.width
+let playerBorderLeft = 8;
+let playerBorderRight = playerWidhtSize + playerBorderLeft;
 
-const generalSpeed = 2;
+let playerBorderTop = 8;
+let playerBorderDown = playerHeightSize + playerBorderTop;
 
-let playerWidhtSize = 96; //(100 / defaultPlayerHeightSize) * defaultPlayerWitdhSize;
-let playerHeightSize = 96; //(100 / defaultHeigthScreenSize) * defaultPlayerHeightSize;
-
-const playerBorder = 30;
-const playerBorderDown = playerHeightSize + playerBorder;
-const playerBorderRight = playerWidhtSize + playerBorder;
-
-const vitesse = 10;
-const maxSpeed = 20;
-const speedBeforeStop = 3;
-const decreaseSpeedMult = 0.9;
+let maxSpeed = 10;
+const decreaseSpeedMult = 0.96;
 
 let x = 0;
 let y = 0;
@@ -33,6 +25,11 @@ let right = false;
 let up = false;
 let down = false;
 
+let oldWidth = 100;
+let oldHeight = 100;
+
+let first = true;
+
 export class Player {
 	constructor(skin) {
 		this.ready = false;
@@ -43,16 +40,45 @@ export class Player {
 		x = Draw.canvas.width / 8 - playerWidhtSize;
 		y = Draw.canvas.height / 2 - playerHeightSize;
 
+		const canvasResizeObserver = new ResizeObserver(() =>
+			this.playerSizeUpdate()
+		);
+		canvasResizeObserver.observe(Draw.canvas);
+
 		this.image = new Image();
 		this.image.src = this.skin(skin);
 		this.image.addEventListener('load', event => {
+			//setInterval(this.playerSizeUpdate, 1000 / 60);
 			setInterval(this.gainSpeed, 1000 / 60);
 			setInterval(this.move, 1000 / 60);
-			//setInterval(this.loseSpeed, 1000 / 60);
+			setInterval(this.loseSpeed, 1000 / 60);
 			document.addEventListener('keydown', this.handleKeyboardStart);
 			document.addEventListener('keyup', this.handleKeyboardEnd);
 			this.ready = true;
 		});
+	}
+
+	playerSizeUpdate() {
+		playerWidhtSize = (3 / 100) * Draw.canvas.width;
+		playerHeightSize = ((3 * 16) / 9 / 100) * Draw.canvas.height;
+
+		playerBorderLeft = (0.5 / 100) * Draw.canvas.width;
+		playerBorderRight = playerWidhtSize + playerBorderLeft;
+
+		playerBorderTop = ((0.5 * 16) / 9 / 100) * Draw.canvas.height;
+		playerBorderDown = playerHeightSize + playerBorderTop;
+
+		if (first) {
+			first = false;
+		} else {
+			x = (x / oldWidth) * Draw.canvas.width;
+			y = (y / oldHeight) * Draw.canvas.height;
+		}
+
+		oldWidth = Draw.canvas.width;
+		oldHeight = Draw.canvas.height;
+
+		//x = (x / (10 / 100)) * Draw.canvas.width;
 	}
 
 	getPlayerWidht() {
@@ -83,64 +109,14 @@ export class Player {
 	}
 
 	move() {
+		// border left, right, top, bottom
+		if (x + xSpeed < playerBorderLeft) xSpeed = 0;
+		if (x + xSpeed > Draw.canvas.width - playerBorderRight) xSpeed = 0;
+		if (y + ySpeed < playerBorderTop) ySpeed = 0;
+		if (y + ySpeed > Draw.canvas.height - playerBorderDown) ySpeed = 0;
+
 		x += xSpeed;
 		y += ySpeed;
-		/*
-		if (left) {
-			xDirection = 0;
-			x -= vitesse;
-		}
-		if (right) {
-			xDirection = 0;
-			x += vitesse;
-		}
-		if (up) {
-			yDirection = 0;
-			y -= vitesse;
-		}
-		if (down) {
-			yDirection = 0;
-			y += vitesse;
-		}
-		*/
-		/*
-		if (left && lastXdirection == 0) {
-			if (x > playerBorder) {
-				xDirection = 0;
-				x -= vitesse;
-			}
-		}
-		if (right && lastXdirection == 1) {
-			if (x < 100 - playerBorderRight) {
-				xDirection = 0;
-				x += vitesse;
-			}
-		}
-		if (up && lastYdirection == 0) {
-			if (y > playerBorder) {
-				yDirection = 0;
-				y -= vitesse;
-			}
-		}
-		if (down && lastYdirection == 1) {
-			if (y < 100 - playerBorderDown) {
-				yDirection = 0;
-				y += vitesse;
-			}
-		}
-		if (xDirection >= maxSpeed) {
-			xDirection = maxSpeed;
-		}
-		if (xDirection <= -maxSpeed) {
-			xDirection = -maxSpeed;
-		}
-		if (yDirection >= maxSpeed) {
-			yDirection = maxSpeed;
-		}
-		if (yDirection <= -maxSpeed) {
-			yDirection = -maxSpeed;
-		}
-		*/
 	}
 
 	handleKeyboardStart(event) {
@@ -148,7 +124,6 @@ export class Player {
 			left = true;
 		}
 		if (event.key == 'ArrowRight' || event.key == 'd') {
-			console.log('là');
 			right = true;
 		}
 		if (event.key == 'ArrowUp' || event.key == 'z') {
@@ -160,20 +135,8 @@ export class Player {
 	}
 
 	loseSpeed() {
-		/*
-		if (xDirection != 0) {
-			xDirection = xDirection * decreaseSpeedMult;
-		}
-		if (xDirection < speedBeforeStop && xDirection > -speedBeforeStop) {
-			xDirection = 0;
-		}
-		if (yDirection != 0) {
-			yDirection = yDirection * decreaseSpeedMult;
-		}
-		if (yDirection < speedBeforeStop && yDirection > -speedBeforeStop) {
-			yDirection = 0;
-		}
-		*/
+		xSpeed = xSpeed * decreaseSpeedMult;
+		ySpeed = ySpeed * decreaseSpeedMult;
 	}
 
 	handleKeyboardEnd(event) {
