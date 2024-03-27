@@ -37,13 +37,27 @@ export default class GameView extends View {
 
 			this.background = new Background();
 			this.socket.on('bgPosition', data => {
-				//console.log(data);
 				this.background.setX(data);
 			});
 			// Player argument 1 : skin id
 			this.player = new Player(1);
 
-			setInterval(event => this.spawnEnnemy(), BaseValue.spawnRate);
+			this.damageAreaList = [];
+			this.ennemy.forEach(element => {
+				this.damageAreaList.push(
+					new damageArea(
+						element.getX(),
+						element.getY(),
+						element.getEnnemyWidth(),
+						element.getEnnemyHeight()
+					)
+				);
+			});
+
+			this.refresh = true;
+
+			setInterval(event => this.spawnEnnemy(), 5000);
+			//BaseValue.spawnRate;
 
 			requestAnimationFrame(event => this.render(event));
 
@@ -61,16 +75,17 @@ export default class GameView extends View {
 	}
 
 	collisionMaj(ennemy) {
-		//console.log(ennemy.getX());
 		this.damageAreaList = [];
-		this.damageAreaList.push(
-			new DamageArea(
-				ennemy.getX(),
-				ennemy.getY(),
-				ennemy.getEnnemyWidth(),
-				ennemy.getEnnemyHeight()
-			)
-		);
+		this.ennemy.forEach(element => {
+			this.damageAreaList.push(
+				new DamageArea(
+					element.getX(),
+					element.getY(),
+					element.getEnnemyWidth(),
+					element.getEnnemyHeight()
+				)
+			);
+		});
 		return this.damageAreaList;
 	}
 
@@ -109,6 +124,12 @@ export default class GameView extends View {
 		this.ennemy.forEach(element => {
 			if (element.isOutCanva()) {
 				this.ennemy.splice(0, 1);
+			}
+		});
+
+		this.damageAreaList.forEach(element => {
+			if (element.getReady()) {
+				element.display();
 			}
 		});
 

@@ -14,8 +14,6 @@ export default class DamageArea {
 		this.firstY = firstY;
 		this.secondX = secondX;
 		this.secondY = secondY;
-		//console.log(firstX);
-		//console.log(this.firstX);
 		this.image = new Image();
 		this.image.src = `/images/damageArea.png`;
 		this.image.addEventListener('load', event => {
@@ -24,13 +22,6 @@ export default class DamageArea {
 	}
 
 	display() {
-		/*
-		console.log(this.firstX);
-		console.log(this.firstY);
-		console.log(this.secondX);
-		console.log(this.secondY);
-		*/
-
 		Draw.draw(this.image, this.firstX, this.firstY, this.secondX, this.secondY);
 	}
 

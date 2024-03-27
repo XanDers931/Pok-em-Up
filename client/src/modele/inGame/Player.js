@@ -1,6 +1,7 @@
 import Draw from '../../vue/Draw.js';
 import BaseValue from '../../vue/BaseValue.js';
 import Projectile from './Projectiles.js';
+import Router from '../../vue/Router.js';
 
 const playerWidthSize = 96;
 const playerHeightSize = 128;
@@ -121,6 +122,40 @@ export default class Player {
 		if (event.code == 'Space') {
 			fire = false;
 		}
+	}
+
+	detectsCollision(damageAreaList) {
+		damageAreaList.forEach(element => {
+			if (
+				(x > element.firstX &&
+					x < element.firstX + element.secondX &&
+					y > element.firstY &&
+					y < element.firstY + element.secondY) ||
+				(x > element.firstX &&
+					x < element.firstX + element.secondX &&
+					y + playerWidthSize > element.firstY &&
+					y + playerWidthSize < element.firstY + element.secondY) ||
+				(x + playerHeightSize > element.firstX &&
+					x + playerHeightSize < element.firstX + element.secondX &&
+					y > element.firstY &&
+					y < element.firstY + element.secondY) ||
+				(x + playerHeightSize > element.firstX &&
+					x + playerHeightSize < element.firstX + element.secondX &&
+					y + playerWidthSize > element.firstY &&
+					y + playerWidthSize < element.firstY + element.secondY)
+			) {
+				Router.navigate('/');
+			}
+		}); /*
+		if (
+			x > damageAreaList[0].firstX &&
+			x < damageAreaList[0].firstX + damageAreaList[0].secondX
+		) {
+			// && this.y > damageAreaList[0].getY() && this.x
+			console.log('collision détecter');
+		} else {
+			console.log('pas de collision');
+		} */
 	}
 
 	fireProj() {
