@@ -100,7 +100,7 @@ export default class Player {
 		if (event.key == 'ArrowDown' || event.key == 's') {
 			down = true;
 		}
-		if (event.code == 'Space'){
+		if (event.code == 'Space') {
 			fire = true;
 		}
 	}
@@ -123,16 +123,16 @@ export default class Player {
 		}
 	}
 
-	fireProj(){
-		if(fire){
+	fireProj() {
+		if (fire) {
 			this.projectile.push(new Projectile(x, y, 20, 0));
 		}
 	}
 
-	deleteFireProj(){
-		this.projectile.forEach(element =>{
-			if(element.isOutCanva()){
-				this.projectile.splice(0,1);
+	deleteFireProj() {
+		this.projectile.forEach(element => {
+			if (element.isOutCanva()) {
+				this.projectile.splice(0, 1);
 			}
 		});
 	}
