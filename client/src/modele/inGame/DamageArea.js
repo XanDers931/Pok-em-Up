@@ -1,6 +1,6 @@
 import Draw from '../../vue/Draw.js';
 
-export default class damageArea {
+export default class DamageArea {
 	firstX;
 	firstY;
 	secondX;

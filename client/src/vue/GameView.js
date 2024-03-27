@@ -5,7 +5,7 @@ import Ennemy from '../modele/inGame/Ennemy.js';
 import Router from './Router.js';
 import Draw from './Draw.js';
 import BaseValue from './BaseValue.js';
-import { damageArea } from '../modele/inGame/DamageArea.js';
+import DamageArea from '../modele/inGame/DamageArea.js';
 
 export default class GameView extends View {
 	start;
@@ -64,21 +64,7 @@ export default class GameView extends View {
 		//console.log(ennemy.getX());
 		this.damageAreaList = [];
 		this.damageAreaList.push(
-			new damageArea(
-				ennemy.getX(),
-				ennemy.getY(),
-				ennemy.getEnnemyWidth(),
-				ennemy.getEnnemyHeight()
-			)
-		);
-		return this.damageAreaList;
-	}
-
-	collisionMaj(ennemy) {
-		//console.log(ennemy.getX());
-		this.damageAreaList = [];
-		this.damageAreaList.push(
-			new damageArea(
+			new DamageArea(
 				ennemy.getX(),
 				ennemy.getY(),
 				ennemy.getEnnemyWidth(),
@@ -132,6 +118,12 @@ export default class GameView extends View {
 
 	//Créer un ennemi
 	spawnEnnemy() {
-		this.ennemy.push(new Ennemy('/images/player/0.png', 3, 15));
+		this.ennemy.push(
+			new Ennemy(
+				'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/18.png',
+				3,
+				15
+			)
+		);
 	}
 }
