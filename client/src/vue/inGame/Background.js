@@ -1,9 +1,9 @@
-import { Draw } from '../../vue/draw.js';
-import { BaseValue } from '../baseValue.js';
+import Draw from '../Draw.js';
+import BaseValue from '../BaseValue.js';
 
 const URL = '/images/background/background4.png';
 
-export class Background {
+export default class Background {
 	x;
 	ready;
 	image;

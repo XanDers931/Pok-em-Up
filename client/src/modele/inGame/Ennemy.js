@@ -1,16 +1,16 @@
-import { BaseValue } from '../../vue/baseValue.js';
-import { Draw } from '../../vue/draw.js';
+import BaseValue from '../../vue/BaseValue.js';
+import Draw from '../../vue/Draw.js';
 
 const ennemyWidhtSize = 96;
 const ennemyHeightSize = 96;
 
-export class Ennemy {
+export default class Ennemy {
 	x;
 	y;
 	ennemySkin;
 	image;
 	ennemySpeed;
-	ennemyReady=false;
+	ennemyReady = false;
 
 	constructor(skin, speed, fireRate) {
 		setTimeout(() => {
@@ -21,7 +21,7 @@ export class Ennemy {
 		this.image = new Image();
 		this.image.src = skin;
 		this.image.addEventListener('load', event => {
-			setInterval(event => this.move(), 1000/60);
+			setInterval(event => this.move(), 1000 / 60);
 			//setInterval(this.fire, 1000/fireRate);
 			this.ennemyReady = true;
 		});
@@ -29,8 +29,7 @@ export class Ennemy {
 
 	spawn() {
 		this.x = BaseValue.width - ennemyWidhtSize;
-		this.y = getRandomArbitrary(0, BaseValue.height - ennemyHeightSize
-		);
+		this.y = getRandomArbitrary(0, BaseValue.height - ennemyHeightSize);
 	}
 
 	move() {
@@ -68,10 +67,9 @@ export class Ennemy {
 		return ennemyWidhtSize;
 	}
 
-	isOutCanva(){
-		return this.x<(0-ennemyWidhtSize);
+	isOutCanva() {
+		return this.x < 0 - ennemyWidhtSize;
 	}
-
 }
 
 function getRandomArbitrary(min, max) {

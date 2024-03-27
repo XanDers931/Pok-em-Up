@@ -1,4 +1,5 @@
 import BaseValue from './BaseValue.js';
+
 const backgroundSpeed = 1;
 
 export default class Background {

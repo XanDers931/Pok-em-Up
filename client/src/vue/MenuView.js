@@ -1,5 +1,6 @@
 import View from './View.js';
 import Router from './Router.js';
+
 export default class MenuView extends View {
 	constructor(element) {
 		super(element);

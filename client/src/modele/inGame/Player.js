@@ -1,5 +1,5 @@
-import { Draw } from '../../vue/draw.js';
-import { BaseValue } from '../../vue/baseValue.js';
+import Draw from '../../vue/Draw.js';
+import BaseValue from '../../vue/BaseValue.js';
 
 const playerWidthSize = 96;
 const playerHeightSize = 128;
@@ -22,7 +22,7 @@ let right = false;
 let up = false;
 let down = false;
 
-export class Player {
+export default class Player {
 	constructor(skin) {
 		this.ready = false;
 
