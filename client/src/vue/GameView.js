@@ -68,6 +68,14 @@ export default class GameView extends View {
 			this.player.display();
 		}
 
+		//console.log(this.player.projectile);
+
+		this.player.projectile.forEach(element => {
+			if (element.getReady()){
+				element.display();
+			}
+		});
+
 		this.ennemy.forEach(element => {
 			if (element.getReady()) {
 				element.display();

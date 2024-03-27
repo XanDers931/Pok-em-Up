@@ -21,14 +21,14 @@ export class Ennemy {
 		this.image = new Image();
 		this.image.src = skin;
 		this.image.addEventListener('load', event => {
-			setInterval(event => this.move(), 1000/60);
+			setInterval(event => this.move(), BaseValue.frameRate);
 			//setInterval(this.fire, 1000/fireRate);
 			this.ennemyReady = true;
 		});
 	}
 
 	spawn() {
-		this.x = BaseValue.width - ennemyWidhtSize;
+		this.x = BaseValue.width;
 		this.y = getRandomArbitrary(0, BaseValue.height - ennemyHeightSize
 		);
 	}
@@ -52,7 +52,6 @@ export class Ennemy {
 	}
 
 	getReady() {
-		console.log(this.ennemyReady);
 		return this.ennemyReady;
 	}
 

@@ -1,5 +1,6 @@
 import { Draw } from '../../vue/draw.js';
 import { BaseValue } from '../../vue/baseValue.js';
+import { Projectile } from './Projectiles.js';
 
 const playerWidthSize = 96;
 const playerHeightSize = 128;
@@ -21,8 +22,10 @@ let left = false;
 let right = false;
 let up = false;
 let down = false;
+let fire = false;
 
 export class Player {
+	projectile = [];
 	constructor(skin) {
 		this.ready = false;
 
@@ -35,6 +38,8 @@ export class Player {
 			setInterval(this.gainSpeed, BaseValue.frameRate);
 			setInterval(this.move, BaseValue.frameRate);
 			setInterval(this.loseSpeed, BaseValue.frameRate);
+			setInterval(event => this.fireProj(), 100);
+			setInterval(event => this.deleteFireProj(), 100);
 			document.addEventListener('keydown', this.handleKeyboardStart);
 			document.addEventListener('keyup', this.handleKeyboardEnd);
 			this.ready = true;
@@ -64,6 +69,11 @@ export class Player {
 		if (down && ySpeed <= maxSpeed) ySpeed += generalSpeed;
 	}
 
+	loseSpeed() {
+		xSpeed = xSpeed * decreaseSpeedMult;
+		ySpeed = ySpeed * decreaseSpeedMult;
+	}
+
 	move() {
 		// border left, right, top, bottom
 		if (x + xSpeed < playerBorder) xSpeed = 0;
@@ -90,11 +100,9 @@ export class Player {
 		if (event.key == 'ArrowDown' || event.key == 's') {
 			down = true;
 		}
-	}
-
-	loseSpeed() {
-		xSpeed = xSpeed * decreaseSpeedMult;
-		ySpeed = ySpeed * decreaseSpeedMult;
+		if (event.code == 'Space'){
+			fire = true;
+		}
 	}
 
 	handleKeyboardEnd(event) {
@@ -110,6 +118,24 @@ export class Player {
 		if (event.key == 'ArrowDown' || event.key == 's') {
 			down = false;
 		}
+		if (event.code == 'Space') {
+			fire = false;
+		}
+	}
+
+	fireProj(){
+		if(fire){
+			this.projectile.push(new Projectile(x, y, 20, 0));
+		}
+	}
+
+	deleteFireProj(){
+		this.projectile.forEach(element =>{
+			if(element.isOutCanva()){
+				this.projectile.splice(0,1);
+			}
+		});
+		console.log(this.projectile);
 	}
 
 	skin(id) {

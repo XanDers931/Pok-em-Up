@@ -1,3 +1,6 @@
+import { Draw } from "../../vue/draw.js";
+import { BaseValue } from "../../vue/baseValue.js";
+
 const projectileWidth = 30;
 const projectileHeight = 10;
 
@@ -19,6 +22,7 @@ export class Projectile{
         this.projWay = way;
         this.projReady = false;
         this.projImage.addEventListener('load', event =>{
+            setInterval(event => this.move(), BaseValue.frameRate);
             this.projReady = true;
         })
     }
@@ -37,14 +41,18 @@ export class Projectile{
     //if 1 move to left (fired by ennemy)
     move(){
         if(this.way = 0){
-            this.x+=this.projSpeed;
+            this.x-=this.projSpeed;
         }
         if(this.way = 1){
-            this.x-=this.projSpeed;
+            this.x+=this.projSpeed;
         }
     }
 
+    isOutCanva(){
+		return this.x>BaseValue.width;
+	}
+
     display() {
-		Draw.draw(this.image, this.x, this.y, projectileWidth, projectileHeight);
+		Draw.draw(this.projImage, this.x, this.y, projectileWidth, projectileHeight);
 	}
 }
