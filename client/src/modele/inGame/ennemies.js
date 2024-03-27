@@ -1,47 +1,49 @@
-import { Draw } from "../../vue/draw.js";
+import { BaseValue } from '../../vue/baseValue.js';
+import { Draw } from '../../vue/draw.js';
 
-const ennemyWidhtSize = 40;
-const ennemyHeightSize = 40;
+const ennemyWidhtSize = 96;
+const ennemyHeightSize = 96;
 
-export class Ennemy{
-    x;
-    y;
-    ennemySkin;
-    image;
-    ennemySpeed;
-    ennemyReady;
+export class Ennemy {
+	x;
+	y;
+	ennemySkin;
+	image;
+	ennemySpeed;
+	ennemyReady=false;
 
-    constructor(skin, speed, fireRate){
-        setTimeout(()=>{
-            this.spawn();
-        }, 100);
-        this.ennemySpeed = speed;
-        this.ennemySkin = skin;
-        this.image = new Image();
-        this.image.src = skin;
-        this.ennemyReady = false;
-        this.image.addEventListener('load', event =>{
-            //setInterval(this.fire, 1000/fireRate);
-            this.ennemyReady = true;
-        })
-    }
+	constructor(skin, speed, fireRate) {
+		setTimeout(() => {
+			this.spawn();
+		}, 100);
+		this.ennemySpeed = speed;
+		this.ennemySkin = skin;
+		this.image = new Image();
+		this.image.src = skin;
+		this.image.addEventListener('load', event => {
+			setInterval(event => this.move(), 1000/60);
+			//setInterval(this.fire, 1000/fireRate);
+			this.ennemyReady = true;
+		});
+	}
 
-    spawn(){
-        this.x = Draw.canvas.width-ennemyWidhtSize;
-        this.y = getRandomArbitrary(0+ennemyHeightSize, Draw.canvas.width-ennemyHeightSize);
-    }
+	spawn() {
+		this.x = BaseValue.width - ennemyWidhtSize;
+		this.y = getRandomArbitrary(0, BaseValue.height - ennemyHeightSize
+		);
+	}
 
-    move(){
-        this.x -= this.ennemySpeed;
-    }
+	move() {
+		this.x -= this.ennemySpeed;
+	}
 
-    /*
+	/*
     fire(){
         new Projectile();
     }
     */
 
-    getX() {
+	getX() {
 		return x;
 	}
 
@@ -50,22 +52,23 @@ export class Ennemy{
 	}
 
 	getReady() {
+		console.log(this.ennemyReady);
 		return this.ennemyReady;
 	}
 
-    display() {
+	display() {
 		Draw.draw(this.image, this.x, this.y, ennemyWidhtSize, ennemyHeightSize);
 	}
 
-    getEnnemyHeight(){
-        return ennemyHeightSize;
-    }
-    
-    getEnnemyWidth(){
-        return ennemyWidhtSize;
-    }
+	getEnnemyHeight() {
+		return ennemyHeightSize;
+	}
+
+	getEnnemyWidth() {
+		return ennemyWidhtSize;
+	}
 }
 
 function getRandomArbitrary(min, max) {
-    return Math.random() * (max - min) + min;
+	return Math.random() * (max - min) + min;
 }

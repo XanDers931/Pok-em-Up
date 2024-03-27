@@ -1,18 +1,12 @@
 import { Draw } from '../../vue/draw.js';
+import { BaseValue } from '../../vue/baseValue.js';
+
+const playerWidthSize = 96;
+const playerHeightSize = 128;
 
 const generalSpeed = 0.5;
 
-const width = 1920;
-const height = 1080;
-
-const playerWidhtSize = 64;
-const playerHeightSize = 64;
-
-const playerBorderLeft = 8;
-const playerBorderRight = playerWidhtSize + playerBorderLeft;
-
-const playerBorderTop = 8;
-const playerBorderDown = playerHeightSize + playerBorderTop;
+const playerBorder = 8;
 
 const maxSpeed = 10;
 const decreaseSpeedMult = 0.96;
@@ -28,28 +22,19 @@ let right = false;
 let up = false;
 let down = false;
 
-let oldWidth = 100;
-let oldHeight = 100;
-
-let first = true;
-
 export class Player {
 	constructor(skin) {
 		this.ready = false;
 
-		xSpeed = 0;
-		ySpeed = 0;
-
-		x = width / 8 - playerWidhtSize;
-		y = height / 2 - playerHeightSize;
+		x = BaseValue.width / 8 - playerWidthSize;
+		y = BaseValue.height / 2 - playerHeightSize;
 
 		this.image = new Image();
 		this.image.src = this.skin(skin);
 		this.image.addEventListener('load', event => {
-			//setInterval(this.playerSizeUpdate, 1000 / 60);
-			setInterval(this.gainSpeed, 1000 / 60);
-			setInterval(this.move, 1000 / 60);
-			setInterval(this.loseSpeed, 1000 / 60);
+			setInterval(this.gainSpeed, BaseValue.frameRate);
+			setInterval(this.move, BaseValue.frameRate);
+			setInterval(this.loseSpeed, BaseValue.frameRate);
 			document.addEventListener('keydown', this.handleKeyboardStart);
 			document.addEventListener('keyup', this.handleKeyboardEnd);
 			this.ready = true;
@@ -69,7 +54,7 @@ export class Player {
 	}
 
 	display() {
-		Draw.draw(this.image, x, y, playerWidhtSize, playerHeightSize);
+		Draw.draw(this.image, x, y, playerWidthSize, playerHeightSize);
 	}
 
 	gainSpeed() {
@@ -81,10 +66,12 @@ export class Player {
 
 	move() {
 		// border left, right, top, bottom
-		if (x + xSpeed < playerBorderLeft) xSpeed = 0;
-		if (x + xSpeed > width - playerBorderRight) xSpeed = 0;
-		if (y + ySpeed < playerBorderTop) ySpeed = 0;
-		if (y + ySpeed > height - playerBorderDown) ySpeed = 0;
+		if (x + xSpeed < playerBorder) xSpeed = 0;
+		if (x + xSpeed > BaseValue.width - (playerBorder + playerWidthSize))
+			xSpeed = 0;
+		if (y + ySpeed < playerBorder) ySpeed = 0;
+		if (y + ySpeed > BaseValue.height - (playerBorder + playerHeightSize))
+			ySpeed = 0;
 
 		x += xSpeed;
 		y += ySpeed;

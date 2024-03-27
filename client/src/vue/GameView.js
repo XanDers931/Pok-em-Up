@@ -4,6 +4,7 @@ import { Player } from '../modele/inGame/player.js';
 import { Ennemy } from '../modele/inGame/ennemies.js';
 import Router from './Router.js';
 import { Draw } from './draw.js';
+import { BaseValue } from './baseValue.js';
 
 export default class GameView extends View {
 	start;
@@ -29,6 +30,7 @@ export default class GameView extends View {
 			this.canvas = this.element.querySelector('.gameCanvas');
 			this.context = this.canvas.getContext('2d');
 			Draw.initialise(this.canvas);
+			BaseValue.initialise(1920, 1080, 1000 / 60, 1);
 
 			this.background = new Background();
 			this.socket.on('bgPosition', data => {
@@ -38,7 +40,11 @@ export default class GameView extends View {
 			// Player argument 1 : skin id
 			this.player = new Player(1);
 
-			this.ennemy = new Ennemy('/images/player/1.png', 1, 10);
+			this.ennemy = new Ennemy(
+				'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/18.png',
+				1,
+				10
+			);
 
 			requestAnimationFrame(event => this.render(event));
 
@@ -68,10 +74,13 @@ export default class GameView extends View {
 
 		if (this.ennemy.getReady()) {
 			this.ennemy.display();
-			this.ennemy.move();
 		}
 
 		this.context.stroke();
 		requestAnimationFrame(event => this.render(event));
+	}
+
+	spawnEnnemi(){
+		return new Ennemy('/images/player/1.png', 3, 15);
 	}
 }

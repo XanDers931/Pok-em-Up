@@ -1,3 +1,4 @@
+import { BaseValue } from './baseValue.js';
 import calculateScore from '../modele/inGame/score.js';
 
 export class Draw {
@@ -16,10 +17,10 @@ export class Draw {
 	static draw(image, x, y, width, height) {
 		this.context.drawImage(
 			image,
-			(x * Draw.canvas.width) / 1920,
-			(y * Draw.canvas.height) / 1080,
-			(width * Draw.canvas.width) / 1920,
-			(height * Draw.canvas.height) / 1080
+			(x * Draw.canvas.width) / BaseValue.width,
+			(y * Draw.canvas.height) / BaseValue.height,
+			(width * Draw.canvas.width) / BaseValue.width,
+			(height * Draw.canvas.height) / BaseValue.height
 		);
 	}
 
