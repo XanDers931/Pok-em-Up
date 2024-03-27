@@ -13,14 +13,17 @@ export default class GameView extends View {
 	background;
 	player;
 	ennemy = [];
+	socket;
 
-	constructor(element) {
+	constructor(element, socket) {
 		super(element);
 		this.start = false;
+		this.socket = socket;
 	}
 
 	show() {
 		super.show();
+		this.socket.emit('bg', true);
 		if (this.start == false) {
 			this.start = true;
 
@@ -30,6 +33,10 @@ export default class GameView extends View {
 			BaseValue.initialise(1920, 1080, 1000 / 60, 1000);
 
 			this.background = new Background();
+			this.socket.on('bgPosition', data => {
+				//console.log(data);
+				this.background.setX(data);
+			});
 			// Player argument 1 : skin id
 			this.player = new Player(1);
 
@@ -37,13 +44,16 @@ export default class GameView extends View {
 
 			requestAnimationFrame(event => this.render(event));
 
-			document.addEventListener('keydown', this.handleEscapePause);
+			document.addEventListener('keydown', event =>
+				this.handleEscapePause(event)
+			);
 		}
 	}
 
 	handleEscapePause(event) {
 		if (event.key == 'Escape') {
 			Router.navigate('/');
+			this.socket.emit('bg', false);
 		}
 	}
 

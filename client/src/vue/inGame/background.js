@@ -6,27 +6,16 @@ const backgroundSpeed = 1;
 let x = 0;
 
 export class Background {
+	x;
 	constructor() {
 		this.ready = false;
 		this.on = true;
-		x = 0;
+		this.x = 0;
 		this.image = new Image();
 		this.image.src = URL;
 		this.image.addEventListener('load', event => {
-			setInterval(this.backgroundMove, 1000 / 60);
 			this.ready = true;
 		});
-	}
-
-	backgroundMove() {
-		if (this.on == false) {
-			return;
-		}
-
-		x = x - backgroundSpeed;
-		if (x < -BaseValue.width) {
-			x = 0;
-		}
 	}
 
 	setOn(bool) {
@@ -38,13 +27,17 @@ export class Background {
 	}
 
 	display() {
-		Draw.draw(this.image, x, 0, BaseValue.width, BaseValue.height);
+		Draw.draw(this.image, this.x, 0, BaseValue.width, BaseValue.height);
 		Draw.draw(
 			this.image,
-			x + BaseValue.width - 2,
+			this.x + BaseValue.width - 2,
 			0,
 			BaseValue.width,
 			BaseValue.height
 		);
+	}
+
+	setX(x) {
+		this.x = x;
 	}
 }
