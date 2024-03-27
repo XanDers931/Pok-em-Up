@@ -89,16 +89,16 @@ export default class Player {
 	}
 
 	handleKeyboardStart(event) {
-		if (event.key == 'ArrowLeft' || event.key == 'q') {
+		if (event.key == 'ArrowLeft' || event.key == 'q' || event.key == 'Q') {
 			left = true;
 		}
-		if (event.key == 'ArrowRight' || event.key == 'd') {
+		if (event.key == 'ArrowRight' || event.key == 'd' || event.key == 'D') {
 			right = true;
 		}
-		if (event.key == 'ArrowUp' || event.key == 'z') {
+		if (event.key == 'ArrowUp' || event.key == 'z' || event.key == 'Z') {
 			up = true;
 		}
-		if (event.key == 'ArrowDown' || event.key == 's') {
+		if (event.key == 'ArrowDown' || event.key == 's' || event.key == 'S') {
 			down = true;
 		}
 		if (event.code == 'Space') {
@@ -107,16 +107,16 @@ export default class Player {
 	}
 
 	handleKeyboardEnd(event) {
-		if (event.key == 'ArrowLeft' || event.key == 'q') {
+		if (event.key == 'ArrowLeft' || event.key == 'q' || event.key == 'Q') {
 			left = false;
 		}
-		if (event.key == 'ArrowRight' || event.key == 'd') {
+		if (event.key == 'ArrowRight' || event.key == 'd' || event.key == 'D') {
 			right = false;
 		}
-		if (event.key == 'ArrowUp' || event.key == 'z') {
+		if (event.key == 'ArrowUp' || event.key == 'z' || event.key == 'Z') {
 			up = false;
 		}
-		if (event.key == 'ArrowDown' || event.key == 's') {
+		if (event.key == 'ArrowDown' || event.key == 's' || event.key == 'S') {
 			down = false;
 		}
 		if (event.code == 'Space') {
