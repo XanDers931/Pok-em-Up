@@ -44,11 +44,11 @@ export class Ennemy {
     */
 
 	getX() {
-		return x;
+		return this.x;
 	}
 
 	getY() {
-		return y;
+		return this.y;
 	}
 
 	getReady() {
@@ -67,6 +67,11 @@ export class Ennemy {
 	getEnnemyWidth() {
 		return ennemyWidhtSize;
 	}
+
+	isOutCanva(){
+		return this.x<(0-ennemyWidhtSize);
+	}
+
 }
 
 function getRandomArbitrary(min, max) {

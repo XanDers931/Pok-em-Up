@@ -12,7 +12,7 @@ export default class GameView extends View {
 	context;
 	background;
 	player;
-	ennemy;
+	ennemy = [];
 	socket;
 
 	constructor(element, socket) {
@@ -30,7 +30,7 @@ export default class GameView extends View {
 			this.canvas = this.element.querySelector('.gameCanvas');
 			this.context = this.canvas.getContext('2d');
 			Draw.initialise(this.canvas);
-			BaseValue.initialise(1920, 1080, 1000 / 60, 1);
+			BaseValue.initialise(1920, 1080, 1000 / 60, 1000);
 
 			this.background = new Background();
 			this.socket.on('bgPosition', data => {
@@ -40,11 +40,7 @@ export default class GameView extends View {
 			// Player argument 1 : skin id
 			this.player = new Player(1);
 
-			this.ennemy = new Ennemy(
-				'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/18.png',
-				1,
-				10
-			);
+			setInterval(event => this.spawnEnnemy(), BaseValue.spawnRate);
 
 			requestAnimationFrame(event => this.render(event));
 
@@ -72,15 +68,24 @@ export default class GameView extends View {
 			this.player.display();
 		}
 
-		if (this.ennemy.getReady()) {
-			this.ennemy.display();
-		}
+		this.ennemy.forEach(element => {
+			if (element.getReady()) {
+				element.display();
+			}
+		});
+
+		this.ennemy.forEach(element => {
+			if(element.isOutCanva()){
+				this.ennemy.splice(0,1);
+			}
+		});
 
 		this.context.stroke();
 		requestAnimationFrame(event => this.render(event));
 	}
 
-	spawnEnnemi(){
-		return new Ennemy('/images/player/1.png', 3, 15);
+	//Créer un ennemi
+	spawnEnnemy(){
+		this.ennemy.push(new Ennemy('/images/player/0.png', 3, 15));
 	}
 }
