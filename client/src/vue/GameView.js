@@ -127,11 +127,13 @@ export default class GameView extends View {
 			}
 		});
 
+		/*
 		this.damageAreaList.forEach(element => {
 			if (element.getReady()) {
 				element.display();
 			}
 		});
+		*/
 
 		this.context.stroke();
 		requestAnimationFrame(event => this.render(event));
