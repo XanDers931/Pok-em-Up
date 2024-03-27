@@ -144,18 +144,9 @@ export default class Player {
 					y + playerWidthSize > element.firstY &&
 					y + playerWidthSize < element.firstY + element.secondY)
 			) {
-				Router.navigate('/');
+				Router.navigate('/gameover');
 			}
-		}); /*
-		if (
-			x > damageAreaList[0].firstX &&
-			x < damageAreaList[0].firstX + damageAreaList[0].secondX
-		) {
-			// && this.y > damageAreaList[0].getY() && this.x
-			console.log('collision détecter');
-		} else {
-			console.log('pas de collision');
-		} */
+		});
 	}
 
 	fireProj() {

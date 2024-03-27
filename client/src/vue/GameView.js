@@ -9,12 +9,12 @@ import DamageArea from '../modele/inGame/DamageArea.js';
 
 export default class GameView extends View {
 	start;
+	socket;
 	canvas;
 	context;
 	background;
 	player;
 	ennemy = [];
-	socket;
 	damageAreaList;
 	refresh;
 

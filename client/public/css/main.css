@@ -21,7 +21,7 @@ body {
 	align-items: center;
 	justify-content: center;
 }
-h1 {
+.menu h1 {
 	font-weight: 100;
 	color: #000000;
 	font-size: 3em;
@@ -31,7 +31,7 @@ h1 {
 	padding-left: 15px;
 	padding-right: 15px ;
 }
-h1 em {
+.menu h1 em {
 	font-style: normal;
 	font-weight: bold;
 	color: #000000;
@@ -77,10 +77,22 @@ canvas {
 	
 }
 
-button{
+.menu button{
 	font-size: 1.5em;
 	background-color: rgb(0, 174, 255);
 	border-color: rgb(0, 174, 255);
 	border-radius: 10%;
 	border-width: 5px;
+}
+
+.end h1 {
+	/*font-weight: 86;*/
+	color: #FFFFFF;
+	font-size: 20px;
+	background-color: red;
+	/*background: #000000;*/
+	border-radius: 10%;
+	padding: 10px;
+	padding-left: 15px;
+	padding-right: 15px ;
 }
