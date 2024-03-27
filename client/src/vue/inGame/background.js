@@ -1,7 +1,7 @@
 import { Draw } from '../../vue/draw.js';
 import { BaseValue } from '../baseValue.js';
 
-const URL = '/images/background/background3.png';
+const URL = '/images/background/background4.png';
 const backgroundSpeed = 1;
 let x = 0;
 

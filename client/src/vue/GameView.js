@@ -33,7 +33,11 @@ export default class GameView extends View {
 			// Player argument 1 : skin id
 			this.player = new Player(1);
 
-			this.ennemy = new Ennemy('/images/player/1.png', 1, 10);
+			this.ennemy = new Ennemy(
+				'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/18.png',
+				1,
+				10
+			);
 
 			requestAnimationFrame(event => this.render(event));
 

@@ -1,8 +1,8 @@
 import { BaseValue } from '../../vue/baseValue.js';
 import { Draw } from '../../vue/draw.js';
 
-const ennemyWidhtSize = 40;
-const ennemyHeightSize = 40;
+const ennemyWidhtSize = 96;
+const ennemyHeightSize = 96;
 
 export class Ennemy {
 	x;
