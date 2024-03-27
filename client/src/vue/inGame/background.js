@@ -7,27 +7,16 @@ const height = 1080;
 let x = 0;
 
 export class Background {
+	x;
 	constructor() {
 		this.ready = false;
 		this.on = true;
-		x = 0;
+		this.x = 0;
 		this.image = new Image();
 		this.image.src = URL;
 		this.image.addEventListener('load', event => {
-			setInterval(this.backgroundMove, 1000 / 60);
 			this.ready = true;
 		});
-	}
-
-	backgroundMove() {
-		if (this.on == false) {
-			return;
-		}
-
-		x = x - backgroundSpeed;
-		if (x < -width) {
-			x = 0;
-		}
 	}
 
 	setOn(bool) {
@@ -39,7 +28,11 @@ export class Background {
 	}
 
 	display() {
-		Draw.draw(this.image, x, 0, 1920, 1080);
-		Draw.draw(this.image, x + width - 2, 0, width, height);
+		Draw.draw(this.image, this.x, 0, 1920, 1080);
+		Draw.draw(this.image, this.x + width - 2, 0, width, height);
+	}
+
+	setX(x) {
+		this.x = x;
 	}
 }
