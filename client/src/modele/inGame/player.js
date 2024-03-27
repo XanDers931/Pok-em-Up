@@ -1,9 +1,7 @@
 import { Draw } from '../../vue/draw.js';
+import { BaseValue } from '../../vue/baseValue.js';
 
 const generalSpeed = 0.5;
-
-const width = 1920;
-const height = 1080;
 
 const playerWidhtSize = 64;
 const playerHeightSize = 64;
@@ -28,11 +26,6 @@ let right = false;
 let up = false;
 let down = false;
 
-let oldWidth = 100;
-let oldHeight = 100;
-
-let first = true;
-
 export class Player {
 	constructor(skin) {
 		this.ready = false;
@@ -40,16 +33,15 @@ export class Player {
 		xSpeed = 0;
 		ySpeed = 0;
 
-		x = width / 8 - playerWidhtSize;
-		y = height / 2 - playerHeightSize;
+		x = BaseValue.width / 8 - playerWidhtSize;
+		y = BaseValue.height / 2 - playerHeightSize;
 
 		this.image = new Image();
 		this.image.src = this.skin(skin);
 		this.image.addEventListener('load', event => {
-			//setInterval(this.playerSizeUpdate, 1000 / 60);
-			setInterval(this.gainSpeed, 1000 / 60);
-			setInterval(this.move, 1000 / 60);
-			setInterval(this.loseSpeed, 1000 / 60);
+			setInterval(this.gainSpeed, BaseValue.frameRate);
+			setInterval(this.move, BaseValue.frameRate);
+			setInterval(this.loseSpeed, BaseValue.frameRate);
 			document.addEventListener('keydown', this.handleKeyboardStart);
 			document.addEventListener('keyup', this.handleKeyboardEnd);
 			this.ready = true;
@@ -82,9 +74,9 @@ export class Player {
 	move() {
 		// border left, right, top, bottom
 		if (x + xSpeed < playerBorderLeft) xSpeed = 0;
-		if (x + xSpeed > width - playerBorderRight) xSpeed = 0;
+		if (x + xSpeed > BaseValue.width - playerBorderRight) xSpeed = 0;
 		if (y + ySpeed < playerBorderTop) ySpeed = 0;
-		if (y + ySpeed > height - playerBorderDown) ySpeed = 0;
+		if (y + ySpeed > BaseValue.height - playerBorderDown) ySpeed = 0;
 
 		x += xSpeed;
 		y += ySpeed;

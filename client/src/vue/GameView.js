@@ -4,6 +4,7 @@ import { Player } from '../modele/inGame/player.js';
 import { Ennemy } from '../modele/inGame/ennemies.js';
 import Router from './Router.js';
 import { Draw } from './draw.js';
+import { BaseValue } from './baseValue.js';
 
 export default class GameView extends View {
 	start;
@@ -26,6 +27,7 @@ export default class GameView extends View {
 			this.canvas = this.element.querySelector('.gameCanvas');
 			this.context = this.canvas.getContext('2d');
 			Draw.initialise(this.canvas);
+			BaseValue.initialise(1920, 1080, 1000 / 60);
 
 			this.background = new Background();
 			// Player argument 1 : skin id
