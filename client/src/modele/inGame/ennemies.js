@@ -10,7 +10,7 @@ export class Ennemy {
 	ennemySkin;
 	image;
 	ennemySpeed;
-	ennemyReady;
+	ennemyReady=false;
 
 	constructor(skin, speed, fireRate) {
 		setTimeout(() => {
@@ -20,8 +20,8 @@ export class Ennemy {
 		this.ennemySkin = skin;
 		this.image = new Image();
 		this.image.src = skin;
-		this.ennemyReady = false;
 		this.image.addEventListener('load', event => {
+			setInterval(event => this.move(), 1000/60);
 			//setInterval(this.fire, 1000/fireRate);
 			this.ennemyReady = true;
 		});
@@ -29,9 +29,7 @@ export class Ennemy {
 
 	spawn() {
 		this.x = BaseValue.width - ennemyWidhtSize;
-		this.y = getRandomArbitrary(
-			0 + ennemyHeightSize,
-			BaseValue.width - ennemyHeightSize
+		this.y = getRandomArbitrary(0, BaseValue.height - ennemyHeightSize
 		);
 	}
 
@@ -54,6 +52,7 @@ export class Ennemy {
 	}
 
 	getReady() {
+		console.log(this.ennemyReady);
 		return this.ennemyReady;
 	}
 
