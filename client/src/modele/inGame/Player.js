@@ -2,6 +2,7 @@ import Draw from '../../vue/Draw.js';
 import BaseValue from '../../vue/BaseValue.js';
 import Projectile from './Projectiles.js';
 import Router from '../../vue/Router.js';
+import { allColision } from './Collision.js';
 
 const playerWidthSize = 96;
 const playerHeightSize = 128;
@@ -125,33 +126,16 @@ export default class Player {
 	}
 
 	detectsCollision(damageAreaList) {
-		damageAreaList.forEach(element => {
-			if (
-				(x > element.firstX &&
-					x < element.firstX + element.secondX &&
-					y > element.firstY &&
-					y < element.firstY + element.secondY) ||
-				(x > element.firstX &&
-					x < element.firstX + element.secondX &&
-					y + playerWidthSize > element.firstY &&
-					y + playerWidthSize < element.firstY + element.secondY) ||
-				(x + playerHeightSize > element.firstX &&
-					x + playerHeightSize < element.firstX + element.secondX &&
-					y > element.firstY &&
-					y < element.firstY + element.secondY) ||
-				(x + playerHeightSize > element.firstX &&
-					x + playerHeightSize < element.firstX + element.secondX &&
-					y + playerWidthSize > element.firstY &&
-					y + playerWidthSize < element.firstY + element.secondY)
-			) {
-				Router.navigate('/gameover');
-			}
-		});
+		if (allColision(damageAreaList, x, y, playerWidthSize, playerHeightSize)) {
+			Router.navigate('/gameover');
+		}
 	}
 
 	fireProj() {
 		if (fire) {
-			this.projectile.push(new Projectile(x, y, 20, 0));
+			this.projectile.push(
+				new Projectile(x + playerWidthSize / 2, y + playerHeightSize / 2, 20, 0)
+			);
 		}
 	}
 
