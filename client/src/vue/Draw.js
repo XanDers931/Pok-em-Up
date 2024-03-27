@@ -1,7 +1,7 @@
-import { BaseValue } from './baseValue.js';
-import calculateScore from '../modele/inGame/score.js';
+import BaseValue from './BaseValue.js';
+import { calculateScore } from '../modele/inGame/score.js';
 
-export class Draw {
+export default class Draw {
 	canvas;
 	context;
 

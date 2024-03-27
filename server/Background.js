@@ -1,6 +1,6 @@
+import BaseValue from './BaseValue.js';
+
 const backgroundSpeed = 1;
-const width = 1920;
-const height = 1080;
 
 export default class Background {
 	x;
@@ -17,7 +17,7 @@ export default class Background {
 		}
 
 		this.x = this.x - backgroundSpeed;
-		if (this.x < -width) {
+		if (this.x < -BaseValue.width) {
 			this.x = 0;
 		}
 	}

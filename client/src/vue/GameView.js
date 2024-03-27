@@ -1,10 +1,10 @@
 import View from './View.js';
-import { Background } from './inGame/background.js';
-import { Player } from '../modele/inGame/player.js';
-import { Ennemy } from '../modele/inGame/ennemies.js';
+import Background from './inGame/Background.js';
+import Player from '../modele/inGame/Player.js';
+import Ennemy from '../modele/inGame/Ennemy.js';
 import Router from './Router.js';
-import { Draw } from './draw.js';
-import { BaseValue } from './baseValue.js';
+import Draw from './Draw.js';
+import BaseValue from './BaseValue.js';
 
 export default class GameView extends View {
 	start;
@@ -83,8 +83,8 @@ export default class GameView extends View {
 		});
 
 		this.ennemy.forEach(element => {
-			if(element.isOutCanva()){
-				this.ennemy.splice(0,1);
+			if (element.isOutCanva()) {
+				this.ennemy.splice(0, 1);
 			}
 		});
 
@@ -93,7 +93,7 @@ export default class GameView extends View {
 	}
 
 	//Créer un ennemi
-	spawnEnnemy(){
+	spawnEnnemy() {
 		this.ennemy.push(new Ennemy('/images/player/0.png', 3, 15));
 	}
 }

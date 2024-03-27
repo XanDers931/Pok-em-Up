@@ -1,29 +1,21 @@
-import { Draw } from '../../vue/draw.js';
-import { BaseValue } from '../baseValue.js';
+import Draw from '../Draw.js';
+import BaseValue from '../BaseValue.js';
 
 const URL = '/images/background/background4.png';
-const backgroundSpeed = 1;
-let x = 0;
 
-export class Background {
+export default class Background {
 	x;
+	ready;
+	image;
+
 	constructor() {
 		this.ready = false;
-		this.on = true;
 		this.x = 0;
 		this.image = new Image();
 		this.image.src = URL;
 		this.image.addEventListener('load', event => {
 			this.ready = true;
 		});
-	}
-
-	setOn(bool) {
-		this.on = bool;
-	}
-
-	getReady() {
-		return this.ready;
 	}
 
 	display() {
@@ -39,5 +31,9 @@ export class Background {
 
 	setX(x) {
 		this.x = x;
+	}
+
+	getReady() {
+		return this.ready;
 	}
 }

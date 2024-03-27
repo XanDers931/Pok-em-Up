@@ -1,6 +1,6 @@
-import { Draw } from '../../vue/draw.js';
-import { BaseValue } from '../../vue/baseValue.js';
-import { Projectile } from './Projectiles.js';
+import Draw from '../../vue/Draw.js';
+import BaseValue from '../../vue/BaseValue.js';
+import Projectile from './Projectiles.js';
 
 const playerWidthSize = 96;
 const playerHeightSize = 128;
@@ -135,7 +135,6 @@ export class Player {
 				this.projectile.splice(0,1);
 			}
 		});
-		console.log(this.projectile);
 	}
 
 	skin(id) {

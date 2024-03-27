@@ -1,5 +1,5 @@
-import { Draw } from "../../vue/draw.js";
-import { BaseValue } from "../../vue/baseValue.js";
+import Draw from "../../vue/Draw.js";
+import BaseValue from "../../vue/BaseValue.js";
 
 const projectileWidth = 30;
 const projectileHeight = 10;
