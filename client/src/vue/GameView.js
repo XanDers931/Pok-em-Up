@@ -39,7 +39,6 @@ export default class GameView extends View {
 				10
 			);
 
-
 			requestAnimationFrame(event => this.render(event));
 
 			document.addEventListener('keydown', this.handleEscapePause);
