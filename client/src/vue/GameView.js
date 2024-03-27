@@ -33,7 +33,7 @@ export default class GameView extends View {
 			this.canvas = this.element.querySelector('.gameCanvas');
 			this.context = this.canvas.getContext('2d');
 			Draw.initialise(this.canvas);
-			BaseValue.initialise(1920, 1080, 1000 / 60, 1000);
+			BaseValue.initialise(1920, 1080, 1000 / 60, 1000, 1000 / 30);
 
 			this.background = new Background();
 			this.socket.on('bgPosition', data => {
@@ -98,7 +98,7 @@ export default class GameView extends View {
 			this.player.detectsCollision(this.damageAreaList);
 			setTimeout(() => {
 				this.refresh = true;
-			}, 200);
+			}, BaseValue.hitboxCheckRate);
 		}
 
 		if (this.background.getReady()) {
@@ -126,14 +126,6 @@ export default class GameView extends View {
 				this.ennemy.splice(0, 1);
 			}
 		});
-
-		/*
-		this.damageAreaList.forEach(element => {
-			if (element.getReady()) {
-				element.display();
-			}
-		});
-		*/
 
 		this.context.stroke();
 		requestAnimationFrame(event => this.render(event));
