@@ -27,13 +27,18 @@ export default class GameView extends View {
 			this.canvas = this.element.querySelector('.gameCanvas');
 			this.context = this.canvas.getContext('2d');
 			Draw.initialise(this.canvas);
-			BaseValue.initialise(1920, 1080, 1000 / 60);
+			BaseValue.initialise(1920, 1080, 1000 / 60, 1);
 
 			this.background = new Background();
 			// Player argument 1 : skin id
 			this.player = new Player(1);
 
-			this.ennemy = new Ennemy('/images/player/1.png', 1, 10);
+			this.ennemy = new Ennemy(
+				'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/18.png',
+				1,
+				10
+			);
+
 
 			requestAnimationFrame(event => this.render(event));
 
@@ -60,10 +65,13 @@ export default class GameView extends View {
 
 		if (this.ennemy.getReady()) {
 			this.ennemy.display();
-			this.ennemy.move();
 		}
 
 		this.context.stroke();
 		requestAnimationFrame(event => this.render(event));
+	}
+
+	spawnEnnemi(){
+		return new Ennemy('/images/player/1.png', 3, 15);
 	}
 }

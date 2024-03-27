@@ -4,7 +4,7 @@ const projectileHeight = 10;
 export class Projectile{
     x;
     y;
-    projSkin = '/images/player/${id}.png';
+    projSkin = '/images/player/1.png';
     projImage;
     projSpeed;
     projWay;//if 0 fired by player, if 1 move to left
