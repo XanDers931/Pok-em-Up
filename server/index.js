@@ -5,6 +5,9 @@ import addWebpackMiddleware from './middlewares/addWebpackMiddleware.js';
 import { Server as IOServer } from 'socket.io';
 //import Player from './Player.js';
 import Background from './Background.js';
+import BaseValue from './BaseValue.js';
+
+BaseValue.initialise(1920, 1080, 1000 / 60, 1);
 
 const PORT = process.env.PORT || 8000;
 
