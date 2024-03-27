@@ -24,7 +24,7 @@ let up = false;
 let down = false;
 let fire = false;
 
-export class Player {
+export default class Player {
 	projectile = [];
 	constructor(skin) {
 		this.ready = false;

@@ -51,7 +51,6 @@ export default class Ennemy {
 	}
 
 	getReady() {
-		console.log(this.ennemyReady);
 		return this.ennemyReady;
 	}
 

@@ -4,7 +4,7 @@ import BaseValue from "../../vue/BaseValue.js";
 const projectileWidth = 30;
 const projectileHeight = 10;
 
-export class Projectile{
+export default class Projectile{
     x;
     y;
     projSkin = '/images/player/1.png';
