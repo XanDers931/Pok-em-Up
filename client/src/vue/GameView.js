@@ -5,9 +5,7 @@ import Ennemy from '../modele/inGame/Ennemy.js';
 import Router from './Router.js';
 import Draw from './Draw.js';
 import BaseValue from './BaseValue.js';
-import { Draw } from './draw.js';
-import { BaseValue } from './baseValue.js';
-import { damageArea } from '../modele/inGame/damageArea.js';
+import { damageArea } from '../modele/inGame/DamageArea.js';
 
 export default class GameView extends View {
 	start;
@@ -17,7 +15,6 @@ export default class GameView extends View {
 	player;
 	ennemy = [];
 	socket;
-	ennemy;
 	damageAreaList;
 	refresh;
 
@@ -110,8 +107,6 @@ export default class GameView extends View {
 		if (this.player.getReady()) {
 			this.player.display();
 		}
-
-		//console.log(this.player.projectile);
 
 		this.player.projectile.forEach(element => {
 			if (element.getReady()) {
