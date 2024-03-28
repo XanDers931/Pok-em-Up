@@ -1,10 +1,10 @@
 /**
- * Classe de base des vues de notre application.
- * Permet d'associer une balise HTML à la vue et de l'afficher/masquer.
+ * Base class of our application's views.
+ * Allow to associate an HTML element to the view and to display/hide it.
  */
 export default class View {
 	/**
-	 * Balise HTML associée à la vue
+	 * HTML element associated to the view.
 	 */
 	element;
 
@@ -12,13 +12,13 @@ export default class View {
 		this.element = element;
 	}
 	/**
-	 * Affiche la vue en lui ajoutant la classe CSS `active`
+	 * Display the view by adding to it the `active` css class.
 	 */
 	show() {
 		this.element.classList.add('active');
 	}
 	/**
-	 * Masque la vue en enlevant la classe CSS `active`
+	 * Hide the view by removing to it the `active` css class.
 	 */
 	hide() {
 		this.element.classList.remove('active');
