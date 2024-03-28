@@ -42,21 +42,30 @@ export default class GameView extends View {
 			});
 			// Player argument 1 : skin id
 			this.player = new Player(1);
+			this.socket.on('playerPosition', data => {
+				//console.log(data);
+				this.player.setX(data[0]);
+				this.player.setY(data[1]);
+			});
 
 			setInterval(event => this.spawnEnnemy(), BaseValue.spawnRate);
 
 			requestAnimationFrame(event => this.render(event));
 
-			document.addEventListener('keydown', event =>
-				this.handleEscapePause(event)
+			document.addEventListener('keyup', event =>
+				this.socket.emit('keyUp', event.code)
 			);
+			document.addEventListener('keydown', event => this.handleKeyDown(event));
 		}
 	}
 
-	handleEscapePause(event) {
+	handleKeyDown(event) {
 		if (event.key == 'Escape') {
 			Router.navigate('/');
 			this.socket.emit('bg', false);
+		} else {
+			console.log(event);
+			this.socket.emit('keyDown', event.code);
 		}
 	}
 

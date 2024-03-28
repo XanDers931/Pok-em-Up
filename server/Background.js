@@ -6,7 +6,7 @@ export default class Background {
 	x;
 	state;
 
-	constructor(socket) {
+	constructor() {
 		this.x = 0;
 		setInterval(event => this.backgroundMove(), 1000 / 60);
 	}
