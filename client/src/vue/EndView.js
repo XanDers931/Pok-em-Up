@@ -1,6 +1,7 @@
 import View from './View.js';
 import { calculateScore } from '../modele/inGame/score.js';
 import Router from './Router.js';
+import GameView from './GameView.js';
 
 export default class EndView extends View {
 	constructor(element) {

@@ -17,6 +17,7 @@ export default class GameView extends View {
 	ennemy = [];
 	damageAreaList;
 	refresh;
+	audio;
 
 	constructor(element, socket) {
 		super(element);
@@ -58,6 +59,9 @@ export default class GameView extends View {
 
 			setInterval(event => this.spawnEnnemy(), 5000);
 			//BaseValue.spawnRate;
+
+			this.audio = document.querySelector('.mainTheme');
+			this.audio.play();
 
 			requestAnimationFrame(event => this.render(event));
 
