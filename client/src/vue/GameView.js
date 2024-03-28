@@ -127,6 +127,14 @@ export default class GameView extends View {
 			}
 		});
 
+		/* Il faut laisser le code commenté pour visualiser les hitsbox
+		this.damageAreaList.forEach(element => {
+			if (element.getReady()) {
+				element.display();
+			}
+		});
+		*/
+
 		this.context.stroke();
 		requestAnimationFrame(event => this.render(event));
 	}

@@ -4,8 +4,8 @@ import Projectile from './Projectiles.js';
 import Router from '../../vue/Router.js';
 import { allColision } from './Collision.js';
 
-const playerWidthSize = 96;
-const playerHeightSize = 128;
+const playerWidthSize = 48;
+const playerHeightSize = 64;
 
 const generalSpeed = 0.5;
 

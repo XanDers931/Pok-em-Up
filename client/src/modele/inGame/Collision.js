@@ -7,7 +7,9 @@
  * @returns false in the other case
  */
 export function isIn(value, otherValue, size) {
-	return value > otherValue && value < otherValue + size;
+	return (
+		value > otherValue + size * 0.2 && value < otherValue + size - size * 0.35
+	);
 }
 
 /**
@@ -24,11 +26,13 @@ export function allColision(damageAreaList, x, y, width, height) {
 	damageAreaList.forEach(element => {
 		if (
 			isIn(x, element.firstX, element.secondX) ||
-			isIn(x + width, element.firstX, element.secondX)
+			isIn(x + width, element.firstX, element.secondX) ||
+			isIn(x + width / 2, element.firstX, element.secondX)
 		) {
 			if (
 				isIn(y, element.firstY, element.secondY) ||
-				isIn(y + height, element.firstY, element.secondY)
+				isIn(y + height, element.firstY, element.secondY) ||
+				isIn(y + height / 2, element.firstY, element.secondY)
 			) {
 				ret = true;
 			}
