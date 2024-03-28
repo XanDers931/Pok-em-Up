@@ -57,8 +57,7 @@ export default class GameView extends View {
 
 			this.refresh = true;
 
-			setInterval(event => this.spawnEnnemy(), 5000);
-			//BaseValue.spawnRate;
+			setInterval(event => this.spawnEnnemy(), BaseValue.spawnRate);
 
 			this.audio = document.querySelector('.mainTheme');
 			this.audio.play();
@@ -147,7 +146,9 @@ export default class GameView extends View {
 	spawnEnnemy() {
 		this.ennemy.push(
 			new Ennemy(
-				'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/18.png',
+				'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' +
+					Math.floor(Math.random() * 1000 + 10) +
+					'.png',
 				3,
 				15
 			)
