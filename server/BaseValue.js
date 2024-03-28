@@ -51,7 +51,7 @@ export default class BaseValue {
 	}
 
 	/**
-	 * Backgr-ound Constants
+	 * Background Constants
 	 */
 	backgroundSpeed = 0;
 

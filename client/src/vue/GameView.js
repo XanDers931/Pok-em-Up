@@ -64,7 +64,6 @@ export default class GameView extends View {
 			Router.navigate('/');
 			this.socket.emit('bg', false);
 		} else {
-			console.log(event);
 			this.socket.emit('keyDown', event.code);
 		}
 	}
