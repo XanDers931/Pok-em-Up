@@ -3,6 +3,9 @@ import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackConfig from '../../webpack.config.js';
 
+/**
+ * Function used to live reload the code from server and client using webpack-dev-server
+ */
 export default function addWebpackMiddleware(app) {
 	const webpackConfigForMiddleware = {
 		...webpackConfig,
