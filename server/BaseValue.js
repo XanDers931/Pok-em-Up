@@ -1,10 +1,10 @@
 /**
- * Classe de gestion des constantes
- * Permet de stocker et initialiser les constantes du jeu
+ * Class to manage constants
+ * Allow to store and initialize game constants
  */
 export default class BaseValue {
 	/**
-	 * Game Global Values
+	 * Game Global Constants
 	 */
 	width = 0;
 	height = 0;
@@ -12,9 +12,9 @@ export default class BaseValue {
 	spawnRate = 0;
 
 	/**
-	 * Initialize the Game Global Values
+	 * Initialize the Game Global Constants
 	 */
-	static initialiseSimpleValue(width, height, frameRate, spawnRate) {
+	static initialiseSimpleConstants(width, height, frameRate, spawnRate) {
 		this.width = width;
 		this.height = height;
 		this.frameRate = frameRate;
@@ -22,7 +22,7 @@ export default class BaseValue {
 	}
 
 	/**
-	 * Player Values
+	 * Player Constants
 	 */
 	playerWidthSize = 0;
 	playerHeightSize = 0;
@@ -32,9 +32,9 @@ export default class BaseValue {
 	decreaseSpeedMult = 0;
 
 	/**
-	 * Initialize the Player Values
+	 * Initialize the Player Constants
 	 */
-	static initialisePlayer(
+	static initialisePlayerConstants(
 		playerWidthSize,
 		playerHeightSize,
 		generalSpeed,
@@ -48,5 +48,17 @@ export default class BaseValue {
 		this.playerBorder = playerBorder;
 		this.maxSpeed = maxSpeed;
 		this.decreaseSpeedMult = decreaseSpeedMult;
+	}
+
+	/**
+	 * Backgr-ound Constants
+	 */
+	backgroundSpeed = 0;
+
+	/**
+	 * Initialize the Background Constants
+	 */
+	static initialiseBackgroundConstants(backgroundSpeed) {
+		this.backgroundSpeed = backgroundSpeed;
 	}
 }

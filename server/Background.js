@@ -1,7 +1,9 @@
 import BaseValue from './BaseValue.js';
 
-const backgroundSpeed = 1;
-
+/**
+ * Classe de gestion des constantes
+ * Permet de stocker et initialiser les constantes du jeu
+ */
 export default class Background {
 	x;
 	state;
@@ -16,7 +18,7 @@ export default class Background {
 			return;
 		}
 
-		this.x = this.x - backgroundSpeed;
+		this.x = this.x - BaseValue.backgroundSpeed;
 		if (this.x < -BaseValue.width) {
 			this.x = 0;
 		}
