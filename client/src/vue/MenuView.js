@@ -1,6 +1,10 @@
 import View from './View.js';
 import Router from './Router.js';
 
+/**
+ * The menu view class of the application.
+ * Listens the buttons of the menu in order to display the next view.
+ */
 export default class MenuView extends View {
 	constructor(element) {
 		super(element);
