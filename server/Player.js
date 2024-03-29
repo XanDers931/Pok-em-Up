@@ -1,59 +1,71 @@
 import BaseValue from './BaseValue.js';
 //import Projectile from './Projectiles.js';
 
-let left = false;
-let right = false;
-let up = false;
-let down = false;
-//let fire = false;
-
-// bug de déplacement car la focntio,n est appelle sur des varianbles globales pou r chque jouieurs cree
-
+/**
+ * Class to manage a player of the game.
+ * Allow to move a player and get his position.
+ * x, y - The position of the player.
+ * xSpeed, ySpeed - The speed vectors of the player movement.
+ * left, right, up, down - The active directions.
+ * fire - The status of the shooting, true if the player is shooting, false otherwise.
+ * projectiles - The projectiles shot by the player.
+ */
 export default class Player {
-	//projectile = [];
 	x;
 	y;
 	xSpeed;
 	ySpeed;
+	left;
+	right;
+	up;
+	down;
+	// let fire;
+	// projectiles;
 	constructor() {
 		this.x = BaseValue.width / 8 - BaseValue.playerWidthSize;
 		this.y = BaseValue.height / 2 - BaseValue.playerHeightSize;
 		this.xSpeed = 0;
 		this.ySpeed = 0;
+		this.left = false;
+		this.right = false;
+		this.up = false;
+		this.down = false;
+		// this.fire = false;
+		// this.projectiles = [];
 
-		setInterval(event => this.gainSpeed(event), BaseValue.frameRate);
+		setInterval(event => this.increaseSpeed(event), BaseValue.frameRate);
 		setInterval(event => this.move(event), BaseValue.frameRate);
-		setInterval(event => this.loseSpeed(event), BaseValue.frameRate);
+		setInterval(event => this.decreaseSpeed(event), BaseValue.frameRate);
 		//setInterval(event => this.fireProj(), 100);
 		//setInterval(event => this.deleteFireProj(), 100);
 	}
 
-	getX() {
-		return this.x;
-	}
-
-	getY() {
-		return this.y;
-	}
-
-	gainSpeed() {
-		if (left && this.xSpeed > -BaseValue.maxSpeed)
+	/**
+	 * Function to increase the speed of the player movements.
+	 */
+	increaseSpeed() {
+		if (this.left && this.xSpeed > -BaseValue.maxSpeed)
 			this.xSpeed -= BaseValue.generalSpeed;
-		if (right && this.xSpeed <= BaseValue.maxSpeed)
+		if (this.right && this.xSpeed <= BaseValue.maxSpeed)
 			this.xSpeed += BaseValue.generalSpeed;
-		if (up && this.ySpeed > -BaseValue.maxSpeed)
+		if (this.up && this.ySpeed > -BaseValue.maxSpeed)
 			this.ySpeed -= BaseValue.generalSpeed;
-		if (down && this.ySpeed <= BaseValue.maxSpeed)
+		if (this.down && this.ySpeed <= BaseValue.maxSpeed)
 			this.ySpeed += BaseValue.generalSpeed;
 	}
 
-	loseSpeed() {
+	/**
+	 * Function to decrease the speed of the player movements.
+	 */
+	decreaseSpeed() {
 		this.xSpeed = this.xSpeed * BaseValue.decreaseSpeedMult;
 		this.ySpeed = this.ySpeed * BaseValue.decreaseSpeedMult;
 	}
 
+	/**
+	 * Function to move the player based on his speed vectors without allowing it to go out of the frame.
+	 */
 	move() {
-		// border left, right, top, bottom
 		if (this.x + this.xSpeed < BaseValue.playerBorder) this.xSpeed = 0;
 		if (
 			this.x + this.xSpeed >
@@ -71,39 +83,45 @@ export default class Player {
 		this.y += this.ySpeed;
 	}
 
-	handleKeyboardStart(code) {
-		if (code == 'ArrowLeft' || code == 'q') {
-			left = true;
+	/**
+	 * Function to active the direction of the player based on the keyboard.
+	 */
+	activeDirection(code) {
+		if (code == 'ArrowLeft' || code == 'KeyA') {
+			this.left = true;
 		}
-		if (code == 'ArrowRight' || code == 'd') {
-			right = true;
+		if (code == 'ArrowRight' || code == 'KeyD') {
+			this.right = true;
 		}
-		if (code == 'ArrowUp' || code == 'z') {
-			up = true;
+		if (code == 'ArrowUp' || code == 'KeyW') {
+			this.up = true;
 		}
-		if (code == 'ArrowDown' || code == 's') {
-			down = true;
+		if (code == 'ArrowDown' || code == 'KeyS') {
+			this.down = true;
 		}
 		if (code == 'Space') {
 			fire = true;
 		}
 	}
 
-	handleKeyboardEnd(code) {
-		if (code == 'ArrowLeft' || code == 'q') {
-			left = false;
+	/**
+	 * Function to desactive the direction of the player based on the keyboard.
+	 */
+	desactiveDirection(code) {
+		if (code == 'ArrowLeft' || code == 'KeyA') {
+			this.left = false;
 		}
-		if (code == 'ArrowRight' || code == 'd') {
-			right = false;
+		if (code == 'ArrowRight' || code == 'KeyD') {
+			this.right = false;
 		}
-		if (code == 'ArrowUp' || code == 'z') {
-			up = false;
+		if (code == 'ArrowUp' || code == 'KeyW') {
+			this.up = false;
 		}
-		if (code == 'ArrowDown' || code == 's') {
-			down = false;
+		if (code == 'ArrowDown' || code == 'KeyS') {
+			this.down = false;
 		}
 		if (code == 'Space') {
-			fire = false;
+			this.fire = false;
 		}
 	}
 
@@ -123,4 +141,18 @@ export default class Player {
 	}
 
 	*/
+
+	/**
+	 * Function to get the position of the player on the x axe
+	 */
+	getX() {
+		return this.x;
+	}
+
+	/**
+	 * Function to get the position of the player on the y axe
+	 */
+	getY() {
+		return this.y;
+	}
 }
