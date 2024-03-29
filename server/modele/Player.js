@@ -143,14 +143,14 @@ export default class Player {
 	*/
 
 	/**
-	 * Function to get the position of the player on the x axe
+	 * Getter of the player position on the x axe.
 	 */
 	getX() {
 		return this.x;
 	}
 
 	/**
-	 * Function to get the position of the player on the y axe
+	 * Getter of the player position on the y axe.
 	 */
 	getY() {
 		return this.y;

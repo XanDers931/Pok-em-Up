@@ -4,10 +4,10 @@ import BaseValue from '../BaseValue.js';
 const URL = '/images/background/background4.png';
 
 /**
- * Class to display the background
+ * Class to display the background.
  * x - The position of the background.
  * ready - The state of the background image, true if loaded, false otherwise.
- * image - The background image
+ * image - The background image.
  */
 export default class Background {
 	x;
@@ -25,7 +25,7 @@ export default class Background {
 	}
 
 	/**
-	 * Function to display the background image
+	 * Function to display the background image.
 	 */
 	display() {
 		Draw.draw(this.image, this.x, 0, BaseValue.width, BaseValue.height);
@@ -39,14 +39,14 @@ export default class Background {
 	}
 
 	/**
-	 * Setter of the background position
+	 * Setter of the background position.
 	 */
 	setX(x) {
 		this.x = x;
 	}
 
 	/**
-	 * Getter of the state of the background image
+	 * Getter of the state of the background image.
 	 */
 	getReady() {
 		return this.ready;

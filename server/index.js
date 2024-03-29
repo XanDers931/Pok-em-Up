@@ -8,7 +8,7 @@ import Background from './modele/Background.js';
 import Player from './modele/Player.js';
 
 /**
- * Manage and run the server
+ * Manage and run the server.
  */
 const PORT = process.env.PORT || 8000;
 const app = express();
@@ -23,14 +23,14 @@ httpServer.listen(PORT, () => {
 });
 
 /**
- * Initialize game Constants
+ * Initialize game Constants.
  */
 BaseValue.initialiseSimpleConstants(1920, 1080, 1000 / 60, 1);
 BaseValue.initialisePlayerConstants(96, 128, 0.5, 8, 10, 0.96);
 BaseValue.initialiseBackgroundConstants(1);
 
 /**
- * Initialize game values
+ * Initialize game values.
  */
 // let running;
 let players;
@@ -39,7 +39,7 @@ let ennemies;
 let background;
 
 /**
- * Start the server listeners
+ * Start the server listeners.
  */
 io.on('connection', socket => {
 	console.log(`Nouvelle connexion du Joueur ${socket.id}`);
@@ -71,7 +71,7 @@ function sendBackgroundPosition() {
 */
 
 /**
- * Function which send the datas to the clients
+ * Function which send the datas to the clients.
  */
 function sendData() {
 	io.emit('bgPosition', background.getPosition());
@@ -82,7 +82,7 @@ function sendData() {
 }
 
 /**
- * Function to initialize the game and start the server sending datas to clients about the running game
+ * Function to initialize the game and start the server sending datas to clients about the running game.
  */
 function init() {
 	// running = false;

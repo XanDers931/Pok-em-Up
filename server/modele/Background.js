@@ -1,8 +1,8 @@
 import BaseValue from './BaseValue.js';
 
 /**
- * Class to manage background translation
- * Allow to start the translation of the background, to pause it and to get the current position of it
+ * Class to manage background translation.
+ * Allow to start the translation of the background, to pause it and to get the current position of it.
  * x - The position of the background.
  * state - The state of the background, true if translating, false otherwise.
  */
@@ -17,7 +17,7 @@ export default class Background {
 	}
 
 	/**
-	 * Function to move the position of the background
+	 * Function to move the position of the background.
 	 */
 	backgroundMove() {
 		if (this.state == false) {
@@ -31,14 +31,14 @@ export default class Background {
 	}
 
 	/**
-	 * Function to start and stop the translation of the background
+	 * Setter of the background state, use to start and stop the translation of the background.
 	 */
 	setState(state) {
 		this.state = state;
 	}
 
 	/**
-	 * Function to get the position of the background
+	 * Getter of the background position.
 	 */
 	getPosition() {
 		return this.x;
