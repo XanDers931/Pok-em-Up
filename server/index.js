@@ -3,9 +3,9 @@ import { Server as IOServer } from 'socket.io';
 import http from 'http';
 import express from 'express';
 import addWebpackMiddleware from './middlewares/addWebpackMiddleware.js';
-import BaseValue from './BaseValue.js';
-import Player from './Player.js';
-import Background from './Background.js';
+import BaseValue from './modele/BaseValue.js';
+import Background from './modele/Background.js';
+import Player from './modele/Player.js';
 
 /**
  * Manage and run the server
