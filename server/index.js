@@ -32,9 +32,9 @@ BaseValue.initialiseBackgroundConstants(1);
 /**
  * Initialize game values
  */
-let running;
-let players = new Map();
-let sockets = [];
+// let running;
+let players;
+let sockets;
 let ennemies;
 let background;
 
@@ -55,12 +55,12 @@ io.on('connection', socket => {
 		background.setState(state);
 	});
 
-	socket.on('keyDown', com => {
-		players.get(socket.id).handleKeyboardStart(com);
+	socket.on('keyDown', code => {
+		players.get(socket.id).activeDirection(code);
 	});
 
-	socket.on('keyUp', com => {
-		players.get(socket.id).handleKeyboardEnd(com);
+	socket.on('keyUp', code => {
+		players.get(socket.id).desactiveDirection(code);
 	});
 });
 
@@ -85,9 +85,10 @@ function sendData() {
  * Function to initialize the game and start the server sending datas to clients about the running game
  */
 function init() {
-	running = false;
-	//players = new Map();
+	// running = false;
+	players = new Map();
 	ennemies = [];
+	sockets = [];
 	background = new Background();
-	setInterval(sendData, 1000 / 120);
+	setInterval(sendData, 1000 / 60);
 }
