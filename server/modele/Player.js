@@ -11,6 +11,7 @@ import BaseValue from './BaseValue.js';
  * projectiles - The projectiles shot by the player.
  */
 export default class Player {
+	socketId;
 	x;
 	y;
 	xSpeed;
@@ -21,7 +22,8 @@ export default class Player {
 	down;
 	// let fire;
 	// projectiles;
-	constructor() {
+	constructor(socketId) {
+		this.socketId = socketId;
 		this.x = BaseValue.width / 8 - BaseValue.playerWidthSize;
 		this.y = BaseValue.height / 2 - BaseValue.playerHeightSize;
 		this.xSpeed = 0;

@@ -10,6 +10,7 @@ import Projectile from '../../modele/inGame/Projectiles.js';
  * projectiles - The projectiles the player shot.
  */
 export default class Player {
+	socketId;
 	x;
 	y;
 	ready;
@@ -20,10 +21,15 @@ export default class Player {
 	 * The constructor of the PlayerDisplay class.
 	 * skin - The if of the player image.
 	 */
-	constructor(skin) {
+	constructor(skin, socketId, x, y) {
+		this.socketId = socketId;
 		this.ready = false;
 		this.x = 0;
 		this.y = 0;
+		if (x && y) {
+			this.x = x;
+			this.y = y;
+		}
 		this.projectiles = [];
 		this.image = new Image();
 		this.image.src = this.skin(skin);

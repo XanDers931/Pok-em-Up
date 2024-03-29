@@ -38,17 +38,24 @@ let sockets;
 let ennemies;
 let background;
 
+init();
+
 /**
  * Start the server listeners.
  */
 io.on('connection', socket => {
 	console.log(`Nouvelle connexion du Joueur ${socket.id}`);
-	init();
+	//init();
 	sockets.push(socket.id);
-	players.set(socket.id, new Player());
+	players.push(new Player(socket.id));
+
+	io.emit('newPlayer', players);
 
 	socket.on('disconnect', () => {
 		console.log(`Déconnexion du Joueur ${socket.id}`);
+		io.emit('leftPlayer', socket.id);
+		sockets = sockets.filter(socketId => socketId != socket.id);
+		players = players.filter(player => player.socketId != socket.id);
 	});
 
 	socket.on('bg', state => {
@@ -56,11 +63,11 @@ io.on('connection', socket => {
 	});
 
 	socket.on('keyDown', code => {
-		players.get(socket.id).activeDirection(code);
+		getPlayerBySocket(socket.id).activeDirection(code);
 	});
 
 	socket.on('keyUp', code => {
-		players.get(socket.id).desactiveDirection(code);
+		getPlayerBySocket(socket.id).desactiveDirection(code);
 	});
 });
 
@@ -75,10 +82,34 @@ function sendBackgroundPosition() {
  */
 function sendData() {
 	io.emit('bgPosition', background.getPosition());
-	io.emit('playerPosition', [
-		players.get(sockets[0]).getX(),
-		players.get(sockets[0]).getY(),
-	]);
+	io.emit('playerPosition', makePositionTable());
+}
+
+/**
+ * Function that creates a table of all the position of the player.
+ */
+function makePositionTable() {
+	let positions = [];
+	sockets.forEach(socket => {
+		positions.push([
+			getPlayerBySocket(socket).getX(),
+			getPlayerBySocket(socket).getY(),
+		]);
+	});
+	return positions;
+}
+
+/**
+ * Function that return the player having the socketId given.
+ */
+function getPlayerBySocket(socket) {
+	let result;
+	players.forEach(player => {
+		if (player.socketId == socket) {
+			result = player;
+		}
+	});
+	return result;
 }
 
 /**
@@ -86,7 +117,7 @@ function sendData() {
  */
 function init() {
 	// running = false;
-	players = new Map();
+	players = [];
 	ennemies = [];
 	sockets = [];
 	background = new Background();

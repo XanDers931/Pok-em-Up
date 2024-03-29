@@ -12,8 +12,8 @@ export default class GameView extends View {
 	canvas;
 	context;
 	background;
-	player;
-	ennemy = [];
+	players;
+	ennemies;
 	socket;
 	damageAreaList;
 	refresh;
@@ -22,6 +22,17 @@ export default class GameView extends View {
 		super(element);
 		this.start = false;
 		this.socket = socket;
+		this.players = [];
+		this.ennemies = [];
+		this.socket.on('newPlayer', players => {
+			this.players = [];
+			players.forEach(player => {
+				this.players.push(new Player(1, player.socketId, player.x, player.y));
+			});
+		});
+		this.socket.on('leftPlayer', socketId => {
+			this.players = this.players.filter(player => player.socketId != socketId);
+		});
 	}
 
 	show() {
@@ -37,15 +48,15 @@ export default class GameView extends View {
 
 			this.background = new Background();
 			this.socket.on('bgPosition', data => {
-				//console.log(data);
 				this.background.setX(data);
 			});
 			// Player argument 1 : skin id
-			this.player = new Player(1);
+			//this.players.push(new Player(1));
 			this.socket.on('playerPosition', data => {
-				//console.log(data);
-				this.player.setX(data[0]);
-				this.player.setY(data[1]);
+				for (let index = 0; index < data.length; index++) {
+					this.players[index].setX(data[index][0]);
+					this.players[index].setY(data[index][1]);
+				}
 			});
 
 			setInterval(event => this.spawnEnnemy(), BaseValue.spawnRate);
@@ -86,9 +97,9 @@ export default class GameView extends View {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
 		if (this.refresh) {
-			this.damageAreaList = this.collisionMaj(this.ennemy);
+			this.damageAreaList = this.collisionMaj(this.ennemies);
 			this.refresh = false;
-			this.player.detectsCollision(this.damageAreaList);
+			//this.player.detectsCollision(this.damageAreaList);
 			setTimeout(() => {
 				this.refresh = true;
 			}, 200);
@@ -97,26 +108,28 @@ export default class GameView extends View {
 		if (this.background.getReady()) {
 			this.background.display();
 		}
+		this.players.forEach(player => {
+			if (player.getReady()) {
+				player.display();
+			}
+		});
 
-		if (this.player.getReady()) {
-			this.player.display();
-		}
-
+		/*
 		this.player.projectiles.forEach(element => {
 			if (element.getReady()) {
 				element.display();
 			}
 		});
-
-		this.ennemy.forEach(element => {
+		*/
+		this.ennemies.forEach(element => {
 			if (element.getReady()) {
 				element.display();
 			}
 		});
 
-		this.ennemy.forEach(element => {
+		this.ennemies.forEach(element => {
 			if (element.isOutCanva()) {
-				this.ennemy.splice(0, 1);
+				this.ennemies.splice(0, 1);
 			}
 		});
 
@@ -126,7 +139,7 @@ export default class GameView extends View {
 
 	//Créer un ennemi
 	spawnEnnemy() {
-		this.ennemy.push(
+		this.ennemies.push(
 			new Ennemy(
 				'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/18.png',
 				3,
