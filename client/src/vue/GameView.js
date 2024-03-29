@@ -1,6 +1,6 @@
 import View from './View.js';
-import Background from './inGame/Background.js';
-import Player from '../modele/inGame/Player.js';
+import Background from './inGame/BackgroundDisplay.js';
+import Player from './inGame/PlayerDisplay.js';
 import Ennemy from '../modele/inGame/Ennemy.js';
 import Router from './Router.js';
 import Draw from './Draw.js';
@@ -33,7 +33,7 @@ export default class GameView extends View {
 			this.canvas = this.element.querySelector('.gameCanvas');
 			this.context = this.canvas.getContext('2d');
 			Draw.initialise(this.canvas);
-			BaseValue.initialise(1920, 1080, 1000 / 60, 1000);
+			BaseValue.initialise(1920, 1080, 1000 / 60, 1000, 98, 128);
 
 			this.background = new Background();
 			this.socket.on('bgPosition', data => {
@@ -102,7 +102,7 @@ export default class GameView extends View {
 			this.player.display();
 		}
 
-		this.player.projectile.forEach(element => {
+		this.player.projectiles.forEach(element => {
 			if (element.getReady()) {
 				element.display();
 			}
