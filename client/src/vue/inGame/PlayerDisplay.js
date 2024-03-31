@@ -1,6 +1,5 @@
 import Draw from '../Draw.js';
 import BaseValue from '../BaseValue.js';
-import Projectile from './ProjectileDisplay.js';
 
 /**
  * Class to display the player.
