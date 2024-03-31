@@ -1,5 +1,9 @@
 import BaseValue from './BaseValue.js';
 import Projectile from './Projectile.js';
+/*
+import Router from '../../vue/Router.js';
+import { allColision } from './Collision.js';
+*/
 
 /**
  * Class to manage a player of the game.
@@ -132,7 +136,14 @@ export default class Player {
 	 */
 	shootProjectile() {
 		if (this.fire) {
-			this.projectiles.push(new Projectile(this.x, this.y, 20, 0));
+			this.projectiles.push(
+				new Projectile(
+					this.x + BaseValue.playerWidthSize / 2,
+					this.y + BaseValue.playerHeightSize / 2,
+					20,
+					0
+				)
+			);
 		}
 	}
 
@@ -146,6 +157,14 @@ export default class Player {
 			}
 		});
 	}
+
+	/*
+	detectsCollision(damageAreaList) {
+		if (allColision(damageAreaList, x, y, playerWidthSize, playerHeightSize)) {
+			Router.navigate('/gameover');
+		}
+	}
+	*/
 
 	/**
 	 * Getter of the player position on the x axe.

@@ -49,7 +49,7 @@ export default class GameView extends View {
 			this.canvas = this.element.querySelector('.gameCanvas');
 			this.context = this.canvas.getContext('2d');
 			Draw.initialise(this.canvas);
-			BaseValue.initialise(1920, 1080, 1000 / 60, 1000, 98, 128, 1000 / 30);
+			BaseValue.initialise(1920, 1080, 1000 / 60, 1000, 48, 64, 1000 / 30);
 
 			this.background = new BackgroundDisplay();
 			this.socket.on('bgPosition', data => {

@@ -26,7 +26,7 @@ httpServer.listen(PORT, () => {
  * Initialize game Constants.
  */
 BaseValue.initialiseSimpleConstants(1920, 1080, 1000 / 60, 1);
-BaseValue.initialisePlayerConstants(96, 128, 0.5, 8, 10, 0.96);
+BaseValue.initialisePlayerConstants(48, 64, 0.5, 8, 10, 0.96);
 BaseValue.initialiseBackgroundConstants(1);
 
 /**
