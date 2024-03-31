@@ -73,7 +73,7 @@ export default class GameView extends View {
 			});
 
 			this.damageAreaList = [];
-			this.ennemy.forEach(element => {
+			this.ennemies.forEach(element => {
 				this.damageAreaList.push(
 					new damageArea(
 						element.getX(),
@@ -111,7 +111,7 @@ export default class GameView extends View {
 
 	collisionMaj(ennemy) {
 		this.damageAreaList = [];
-		this.ennemy.forEach(element => {
+		this.ennemies.forEach(element => {
 			this.damageAreaList.push(
 				new DamageArea(
 					element.getX(),
