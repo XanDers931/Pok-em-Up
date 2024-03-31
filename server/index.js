@@ -63,11 +63,11 @@ io.on('connection', socket => {
 	});
 
 	socket.on('keyDown', code => {
-		getPlayerBySocket(socket.id).activeDirection(code);
+		getPlayerBySocket(socket.id).activeDirectionShot(code);
 	});
 
 	socket.on('keyUp', code => {
-		getPlayerBySocket(socket.id).desactiveDirection(code);
+		getPlayerBySocket(socket.id).desactiveDirectionShot(code);
 	});
 });
 
@@ -82,19 +82,31 @@ function sendBackgroundPosition() {
  */
 function sendData() {
 	io.emit('bgPosition', background.getPosition());
-	io.emit('playerPosition', makePositionTable());
+	io.emit('playerPosition', makePlayerPositionTable());
+	io.emit('projectilePosition', makeProjectilePositionTable());
 }
 
 /**
  * Function that creates a table of all the position of the player.
  */
-function makePositionTable() {
+function makePlayerPositionTable() {
 	let positions = [];
 	sockets.forEach(socket => {
 		positions.push([
 			getPlayerBySocket(socket).getX(),
 			getPlayerBySocket(socket).getY(),
 		]);
+	});
+	return positions;
+}
+
+/**
+ * Function that creates a table of all the projectiles for each player.
+ */
+function makeProjectilePositionTable() {
+	let positions = [];
+	sockets.forEach(socket => {
+		positions.push(getPlayerBySocket(socket).projectiles);
 	});
 	return positions;
 }

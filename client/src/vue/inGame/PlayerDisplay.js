@@ -1,6 +1,6 @@
 import Draw from '../Draw.js';
 import BaseValue from '../BaseValue.js';
-import Projectile from '../../modele/inGame/Projectiles.js';
+import Projectile from './ProjectileDisplay.js';
 
 /**
  * Class to display the player.
@@ -9,7 +9,7 @@ import Projectile from '../../modele/inGame/Projectiles.js';
  * image - The player image.
  * projectiles - The projectiles the player shot.
  */
-export default class Player {
+export default class PlayerDisplay {
 	socketId;
 	x;
 	y;
@@ -56,13 +56,6 @@ export default class Player {
 	 */
 	skin(id) {
 		return `/images/player/${id}.png`;
-	}
-
-	/**
-	 * Setter of the player shots.
-	 */
-	setProjectiles(projectiles) {
-		this.projectiles = projectiles;
 	}
 
 	/**

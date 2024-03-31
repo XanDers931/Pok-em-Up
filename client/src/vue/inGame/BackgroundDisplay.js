@@ -9,7 +9,7 @@ const URL = '/images/background/background4.png';
  * ready - The state of the background image, true if loaded, false otherwise.
  * image - The background image.
  */
-export default class Background {
+export default class BackgroundDisplay {
 	x;
 	ready;
 	image;

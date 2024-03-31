@@ -1,5 +1,5 @@
 import BaseValue from './BaseValue.js';
-//import Projectile from './Projectiles.js';
+import Projectile from './Projectile.js';
 
 /**
  * Class to manage a player of the game.
@@ -20,8 +20,8 @@ export default class Player {
 	right;
 	up;
 	down;
-	// let fire;
-	// projectiles;
+	fire;
+	projectiles;
 	constructor(socketId) {
 		this.socketId = socketId;
 		this.x = BaseValue.width / 8 - BaseValue.playerWidthSize;
@@ -32,14 +32,14 @@ export default class Player {
 		this.right = false;
 		this.up = false;
 		this.down = false;
-		// this.fire = false;
-		// this.projectiles = [];
+		this.fire = false;
+		this.projectiles = [];
 
 		setInterval(event => this.increaseSpeed(event), BaseValue.frameRate);
 		setInterval(event => this.move(event), BaseValue.frameRate);
 		setInterval(event => this.decreaseSpeed(event), BaseValue.frameRate);
-		//setInterval(event => this.fireProj(), 100);
-		//setInterval(event => this.deleteFireProj(), 100);
+		setInterval(event => this.shootProjectile(event), 100);
+		setInterval(event => this.deleteProjectiles(event), 100);
 	}
 
 	/**
@@ -86,9 +86,9 @@ export default class Player {
 	}
 
 	/**
-	 * Function to active the direction of the player based on the keyboard.
+	 * Function to active the direction and the shot of the player based on the keyboard.
 	 */
-	activeDirection(code) {
+	activeDirectionShot(code) {
 		if (code == 'ArrowLeft' || code == 'KeyA') {
 			this.left = true;
 		}
@@ -102,14 +102,14 @@ export default class Player {
 			this.down = true;
 		}
 		if (code == 'Space') {
-			fire = true;
+			this.fire = true;
 		}
 	}
 
 	/**
-	 * Function to desactive the direction of the player based on the keyboard.
+	 * Function to desactive the direction and the shot of the player based on the keyboard.
 	 */
-	desactiveDirection(code) {
+	desactiveDirectionShot(code) {
 		if (code == 'ArrowLeft' || code == 'KeyA') {
 			this.left = false;
 		}
@@ -127,22 +127,25 @@ export default class Player {
 		}
 	}
 
-	/*
-	fireProj() {
-		if (fire) {
-			this.projectile.push(new Projectile(x, y, 20, 0));
+	/**
+	 * Function to fire a new projectile when fire is active
+	 */
+	shootProjectile() {
+		if (this.fire) {
+			this.projectiles.push(new Projectile(this.x, this.y, 20, 0));
 		}
 	}
 
-	deleteFireProj() {
-		this.projectile.forEach(element => {
+	/**
+	 * Function to delete all projectiles that are out of the canva (not displayed anymore)
+	 */
+	deleteProjectiles() {
+		this.projectiles.forEach(element => {
 			if (element.isOutCanva()) {
-				this.projectile.splice(0, 1);
+				this.projectiles.splice(0, 1);
 			}
 		});
 	}
-
-	*/
 
 	/**
 	 * Getter of the player position on the x axe.
