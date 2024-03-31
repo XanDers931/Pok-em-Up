@@ -4,7 +4,14 @@ import { io } from 'socket.io-client';
 import MenuView from './vue/MenuView.js';
 import EndView from './vue/EndView.js';
 
+/**
+ * Link the client to the server.
+ */
 const socket = io();
+
+/**
+ * Create our application views.
+ */
 const gameView = new GameView(
 	document.querySelector('.viewContent .game'),
 	socket
@@ -12,15 +19,17 @@ const gameView = new GameView(
 const menuView = new MenuView(document.querySelector('.viewContent .menu'));
 const endView = new EndView(document.querySelector('.viewContent .end'));
 
+/**
+ * Initialize the Router.
+ */
 const routes = [
 	{ path: '/', view: menuView },
 	{ path: '/game', view: gameView },
 	{ path: '/gameover', view: endView },
 ];
-
 Router.routes = routes;
-Router.navigate('/');
 
-socket.on('news', data => {
-	console.log(data);
-});
+/**
+ * Loading the first view of the application (the menu).
+ */
+Router.navigate('/');

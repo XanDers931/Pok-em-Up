@@ -1,6 +1,7 @@
 import View from './View.js';
-import Background from './inGame/Background.js';
-import Player from '../modele/inGame/Player.js';
+import BackgroundDisplay from './inGame/BackgroundDisplay.js';
+import PlayerDisplay from './inGame/PlayerDisplay.js';
+import ProjectileDisplay from './inGame/ProjectileDisplay.js';
 import Ennemy from '../modele/inGame/Ennemy.js';
 import Router from './Router.js';
 import Draw from './Draw.js';
@@ -13,8 +14,9 @@ export default class GameView extends View {
 	canvas;
 	context;
 	background;
-	player;
-	ennemy = [];
+	players;
+	ennemies;
+	socket;
 	damageAreaList;
 	refresh;
 	audio;
@@ -23,6 +25,19 @@ export default class GameView extends View {
 		super(element);
 		this.start = false;
 		this.socket = socket;
+		this.players = [];
+		this.ennemies = [];
+		this.socket.on('newPlayer', players => {
+			this.players = [];
+			players.forEach(player => {
+				this.players.push(
+					new PlayerDisplay(1, player.socketId, player.x, player.y)
+				);
+			});
+		});
+		this.socket.on('leftPlayer', socketId => {
+			this.players = this.players.filter(player => player.socketId != socketId);
+		});
 	}
 
 	show() {
@@ -34,14 +49,28 @@ export default class GameView extends View {
 			this.canvas = this.element.querySelector('.gameCanvas');
 			this.context = this.canvas.getContext('2d');
 			Draw.initialise(this.canvas);
-			BaseValue.initialise(1920, 1080, 1000 / 60, 1000, 1000 / 30);
+			BaseValue.initialise(1920, 1080, 1000 / 60, 1000, 98, 128, 1000 / 30);
 
-			this.background = new Background();
+			this.background = new BackgroundDisplay();
 			this.socket.on('bgPosition', data => {
 				this.background.setX(data);
 			});
-			// Player argument 1 : skin id
-			this.player = new Player(1);
+			this.socket.on('playerPosition', data => {
+				for (let index = 0; index < data.length; index++) {
+					this.players[index].setX(data[index][0]);
+					this.players[index].setY(data[index][1]);
+				}
+			});
+			this.socket.on('projectilePosition', data => {
+				for (let index = 0; index < data.length; index++) {
+					this.players[index].projectiles = [];
+					data[index].forEach(projectile => {
+						this.players[index].projectiles.push(
+							new ProjectileDisplay(projectile.x, projectile.y)
+						);
+					});
+				}
+			});
 
 			this.damageAreaList = [];
 			this.ennemy.forEach(element => {
@@ -64,16 +93,19 @@ export default class GameView extends View {
 
 			requestAnimationFrame(event => this.render(event));
 
-			document.addEventListener('keydown', event =>
-				this.handleEscapePause(event)
+			document.addEventListener('keyup', event =>
+				this.socket.emit('keyUp', event.code)
 			);
+			document.addEventListener('keydown', event => this.handleKeyDown(event));
 		}
 	}
 
-	handleEscapePause(event) {
+	handleKeyDown(event) {
 		if (event.key == 'Escape') {
 			Router.navigate('/');
 			this.socket.emit('bg', false);
+		} else {
+			this.socket.emit('keyDown', event.code);
 		}
 	}
 
@@ -96,9 +128,9 @@ export default class GameView extends View {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
 		if (this.refresh) {
-			this.damageAreaList = this.collisionMaj(this.ennemy);
+			this.damageAreaList = this.collisionMaj(this.ennemies);
 			this.refresh = false;
-			this.player.detectsCollision(this.damageAreaList);
+			//this.player.detectsCollision(this.damageAreaList);
 			setTimeout(() => {
 				this.refresh = true;
 			}, BaseValue.hitboxCheckRate);
@@ -107,26 +139,29 @@ export default class GameView extends View {
 		if (this.background.getReady()) {
 			this.background.display();
 		}
+		this.players.forEach(player => {
+			if (player.getReady()) {
+				player.display();
+			}
+		});
 
-		if (this.player.getReady()) {
-			this.player.display();
-		}
+		this.players.forEach(player => {
+			player.projectiles.forEach(projectile => {
+				if (projectile.getReady()) {
+					projectile.display();
+				}
+			});
+		});
 
-		this.player.projectile.forEach(element => {
+		this.ennemies.forEach(element => {
 			if (element.getReady()) {
 				element.display();
 			}
 		});
 
-		this.ennemy.forEach(element => {
-			if (element.getReady()) {
-				element.display();
-			}
-		});
-
-		this.ennemy.forEach(element => {
+		this.ennemies.forEach(element => {
 			if (element.isOutCanva()) {
-				this.ennemy.splice(0, 1);
+				this.ennemies.splice(0, 1);
 			}
 		});
 
@@ -144,7 +179,7 @@ export default class GameView extends View {
 
 	//Créer un ennemi
 	spawnEnnemy() {
-		this.ennemy.push(
+		this.ennemies.push(
 			new Ennemy(
 				'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' +
 					Math.floor(Math.random() * 1000 + 10) +
