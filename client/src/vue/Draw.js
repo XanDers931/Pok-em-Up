@@ -32,12 +32,13 @@ export default class Draw {
 	static drawScore(monsterKill, time) {
 		// à mieux centrée
 		let score = calculateScore(monsterKill, time);
-		this.context.font = '24px Comic sans ms';
+		let size = Draw.canvas.width / 60;
+		this.context.font = `${size}px Comic sans ms`;
 		this.context.fillStyle = '#FFFFFF';
 		this.context.fillText(
 			'Score: ' + score,
 			Draw.canvas.width / 2 - (Draw.canvas.width / 100) * 5,
-			(Draw.canvas.height / 100) * 5
+			30
 		);
 	}
 }
