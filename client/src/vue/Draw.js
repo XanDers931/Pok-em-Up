@@ -28,11 +28,16 @@ export default class Draw {
 		this.canvas.width = this.canvas.clientWidth;
 		this.canvas.height = this.canvas.clientHeight;
 	}
-}
 
-export function drawScore() {
-	let score = calculateScore(10, 2);
-	ctx.font = '16px Arial';
-	ctx.fillStyle = '#0095DD';
-	ctx.fillText('Score: ' + score, 8, 20);
+	static drawScore(monsterKill, time) {
+		// à mieux centrée
+		let score = calculateScore(monsterKill, time);
+		this.context.font = '24px Comic sans ms';
+		this.context.fillStyle = '#FFFFFF';
+		this.context.fillText(
+			'Score: ' + score,
+			Draw.canvas.width / 2 - (Draw.canvas.width / 100) * 5,
+			(Draw.canvas.height / 100) * 5
+		);
+	}
 }

@@ -165,6 +165,12 @@ export default class GameView extends View {
 			}
 		});
 
+		Draw.drawScore(10, 2);
+
+		/*
+		this.context.font = '48px serif';
+		this.context.fillText('Hello world', 10, 50);
+
 		/* Il faut laisser le code commenté pour visualiser les hitsbox
 		this.damageAreaList.forEach(element => {
 			if (element.getReady()) {
