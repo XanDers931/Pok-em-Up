@@ -7,6 +7,7 @@ import Router from './Router.js';
 import Draw from './Draw.js';
 import BaseValue from './BaseValue.js';
 import DamageArea from '../modele/inGame/DamageArea.js';
+import Data from '../modele/inGame/Data.js';
 
 export default class GameView extends View {
 	start;
@@ -20,6 +21,7 @@ export default class GameView extends View {
 	damageAreaList;
 	refresh;
 	audio;
+	idEnnemiesList;
 
 	constructor(element, socket) {
 		super(element);
@@ -27,6 +29,9 @@ export default class GameView extends View {
 		this.socket = socket;
 		this.players = [];
 		this.ennemies = [];
+		this.idEnnemiesList = [];
+		this.addIdEnnemiesList();
+
 		this.socket.on('newPlayer', players => {
 			this.players = [];
 			players.forEach(player => {
@@ -183,12 +188,18 @@ export default class GameView extends View {
 		requestAnimationFrame(event => this.render(event));
 	}
 
+	addIdEnnemiesList() {
+		Data.forEach(element => this.idEnnemiesList.push(element));
+	}
+
 	//Créer un ennemi
 	spawnEnnemy() {
 		this.ennemies.push(
 			new Ennemy(
 				'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' +
-					Math.floor(Math.random() * 1000 + 10) +
+					this.idEnnemiesList[
+						Math.floor(Math.random() * this.idEnnemiesList.length + 1)
+					] +
 					'.png',
 				3,
 				15
