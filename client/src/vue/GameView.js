@@ -22,6 +22,7 @@ export default class GameView extends View {
 	refresh;
 	audio;
 	idEnnemiesList;
+	playerName;
 
 	constructor(element, socket) {
 		super(element);
@@ -36,7 +37,7 @@ export default class GameView extends View {
 			this.players = [];
 			players.forEach(player => {
 				this.players.push(
-					new PlayerDisplay(1, player.socketId, player.x, player.y)
+					new PlayerDisplay(1, player.socketId, player.x, player.y, player.name)
 				);
 			});
 		});
@@ -76,6 +77,12 @@ export default class GameView extends View {
 					});
 				}
 			});
+
+			/*
+			this.socket.on('playerName', data => {
+				console.log(data);
+			});
+			*/
 
 			this.damageAreaList = [];
 			this.ennemies.forEach(element => {

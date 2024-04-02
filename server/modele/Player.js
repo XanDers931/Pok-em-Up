@@ -18,6 +18,7 @@ export default class Player {
 	socketId;
 	x;
 	y;
+	name;
 	xSpeed;
 	ySpeed;
 	left;
@@ -30,6 +31,7 @@ export default class Player {
 		this.socketId = socketId;
 		this.x = BaseValue.width / 8 - BaseValue.playerWidthSize;
 		this.y = BaseValue.height / 2 - BaseValue.playerHeightSize;
+		this.name = this.getPlayerName();
 		this.xSpeed = 0;
 		this.ySpeed = 0;
 		this.left = false;
@@ -44,6 +46,14 @@ export default class Player {
 		setInterval(event => this.decreaseSpeed(event), BaseValue.frameRate);
 		setInterval(event => this.shootProjectile(event), 100);
 		setInterval(event => this.deleteProjectiles(event), 100);
+	}
+
+	getPlayerName() {
+		let person = '';
+		while (person == null || person == '') {
+			person = 'cc'; //prompt('Nom du joueur :'); <- prompt undifine
+		}
+		return person;
 	}
 
 	/**

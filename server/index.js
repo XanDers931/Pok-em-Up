@@ -83,6 +83,7 @@ function sendBackgroundPosition() {
 function sendData() {
 	io.emit('bgPosition', background.getPosition());
 	io.emit('playerPosition', makePlayerPositionTable());
+	//io.emit('playerName', getPlayerName());
 	io.emit('projectilePosition', makeProjectilePositionTable());
 }
 
@@ -99,6 +100,10 @@ function makePlayerPositionTable() {
 	});
 	return positions;
 }
+
+/*
+
+*/
 
 /**
  * Function that creates a table of all the projectiles for each player.

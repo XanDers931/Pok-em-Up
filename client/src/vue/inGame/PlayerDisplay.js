@@ -12,6 +12,7 @@ export default class PlayerDisplay {
 	socketId;
 	x;
 	y;
+	name;
 	ready;
 	image;
 	projectiles;
@@ -20,7 +21,7 @@ export default class PlayerDisplay {
 	 * The constructor of the PlayerDisplay class.
 	 * skin - The if of the player image.
 	 */
-	constructor(skin, socketId, x, y) {
+	constructor(skin, socketId, x, y, name) {
 		this.socketId = socketId;
 		this.ready = false;
 		this.x = 0;
@@ -28,6 +29,10 @@ export default class PlayerDisplay {
 		if (x && y) {
 			this.x = x;
 			this.y = y;
+		}
+		this.name = '';
+		if (name) {
+			this.name = name;
 		}
 		this.projectiles = [];
 		this.image = new Image();
@@ -41,6 +46,7 @@ export default class PlayerDisplay {
 	 * Function to display the player image.
 	 */
 	display() {
+		Draw.drawText(this.name, this.x, this.y, 100);
 		Draw.draw(
 			this.image,
 			this.x,

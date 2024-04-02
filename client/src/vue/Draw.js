@@ -29,6 +29,16 @@ export default class Draw {
 		this.canvas.height = this.canvas.clientHeight;
 	}
 
+	static drawText(text, x, y, size) {
+		this.context.font = `${Draw.canvas.width / size}px Comic sans ms`;
+		this.context.fillStyle = '#FF2222';
+		this.context.fillText(
+			text,
+			(x * Draw.canvas.width) / BaseValue.width,
+			(y * Draw.canvas.height) / BaseValue.height
+		);
+	}
+
 	static drawScore(monsterKill, time) {
 		// à mieux centrée
 		let score = calculateScore(monsterKill, time);
