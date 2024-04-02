@@ -51,7 +51,7 @@ export default class Player {
 	getPlayerName() {
 		let person = '';
 		while (person == null || person == '') {
-			person = 'cc'; //prompt('Nom du joueur :'); <- prompt undifine
+			person = 'Example'; //prompt('Nom du joueur :'); <- prompt undifine
 		}
 		return person;
 	}
