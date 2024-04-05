@@ -8,6 +8,7 @@ import Draw from './Draw.js';
 import BaseValue from './BaseValue.js';
 import DamageArea from '../modele/inGame/DamageArea.js';
 import Data from '../modele/inGame/Data.js';
+import BonusDisplay from './inGame/BonusDisplay.js';
 
 export default class GameView extends View {
 	start;
@@ -31,11 +32,12 @@ export default class GameView extends View {
 		this.players = [];
 		this.ennemies = [];
 		this.idEnnemiesList = [];
-		this.damageAreaList
+		this.bonus = [];
 		this.addIdEnnemiesList();
 
 		this.socket.on('newPlayer', players => {
 			this.players = [];
+
 			players.forEach(player => {
 				this.players.push(
 					new PlayerDisplay(1, player.socketId, player.x, player.y, player.name)
@@ -50,13 +52,28 @@ export default class GameView extends View {
 	show() {
 		super.show();
 		this.socket.emit('bg', true);
+		const pseudo = prompt('Votre pseudo');
+		this.socket.emit('pseudo', pseudo);
+		this.players[this.players.length - 1].name = pseudo;
 		if (this.start == false) {
 			this.start = true;
 
 			this.canvas = this.element.querySelector('.gameCanvas');
 			this.context = this.canvas.getContext('2d');
 			Draw.initialise(this.canvas);
-			BaseValue.initialise(1920, 1080, 1000 / 60, 1000, 48, 64, 1000 / 30, 30, 10);
+			BaseValue.initialise(
+				1920,
+				1080,
+				1000 / 60,
+				1000,
+				48,
+				64,
+				1000 / 30,
+				30,
+				10,
+				64,
+				64
+			);
 
 			this.background = new BackgroundDisplay();
 			this.socket.on('bgPosition', data => {
@@ -78,12 +95,13 @@ export default class GameView extends View {
 					});
 				}
 			});
-
-			/*
-			this.socket.on('playerName', data => {
-				console.log(data);
-			});
-			*/
+			this.socket.on('bonusPosition'),
+				data => {
+					for (let index = 0; index < data.length; index++) {
+						this.bonus[index].setX(data[index][0]);
+						this.bonus[index].setY(data[index][1]);
+					}
+				};
 
 			this.damageAreaList = [];
 			this.ennemies.forEach(element => {
@@ -96,6 +114,16 @@ export default class GameView extends View {
 						element.getEnnemyHeight()
 					)
 				);
+			});
+
+			this.socket.on('newBonus', bonus => {
+				this.bonus = [];
+				bonus.forEach(element => {
+					this.bonus.push(new BonusDisplay(bonus.x, bonus.y));
+				});
+			});
+			this.socket.on('leftBonus', id => {
+				this.bonus = this.bonus.filter(element => element.id != id);
 			});
 
 			this.refresh = true;

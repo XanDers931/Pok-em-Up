@@ -6,6 +6,7 @@ import addWebpackMiddleware from './middlewares/addWebpackMiddleware.js';
 import BaseValue from './modele/BaseValue.js';
 import Background from './modele/Background.js';
 import Player from './modele/Player.js';
+import Bonus from './modele/Bonus.js';
 
 /**
  * Manage and run the server.
@@ -37,6 +38,7 @@ let players;
 let sockets;
 let ennemies;
 let background;
+let bonus;
 
 init();
 
@@ -50,6 +52,11 @@ io.on('connection', socket => {
 	players.push(new Player(socket.id));
 
 	io.emit('newPlayer', players);
+
+	socket.on('pseudo', pseudo => {
+		getPlayerBySocket(socket.id).name = pseudo;
+		io.emit('newPlayer', players);
+	});
 
 	socket.on('disconnect', () => {
 		console.log(`Déconnexion du Joueur ${socket.id}`);
@@ -84,7 +91,6 @@ function sendData() {
 	// a modifier creer un objet {bg: background.getPosition(), player: makePlayerPositionTable()} ...
 	io.emit('bgPosition', background.getPosition());
 	io.emit('playerPosition', makePlayerPositionTable());
-	//io.emit('playerName', getPlayerName());
 	io.emit('projectilePosition', makeProjectilePositionTable());
 }
 
@@ -131,6 +137,15 @@ function getPlayerBySocket(socket) {
 }
 
 /**
+ * Function to spawn bonus
+ */
+function spawnBonus() {
+	this.bonus.push(new Bonus());
+	io.emit('newBonus', bonus);
+	console.log('ici');
+}
+
+/**
  * Function to initialize the game and start the server sending datas to clients about the running game.
  */
 function init() {
@@ -139,5 +154,7 @@ function init() {
 	ennemies = [];
 	sockets = [];
 	background = new Background();
+	bonus = [];
 	setInterval(sendData, 1000 / 60);
+	setInterval(spawnBonus, 1000 / 1000);
 }

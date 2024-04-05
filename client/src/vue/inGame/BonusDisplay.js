@@ -2,39 +2,32 @@ import Draw from '../Draw.js';
 import BaseValue from '../BaseValue.js';
 
 /**
- * Class to display the player.
- * x, y - The position of the player.
- * ready - The state of the player image, true if loaded, false otherwise.
- * image - The player image.
- * projectiles - The projectiles the player shot.
+ * Class to display the bonus.
+ * x, y - The position of the bonus.
+ * ready - The state of the bonus image, true if loaded, false otherwise.
+ * image - The bonus image.
  */
-export default class PlayerDisplay {
-	socketId;
+export default class BonusDisplay {
+	id;
 	x;
 	y;
-	name;
-	ready;
 	image;
-	projectiles;
 
 	/**
-	 * The constructor of the PlayerDisplay class.
-	 * skin - The id of the player image.
+	 * The constructor of the BonusDisplay class.
 	 */
-	constructor(skin, socketId, x, y, name) {
-		this.socketId = socketId;
+	constructor(id, x, y) {
+		this.id = 1; // random entre 1 et le nombre de bonus
 		this.ready = false;
 		this.x = 0;
 		this.y = 0;
+
 		if (x && y) {
 			this.x = x;
 			this.y = y;
 		}
-
-		this.name = name;
-		this.projectiles = [];
 		this.image = new Image();
-		this.image.src = this.skin(skin);
+		this.image.src = this.skin();
 		this.image.addEventListener('load', event => {
 			this.ready = true;
 		});
@@ -48,17 +41,16 @@ export default class PlayerDisplay {
 			this.image,
 			this.x,
 			this.y,
-			BaseValue.playerWidthSize,
-			BaseValue.playerHeightSize
+			BaseValue.bonusWidth,
+			BaseValue.bonusHeight
 		);
-		Draw.drawText(this.name, this.x, this.y, 100);
 	}
 
 	/**
 	 * Function to make the image url with the id.
 	 */
-	skin(id) {
-		return `/images/player/${id}.png`;
+	skin() {
+		return `/images/bonus/1.png`;
 	}
 
 	/**
