@@ -43,25 +43,6 @@ export default class GameView extends View {
 				);
 			});
 		});
-		this.socket.on('bgPosition', data => {
-			this.background.setX(data);
-		});
-		this.socket.on('playerPosition', data => {
-			for (let index = 0; index < data.length; index++) {
-				this.players[index].setX(data[index][0]);
-				this.players[index].setY(data[index][1]);
-			}
-		});
-		this.socket.on('projectilePosition', data => {
-			for (let index = 0; index < data.length; index++) {
-				this.players[index].projectiles = [];
-				data[index].forEach(projectile => {
-					this.players[index].projectiles.push(
-						new ProjectileDisplay(projectile.x, projectile.y)
-					);
-				});
-			}
-		});
 		this.socket.on('initEnnemies', ennemies => {
 			ennemies.forEach(ennemy => {
 				this.ennemies.push(
@@ -89,16 +70,27 @@ export default class GameView extends View {
 		this.socket.on('ennemyRecycle', data => {
 			this.ennemies.splice(0, 1);
 		});
-		this.socket.on('ennemiesPosition', data => {
-			for (let index = 0; index < data.length; index++) {
-				this.ennemies[index].setX(data[index].x);
-				this.ennemies[index].setY(data[index].y);
+		this.socket.on('updatePositions', data => {
+			this.background.setX(data.bg);
+			for (let index = 0; index < data.players.length; index++) {
+				this.players[index].setX(data.players[index][0]);
+				this.players[index].setY(data.players[index][1]);
 			}
-		});
-		this.socket.on('bonusPosition', data => {
-			for (let index = 0; index < data.length; index++) {
-				this.bonus[index].setX(data[index].x);
-				this.bonus[index].setY(data[index].y);
+			for (let index = 0; index < data.projectiles.length; index++) {
+				this.players[index].projectiles = [];
+				data.projectiles[index].forEach(projectile => {
+					this.players[index].projectiles.push(
+						new ProjectileDisplay(projectile.x, projectile.y)
+					);
+				});
+			}
+			for (let index = 0; index < data.ennemies.length; index++) {
+				this.ennemies[index].setX(data.ennemies[index].x);
+				this.ennemies[index].setY(data.ennemies[index].y);
+			}
+			for (let index = 0; index < data.bonus.length; index++) {
+				this.bonus[index].setX(data.bonus[index].x);
+				this.bonus[index].setY(data.bonus[index].y);
 			}
 		});
 		this.socket.on('leftPlayer', socketId => {
@@ -207,7 +199,6 @@ export default class GameView extends View {
 	*/
 
 	render() {
-		console.log(this.ennemies);
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
 		if (this.refresh) {

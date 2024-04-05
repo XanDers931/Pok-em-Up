@@ -45,7 +45,6 @@ let bonus;
 let running;
 
 init();
-
 /**
  * Start the server listeners.
  */
@@ -100,12 +99,14 @@ function restart() {
  * Function which send the datas to the clients.
  */
 function sendData() {
-	// a modifier creer un objet {bg: background.getPosition(), player: makePlayerPositionTable()} ...
-	io.emit('bgPosition', background.getPosition());
-	io.emit('playerPosition', makePlayerPositionTable());
-	io.emit('projectilePosition', makeProjectilePositionTable());
-	io.emit('ennemiesPosition', ennemies);
-	io.emit('bonusPosition', bonus);
+	let data = {
+		bg: background.getPosition(),
+		players: makePlayerPositionTable(),
+		projectiles: makeProjectilePositionTable(),
+		ennemies: ennemies,
+		bonus: bonus,
+	};
+	io.emit('updatePositions', data);
 }
 
 /**
