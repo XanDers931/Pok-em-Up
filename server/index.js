@@ -6,7 +6,7 @@ import addWebpackMiddleware from './middlewares/addWebpackMiddleware.js';
 import BaseValue from './modele/BaseValue.js';
 import Background from './modele/Background.js';
 import Player from './modele/Player.js';
-
+import Ennemy from './modele/Ennemy.js';
 /**
  * Manage and run the server.
  */
@@ -25,9 +25,10 @@ httpServer.listen(PORT, () => {
 /**
  * Initialize game Constants.
  */
-BaseValue.initialiseSimpleConstants(1920, 1080, 1000 / 60, 1);
+BaseValue.initialiseSimpleConstants(1920, 1080, 1000 / 60, 1000);
 BaseValue.initialisePlayerConstants(48, 64, 0.5, 8, 10, 0.96);
 BaseValue.initialiseBackgroundConstants(1);
+BaseValue.initialiseEnnemyConstants(96, 96);
 
 /**
  * Initialize game values.
@@ -90,6 +91,7 @@ function sendData() {
 	io.emit('bgPosition', background.getPosition());
 	io.emit('playerPosition', makePlayerPositionTable());
 	io.emit('projectilePosition', makeProjectilePositionTable());
+	io.emit('ennemiesPosition', ennemies);
 }
 
 /**
@@ -134,6 +136,22 @@ function getPlayerBySocket(socket) {
 	return result;
 }
 
+function spawnEnnemy() {
+	let ennemy = new Ennemy(3);
+	ennemies.push(ennemy);
+	io.emit('ennemySpawn', ennemy);
+}
+
+function recycleEnnemies() {
+	ennemies.forEach(element => {
+		if (element.isOutCanva()) {
+			let index = ennemies.indexOf(element);
+			ennemies.splice(index, 1);
+			io.emit('ennemyRecycle', ennemies);
+		}
+	});
+}
+
 /**
  * Function to initialize the game and start the server sending datas to clients about the running game.
  */
@@ -143,5 +161,7 @@ function init() {
 	ennemies = [];
 	sockets = [];
 	background = new Background();
-	setInterval(sendData, 1000 / 60);
+	setInterval(event => sendData(event), BaseValue.frameRate);
+	setInterval(event => spawnEnnemy(event), BaseValue.spawnRate);
+	setInterval(event => recycleEnnemies(event), BaseValue.frameRate);
 }

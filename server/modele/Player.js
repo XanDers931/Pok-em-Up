@@ -29,8 +29,8 @@ export default class Player {
 	projectiles;
 	constructor(socketId) {
 		this.socketId = socketId;
-		this.x = BaseValue.width / 8 - BaseValue.playerWidthSize;
-		this.y = BaseValue.height / 2 - BaseValue.playerHeightSize;
+		this.x = BaseValue.width / 8 - BaseValue.playerWidth;
+		this.y = BaseValue.height / 2 - BaseValue.playerHeight;
 		this.name = '';
 		this.xSpeed = 0;
 		this.ySpeed = 0;
@@ -85,13 +85,13 @@ export default class Player {
 		if (this.x + this.xSpeed < BaseValue.playerBorder) this.xSpeed = 0;
 		if (
 			this.x + this.xSpeed >
-			BaseValue.width - (BaseValue.playerBorder + BaseValue.playerWidthSize)
+			BaseValue.width - (BaseValue.playerBorder + BaseValue.playerWidth)
 		)
 			this.xSpeed = 0;
 		if (this.y + this.ySpeed < BaseValue.playerBorder) this.ySpeed = 0;
 		if (
 			this.y + this.ySpeed >
-			BaseValue.height - (BaseValue.playerBorder + BaseValue.playerHeightSize)
+			BaseValue.height - (BaseValue.playerBorder + BaseValue.playerHeight)
 		)
 			this.ySpeed = 0;
 
@@ -148,8 +148,8 @@ export default class Player {
 		if (this.fire) {
 			this.projectiles.push(
 				new Projectile(
-					this.x + BaseValue.playerWidthSize / 2,
-					this.y + BaseValue.playerHeightSize / 2,
+					this.x + BaseValue.playerWidth / 2,
+					this.y + BaseValue.playerHeight / 2,
 					20,
 					0
 				)

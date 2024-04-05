@@ -9,38 +9,26 @@ export default class Ennemy {
 	y;
 	ennemySkin;
 	image;
-	ennemySpeed;
 	ennemyReady = false;
 
-	constructor(skin, speed, fireRate) {
-		setTimeout(() => {
-			this.spawn();
-		}, 100);
-		this.ennemySpeed = speed;
+	constructor(x, y, skin) {
+		this.x = x;
+		this.y = y;
 		this.ennemySkin = skin;
 		this.image = new Image();
 		this.image.src = skin;
 		this.image.addEventListener('load', event => {
-			setInterval(event => this.move(), 1000 / 60);
-			//setInterval(this.fire, 1000/fireRate);
 			this.ennemyReady = true;
 		});
 	}
 
-	spawn() {
-		this.x = BaseValue.width - ennemyWidhtSize;
-		this.y = getRandomArbitrary(0, BaseValue.height - ennemyHeightSize);
+	setX(x) {
+		this.x = x;
 	}
 
-	move() {
-		this.x -= this.ennemySpeed;
+	setY(y) {
+		this.y = y;
 	}
-
-	/*
-    fire(){
-        new Projectile();
-    }
-    */
 
 	getX() {
 		return this.x;
@@ -57,20 +45,4 @@ export default class Ennemy {
 	display() {
 		Draw.draw(this.image, this.x, this.y, ennemyWidhtSize, ennemyHeightSize);
 	}
-
-	getEnnemyHeight() {
-		return ennemyHeightSize;
-	}
-
-	getEnnemyWidth() {
-		return ennemyWidhtSize;
-	}
-
-	isOutCanva() {
-		return this.x < 0 - ennemyWidhtSize;
-	}
-}
-
-function getRandomArbitrary(min, max) {
-	return Math.random() * (max - min) + min;
 }

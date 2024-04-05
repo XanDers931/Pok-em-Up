@@ -7,7 +7,7 @@ import Router from './Router.js';
 import Draw from './Draw.js';
 import BaseValue from './BaseValue.js';
 import DamageArea from '../modele/inGame/DamageArea.js';
-import Data from '../modele/inGame/Data.js';
+import Data from '../../../server/modele/Data.js';
 
 export default class GameView extends View {
 	start;
@@ -59,7 +59,17 @@ export default class GameView extends View {
 			this.canvas = this.element.querySelector('.gameCanvas');
 			this.context = this.canvas.getContext('2d');
 			Draw.initialise(this.canvas);
-			BaseValue.initialise(1920, 1080, 1000 / 60, 1000, 48, 64, 1000 / 30, 30, 10);
+			BaseValue.initialise(
+				1920,
+				1080,
+				1000 / 60,
+				1000,
+				48,
+				64,
+				1000 / 30,
+				30,
+				10
+			);
 
 			this.background = new BackgroundDisplay();
 			this.socket.on('bgPosition', data => {
@@ -81,6 +91,26 @@ export default class GameView extends View {
 					});
 				}
 			});
+			this.socket.on('ennemySpawn', data => {
+				this.ennemies.push(
+					new Ennemy(
+						data.x,
+						data.y,
+						'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' +
+							data.idImage +
+							'.png'
+					)
+				);
+			});
+			this.socket.on('ennemyRecycle', data => {
+				this.ennemies.slice(0, 1);
+			});
+			this.socket.on('ennemiesPosition', data => {
+				for (let index = 0; index < data.length; index++) {
+					this.ennemies[index].setX(data[index].x);
+					this.ennemies[index].setY(data[index].y);
+				}
+			});
 
 			this.damageAreaList = [];
 			this.ennemies.forEach(element => {
@@ -96,7 +126,9 @@ export default class GameView extends View {
 
 			this.refresh = true;
 
+			/*
 			setInterval(event => this.spawnEnnemy(), BaseValue.spawnRate);
+			*/
 
 			this.audio = document.querySelector('.mainTheme');
 			this.audio.play();
@@ -119,6 +151,7 @@ export default class GameView extends View {
 		}
 	}
 
+	/*
 	collisionMaj(ennemy) {
 		this.damageAreaList = [];
 		this.ennemies.forEach(element => {
@@ -133,12 +166,15 @@ export default class GameView extends View {
 		});
 		return this.damageAreaList;
 	}
+	*/
 
 	render() {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
 		if (this.refresh) {
+			/*
 			this.damageAreaList = this.collisionMaj(this.ennemies);
+			*/
 			this.refresh = false;
 			//this.player.detectsCollision(this.damageAreaList);
 			setTimeout(() => {
@@ -169,11 +205,13 @@ export default class GameView extends View {
 			}
 		});
 
+		/*
 		this.ennemies.forEach(element => {
 			if (element.isOutCanva()) {
 				this.ennemies.splice(0, 1);
 			}
 		});
+		*/
 
 		Draw.drawScore(10, 2);
 
@@ -197,6 +235,7 @@ export default class GameView extends View {
 		Data.forEach(element => this.idEnnemiesList.push(element));
 	}
 
+	/*
 	//Créer un ennemi
 	spawnEnnemy() {
 		this.ennemies.push(
@@ -211,4 +250,5 @@ export default class GameView extends View {
 			)
 		);
 	}
+	*/
 }

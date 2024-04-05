@@ -24,8 +24,8 @@ export default class BaseValue {
 	/**
 	 * Player Constants.
 	 */
-	playerWidthSize = 0;
-	playerHeightSize = 0;
+	playerWidth = 0;
+	playerHeight = 0;
 	generalSpeed = 0;
 	playerBorder = 0;
 	maxSpeed = 0;
@@ -35,15 +35,15 @@ export default class BaseValue {
 	 * Initialize the Player Constants.
 	 */
 	static initialisePlayerConstants(
-		playerWidthSize,
-		playerHeightSize,
+		playerWidth,
+		playerHeight,
 		generalSpeed,
 		playerBorder,
 		maxSpeed,
 		decreaseSpeedMult
 	) {
-		this.playerWidthSize = playerWidthSize;
-		this.playerHeightSize = playerHeightSize;
+		this.playerWidth = playerWidth;
+		this.playerHeight = playerHeight;
 		this.generalSpeed = generalSpeed;
 		this.playerBorder = playerBorder;
 		this.maxSpeed = maxSpeed;
@@ -60,5 +60,19 @@ export default class BaseValue {
 	 */
 	static initialiseBackgroundConstants(backgroundSpeed) {
 		this.backgroundSpeed = backgroundSpeed;
+	}
+
+	/**
+	 * Ennemy Constants.
+	 */
+	ennemyWidth;
+	ennemyHeight;
+
+	/**
+	 * Initialize the Ennemy Constants.
+	 */
+	static initialiseEnnemyConstants(ennemyWidth, ennemyHeight) {
+		this.ennemyWidth = ennemyWidth;
+		this.ennemyHeight = ennemyHeight;
 	}
 }
