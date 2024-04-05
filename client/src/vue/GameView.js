@@ -2,7 +2,7 @@ import View from './View.js';
 import BackgroundDisplay from './inGame/BackgroundDisplay.js';
 import PlayerDisplay from './inGame/PlayerDisplay.js';
 import ProjectileDisplay from './inGame/ProjectileDisplay.js';
-import Ennemy from '../modele/inGame/Ennemy.js';
+import EnnemyDisplay from './inGame/EnnemyDisplay.js';
 import Router from './Router.js';
 import Draw from './Draw.js';
 import BaseValue from './BaseValue.js';
@@ -46,7 +46,7 @@ export default class GameView extends View {
 		this.socket.on('initEnnemies', ennemies => {
 			ennemies.forEach(ennemy => {
 				this.ennemies.push(
-					new Ennemy(
+					new EnnemyDisplay(
 						ennemy.x,
 						ennemy.y,
 						'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' +
@@ -58,7 +58,7 @@ export default class GameView extends View {
 		});
 		this.socket.on('ennemySpawn', data => {
 			this.ennemies.push(
-				new Ennemy(
+				new EnnemyDisplay(
 					data.x,
 					data.y,
 					'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' +

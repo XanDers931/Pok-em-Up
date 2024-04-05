@@ -1,9 +1,6 @@
 import Draw from '../Draw.js';
 import BaseValue from '../BaseValue.js';
 
-const projectileWidth = 30;
-const projectileHeight = 10;
-
 /**
  * Class to display the projectile.
  * x, y - The position of the projectile.
@@ -33,7 +30,13 @@ export default class ProjectileDisplay {
 	 * Function to display the projectile image.
 	 */
 	display() {
-		Draw.draw(this.image, this.x, this.y, BaseValue.projectileWidth, BaseValue.projectileHeight);
+		Draw.draw(
+			this.image,
+			this.x,
+			this.y,
+			BaseValue.projectileWidth,
+			BaseValue.projectileHeight
+		);
 	}
 
 	/**

@@ -11,6 +11,7 @@ export default class BonusDisplay {
 	id;
 	x;
 	y;
+	ready;
 	image;
 
 	/**
@@ -29,7 +30,7 @@ export default class BonusDisplay {
 	}
 
 	/**
-	 * Function to display the player image.
+	 * Function to display the bonus image.
 	 */
 	display() {
 		Draw.draw(
@@ -49,21 +50,21 @@ export default class BonusDisplay {
 	}
 
 	/**
-	 * Setter of the player position on the x axe.
+	 * Setter of the bonus position on the x axe.
 	 */
 	setX(x) {
 		this.x = x;
 	}
 
 	/**
-	 * Setter of the player position on the y axe.
+	 * Setter of the bonus position on the y axe.
 	 */
 	setY(y) {
 		this.y = y;
 	}
 
 	/**
-	 * Getter of the state of the player image.
+	 * Getter of the state of the bonus image.
 	 */
 	getReady() {
 		return this.ready;
