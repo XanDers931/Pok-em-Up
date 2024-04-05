@@ -82,6 +82,9 @@ export default class BaseValue {
 	bonusWidth = 0;
 	bonusHeight = 0;
 
+	/**
+	 * Initialize the Bonus Constants.
+	 */
 	static initialiseBonusConstants(
 		bonusWidth,
 		bonusHeight,

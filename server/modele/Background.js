@@ -13,7 +13,8 @@ export default class Background {
 	constructor() {
 		this.x = 0;
 		this.state = false;
-		setInterval(event => this.backgroundMove(), 1000 / 60);
+
+		setInterval(event => this.backgroundMove(event), 1000 / 60);
 	}
 
 	/**

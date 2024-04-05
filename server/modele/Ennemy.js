@@ -1,23 +1,25 @@
 import BaseValue from './BaseValue.js';
-import Data from './Data.js';
+import DATA from './Data.js';
 
 /**
  * Class to manage an ennemy of the game.
  * Allow to move an ennemy and get his position.
  * x, y - The position of the ennemy.
  * speed - The speed of the ennemy movement.
+ * idImage - The id corresponding to an image from the API
  */
 export default class Ennemy {
-	idImage;
 	x;
 	y;
 	speed;
+	idImage;
 
 	constructor(speed) {
-		this.idImage = Data[Math.floor(Math.random() * Data.length + 1)];
+		this.idImage = DATA[Math.floor(Math.random() * DATA.length + 1)];
 		this.x = BaseValue.width;
 		this.y = Math.random() * (BaseValue.height - BaseValue.ennemyHeight);
 		this.speed = speed;
+
 		setInterval(event => this.move(event), 1000 / 60);
 	}
 

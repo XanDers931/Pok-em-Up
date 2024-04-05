@@ -29,16 +29,10 @@ export default class GameView extends View {
 		super(element);
 		this.start = false;
 		this.socket = socket;
+		this.background = new BackgroundDisplay();
 		this.players = [];
 		this.ennemies = [];
-		/*
-		this.idEnnemiesList = [];
-		*/
 		this.bonus = [];
-
-		/*
-		this.addIdEnnemiesList();
-		*/
 
 		this.socket.on('newPlayer', players => {
 			this.players = [];
@@ -48,6 +42,64 @@ export default class GameView extends View {
 					new PlayerDisplay(1, player.socketId, player.x, player.y, player.name)
 				);
 			});
+		});
+		this.socket.on('bgPosition', data => {
+			this.background.setX(data);
+		});
+		this.socket.on('playerPosition', data => {
+			for (let index = 0; index < data.length; index++) {
+				this.players[index].setX(data[index][0]);
+				this.players[index].setY(data[index][1]);
+			}
+		});
+		this.socket.on('projectilePosition', data => {
+			for (let index = 0; index < data.length; index++) {
+				this.players[index].projectiles = [];
+				data[index].forEach(projectile => {
+					this.players[index].projectiles.push(
+						new ProjectileDisplay(projectile.x, projectile.y)
+					);
+				});
+			}
+		});
+		this.socket.on('initEnnemies', ennemies => {
+			ennemies.forEach(ennemy => {
+				this.ennemies.push(
+					new Ennemy(
+						ennemy.x,
+						ennemy.y,
+						'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' +
+							ennemy.idImage +
+							'.png'
+					)
+				);
+			});
+		});
+		this.socket.on('ennemySpawn', data => {
+			this.ennemies.push(
+				new Ennemy(
+					data.x,
+					data.y,
+					'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' +
+						data.idImage +
+						'.png'
+				)
+			);
+		});
+		this.socket.on('ennemyRecycle', data => {
+			this.ennemies.splice(0, 1);
+		});
+		this.socket.on('ennemiesPosition', data => {
+			for (let index = 0; index < data.length; index++) {
+				this.ennemies[index].setX(data[index].x);
+				this.ennemies[index].setY(data[index].y);
+			}
+		});
+		this.socket.on('bonusPosition', data => {
+			for (let index = 0; index < data.length; index++) {
+				this.bonus[index].setX(data[index].x);
+				this.bonus[index].setY(data[index].y);
+			}
 		});
 		this.socket.on('leftPlayer', socketId => {
 			this.players = this.players.filter(player => player.socketId != socketId);
@@ -84,53 +136,6 @@ export default class GameView extends View {
 				64,
 				64
 			);
-
-			this.background = new BackgroundDisplay();
-			this.socket.on('bgPosition', data => {
-				this.background.setX(data);
-			});
-			this.socket.on('playerPosition', data => {
-				for (let index = 0; index < data.length; index++) {
-					this.players[index].setX(data[index][0]);
-					this.players[index].setY(data[index][1]);
-				}
-			});
-			this.socket.on('projectilePosition', data => {
-				for (let index = 0; index < data.length; index++) {
-					this.players[index].projectiles = [];
-					data[index].forEach(projectile => {
-						this.players[index].projectiles.push(
-							new ProjectileDisplay(projectile.x, projectile.y)
-						);
-					});
-				}
-			});
-			this.socket.on('ennemySpawn', data => {
-				this.ennemies.push(
-					new Ennemy(
-						data.x,
-						data.y,
-						'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' +
-							data.idImage +
-							'.png'
-					)
-				);
-			});
-			this.socket.on('ennemyRecycle', data => {
-				this.ennemies.splice(0, 1);
-			});
-			this.socket.on('ennemiesPosition', data => {
-				for (let index = 0; index < data.length; index++) {
-					this.ennemies[index].setX(data[index].x);
-					this.ennemies[index].setY(data[index].y);
-				}
-			});
-			this.socket.on('bonusPosition', data => {
-				for (let index = 0; index < data.length; index++) {
-					this.bonus[index].setX(data[index].x);
-					this.bonus[index].setY(data[index].y);
-				}
-			});
 
 			/*
 			this.damageAreaList = [];

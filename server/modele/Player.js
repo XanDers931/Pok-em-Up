@@ -8,11 +8,13 @@ import { allColision } from './Collision.js';
 /**
  * Class to manage a player of the game.
  * Allow to move a player and get his position.
+ * socketId - The socket of the client from where come the player.
  * x, y - The position of the player.
  * xSpeed, ySpeed - The speed vectors of the player movement.
  * left, right, up, down - The active directions.
  * fire - The status of the shooting, true if the player is shooting, false otherwise.
  * projectiles - The projectiles shot by the player.
+ * ennemiesKilled - The number of ennemies killed by the player.
  */
 export default class Player {
 	socketId;
@@ -137,7 +139,7 @@ export default class Player {
 	}
 
 	/**
-	 * Function to fire a new projectile when fire is active
+	 * Function to fire a new projectile when fire is active.
 	 */
 	shootProjectile() {
 		if (this.fire) {
@@ -153,7 +155,7 @@ export default class Player {
 	}
 
 	/**
-	 * Function to delete all projectiles that are out of the canva (not displayed anymore)
+	 * Function to delete all projectiles that are out of the canva (not displayed anymore).
 	 */
 	deleteOutProjectiles() {
 		this.projectiles.forEach(element => {
@@ -164,14 +166,17 @@ export default class Player {
 		});
 	}
 
-	deleteHitProjectiles(damageArea){
-		this.projectiles.forEach(element =>{
-			if(element.detectCollision(damageArea)){
+	/**
+	 * Function to delete all projectiles that hit an ennemy.
+	 */
+	deleteHitProjectiles(damageArea) {
+		this.projectiles.forEach(element => {
+			if (element.detectCollision(damageArea)) {
 				let index = this.projectiles.indexOf(element);
 				this.projectiles.splice(index, 1);
 				this.ennemiesKilled++;
 			}
-		})
+		});
 	}
 
 	/*
@@ -196,7 +201,10 @@ export default class Player {
 		return this.y;
 	}
 
-	getEnnemisKilled(){
+	/**
+	 * Getter of the number of ennemies killed by the player.
+	 */
+	getEnnemisKilled() {
 		return this.ennemiesKilled;
 	}
 }

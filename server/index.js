@@ -27,7 +27,7 @@ httpServer.listen(PORT, () => {
 /**
  * Initialize game Constants.
  */
-BaseValue.initialiseSimpleConstants(1920, 1080, 1000 / 60, 1000);
+BaseValue.initialiseSimpleConstants(1920, 1080, 1000 / 60, 1500);
 BaseValue.initialisePlayerConstants(48, 64, 0.5, 8, 10, 0.96);
 BaseValue.initialiseBackgroundConstants(1);
 BaseValue.initialiseEnnemyConstants(96, 96);
@@ -55,11 +55,8 @@ io.on('connection', socket => {
 	sockets.push(socket.id);
 	players.push(new Player(socket.id));
 
-	if (players.length <= 1) {
-		restart();
-	}
-
 	io.emit('newPlayer', players);
+	socket.emit('initEnnemies', ennemies);
 
 	socket.on('pseudo', pseudo => {
 		getPlayerBySocket(socket.id).name = pseudo;
@@ -78,7 +75,7 @@ io.on('connection', socket => {
 
 	socket.on('game', state => {
 		background.setState(state);
-		running = true;
+		running = state;
 	});
 
 	socket.on('keyDown', code => {
@@ -91,19 +88,13 @@ io.on('connection', socket => {
 });
 
 /**
- * Fonction pour redémarrez une partie
+ * Fonction pour redémarrez une partie.
  */
 function restart() {
 	bonus = [];
 	ennemies = [];
 	running = false;
 }
-
-/* a voir si ca ne pose pas de probleme d'exécuter tous les emit dans une seule methode sendData 
-function sendBackgroundPosition() {
-	io.emit('bgPosition', background.getPosition());
-}
-*/
 
 /**
  * Function which send the datas to the clients.
@@ -131,10 +122,6 @@ function makePlayerPositionTable() {
 	return positions;
 }
 
-/*
-
-*/
-
 /**
  * Function that creates a table of all the projectiles for each player.
  */
@@ -159,6 +146,9 @@ function getPlayerBySocket(socket) {
 	return result;
 }
 
+/**
+ * Function to spawn an ennemy.
+ */
 function spawnEnnemy() {
 	if (running == true) {
 		let ennemy = new Ennemy(3);
@@ -167,12 +157,14 @@ function spawnEnnemy() {
 	}
 }
 
+/**
+ * Function to delete useless ennemies.
+ */
 function recycleEnnemies() {
 	if (running == true) {
 		ennemies.forEach(element => {
 			if (element.isOutCanva()) {
 				let index = ennemies.indexOf(element);
-				console.log(index);
 				ennemies.splice(index, 1);
 				io.emit('ennemyRecycle', ennemies);
 			}
@@ -181,9 +173,8 @@ function recycleEnnemies() {
 }
 
 /**
- * Function to spawn bonus
+ * Function to spawn a bonus.
  */
-
 function spawnBonus() {
 	if (running == true) {
 		bonus.push(new Bonus());
@@ -196,6 +187,7 @@ function spawnBonus() {
 		});
 	}
 }
+
 /**
  * Function to initialize the game and start the server sending datas to clients about the running game.
  */
@@ -206,6 +198,7 @@ function init() {
 	players = [];
 	ennemies = [];
 	bonus = [];
+
 	setInterval(event => sendData(event), BaseValue.frameRate);
 	setInterval(event => spawnEnnemy(event), BaseValue.spawnRate);
 	setInterval(event => recycleEnnemies(event), BaseValue.frameRate);
