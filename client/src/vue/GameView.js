@@ -20,9 +20,6 @@ export default class GameView extends View {
 	ennemies;
 	damageAreaList;
 	refresh;
-	/*
-	idEnnemiesList;
-	*/
 	playerName;
 
 	constructor(element, socket) {
@@ -156,10 +153,6 @@ export default class GameView extends View {
 
 			this.refresh = true;
 
-			/*
-			setInterval(event => this.spawnEnnemy(), BaseValue.spawnRate);
-			*/
-
 			this.audio = document.querySelector('.mainTheme');
 			this.audio.play();
 
@@ -237,24 +230,11 @@ export default class GameView extends View {
 			}
 		});
 
-		/*
-		this.ennemies.forEach(element => {
-			if (element.isOutCanva()) {
-				let index = this.ennemies.indexOf(element);
-				this.ennemies.splice(index, 1);
-			}
-		});
-		*/
-
 		this.bonus.forEach(element => {
 			if (element.getReady()) {
 				element.display();
 			}
 		});
-
-		/*
-		this.players.forEach(player => {});
-		*/
 
 		/*
 		this.context.font = '48px serif';
@@ -271,27 +251,4 @@ export default class GameView extends View {
 		this.context.stroke();
 		requestAnimationFrame(event => this.render(event));
 	}
-
-	/*
-	addIdEnnemiesList() {
-		Data.forEach(element => this.idEnnemiesList.push(element));
-	}
-	*/
-
-	/*
-	//Créer un ennemi
-	spawnEnnemy() {
-		this.ennemies.push(
-			new Ennemy(
-				'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' +
-					this.idEnnemiesList[
-						Math.floor(Math.random() * this.idEnnemiesList.length + 1)
-					] +
-					'.png',
-				3,
-				15
-			)
-		);
-	}
-	*/
 }
