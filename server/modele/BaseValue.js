@@ -65,8 +65,8 @@ export default class BaseValue {
 	/**
 	 * Ennemy Constants.
 	 */
-	ennemyWidth;
-	ennemyHeight;
+	ennemyWidth = 0;
+	ennemyHeight = 0;
 
 	/**
 	 * Initialize the Ennemy Constants.

@@ -14,14 +14,15 @@ export default class GameView extends View {
 	socket;
 	canvas;
 	context;
+	audio;
 	background;
 	players;
 	ennemies;
-	socket;
 	damageAreaList;
 	refresh;
-	audio;
+	/*
 	idEnnemiesList;
+	*/
 	playerName;
 
 	constructor(element, socket) {
@@ -30,9 +31,14 @@ export default class GameView extends View {
 		this.socket = socket;
 		this.players = [];
 		this.ennemies = [];
+		/*
 		this.idEnnemiesList = [];
+		*/
 		this.bonus = [];
+
+		/*
 		this.addIdEnnemiesList();
+		*/
 
 		this.socket.on('newPlayer', players => {
 			this.players = [];
@@ -111,7 +117,7 @@ export default class GameView extends View {
 				);
 			});
 			this.socket.on('ennemyRecycle', data => {
-				this.ennemies.slice(0, 1);
+				this.ennemies.splice(0, 1);
 			});
 			this.socket.on('ennemiesPosition', data => {
 				for (let index = 0; index < data.length; index++) {
@@ -126,6 +132,7 @@ export default class GameView extends View {
 				}
 			});
 
+			/*
 			this.damageAreaList = [];
 			this.ennemies.forEach(element => {
 				this.damageAreaList.push(
@@ -138,6 +145,7 @@ export default class GameView extends View {
 					)
 				);
 			});
+			*/
 
 			this.socket.on('newBonus', bonus => {
 				this.bonus = [];
@@ -194,6 +202,7 @@ export default class GameView extends View {
 	*/
 
 	render() {
+		console.log(this.ennemies);
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
 		if (this.refresh) {
@@ -247,7 +256,9 @@ export default class GameView extends View {
 			}
 		});
 
+		/*
 		this.players.forEach(player => {});
+		*/
 
 		/*
 		this.context.font = '48px serif';
@@ -265,9 +276,11 @@ export default class GameView extends View {
 		requestAnimationFrame(event => this.render(event));
 	}
 
+	/*
 	addIdEnnemiesList() {
 		Data.forEach(element => this.idEnnemiesList.push(element));
 	}
+	*/
 
 	/*
 	//Créer un ennemi

@@ -71,7 +71,7 @@ io.on('connection', socket => {
 		io.emit('leftPlayer', socket.id);
 		sockets = sockets.filter(socketId => socketId != socket.id);
 		players = players.filter(player => player.socketId != socket.id);
-		if (players.length <= 1) {
+		if (players.length < 1) {
 			restart();
 		}
 	});
@@ -160,35 +160,24 @@ function getPlayerBySocket(socket) {
 }
 
 function spawnEnnemy() {
-	let ennemy = new Ennemy(3);
-	ennemies.push(ennemy);
-	io.emit('ennemySpawn', ennemy);
+	if (running == true) {
+		let ennemy = new Ennemy(3);
+		ennemies.push(ennemy);
+		io.emit('ennemySpawn', ennemy);
+	}
 }
 
 function recycleEnnemies() {
-	ennemies.forEach(element => {
-		if (element.isOutCanva()) {
-			let index = ennemies.indexOf(element);
-			ennemies.splice(index, 1);
-			io.emit('ennemyRecycle', ennemies);
-		}
-	});
-}
-
-function spawnEnnemy() {
-	let ennemy = new Ennemy(3);
-	ennemies.push(ennemy);
-	io.emit('ennemySpawn', ennemy);
-}
-
-function recycleEnnemies() {
-	ennemies.forEach(element => {
-		if (element.isOutCanva()) {
-			let index = ennemies.indexOf(element);
-			ennemies.splice(index, 1);
-			io.emit('ennemyRecycle', ennemies);
-		}
-	});
+	if (running == true) {
+		ennemies.forEach(element => {
+			if (element.isOutCanva()) {
+				let index = ennemies.indexOf(element);
+				console.log(index);
+				ennemies.splice(index, 1);
+				io.emit('ennemyRecycle', ennemies);
+			}
+		});
+	}
 }
 
 /**
@@ -211,15 +200,14 @@ function spawnBonus() {
  * Function to initialize the game and start the server sending datas to clients about the running game.
  */
 function init() {
-	// running = false;
-	players = [];
-	ennemies = [];
+	running = false;
 	sockets = [];
 	background = new Background();
+	players = [];
+	ennemies = [];
 	bonus = [];
-	running = false;
 	setInterval(event => sendData(event), BaseValue.frameRate);
 	setInterval(event => spawnEnnemy(event), BaseValue.spawnRate);
 	setInterval(event => recycleEnnemies(event), BaseValue.frameRate);
-	setInterval(spawnBonus, 2000);
+	setInterval(event => spawnBonus(event), 2000);
 }
