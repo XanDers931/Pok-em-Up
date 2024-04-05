@@ -190,6 +190,7 @@ export default class GameView extends View {
 			if (player.getReady()) {
 				player.display();
 			}
+			//Draw.drawScore(player.getEnnemiesKilled(), 2);
 			//player.deleteHitProjectiles(this.damageAreaList);
 		});
 
@@ -220,7 +221,9 @@ export default class GameView extends View {
 			}
 		});
 
-		Draw.drawScore(10, 2);
+		this.players.forEach(player =>{
+			
+		});
 
 		/*
 		this.context.font = '48px serif';

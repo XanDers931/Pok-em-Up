@@ -195,4 +195,8 @@ export default class Player {
 	getY() {
 		return this.y;
 	}
+
+	getEnnemisKilled(){
+		return this.ennemiesKilled;
+	}
 }
