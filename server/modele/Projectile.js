@@ -38,7 +38,7 @@ export default class Projectile {
 	 * Function to check if the projectile is out of the canvas, return true if it is, false otherwise.
 	 */
 	isOutCanva() {
-		return this.x > BaseValue.width;
+		return this.x > BaseValue.width || this.x < 0;
 	}
 
 	/**
