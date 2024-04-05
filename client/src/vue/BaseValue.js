@@ -6,6 +6,8 @@ export default class BaseValue {
 	playerWidthSize = 0;
 	playerHeightSize = 0;
 	hitboxCheckRate = 0;
+	projectileWidth = 0;
+	projectileHeight = 0;
 
 	static initialise(
 		width,
@@ -14,7 +16,9 @@ export default class BaseValue {
 		spawnRate,
 		playerWidthSize,
 		playerHeightSize,
-		hitboxCheckRate
+		hitboxCheckRate,
+		projectileWidth,
+		projectileHeight
 	) {
 		this.width = width;
 		this.height = height;
@@ -23,5 +27,7 @@ export default class BaseValue {
 		this.playerWidthSize = playerWidthSize;
 		this.playerHeightSize = playerHeightSize;
 		this.hitboxCheckRate = hitboxCheckRate;
+		this.projectileWidth = projectileWidth;
+		this.projectileHeight = projectileHeight;
 	}
 }
