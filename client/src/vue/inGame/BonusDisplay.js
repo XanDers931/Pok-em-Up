@@ -2,27 +2,26 @@ import Draw from '../Draw.js';
 import BaseValue from '../BaseValue.js';
 
 /**
- * Class to display the player.
- * x, y - The position of the player.
- * ready - The state of the player image, true if loaded, false otherwise.
- * image - The player image.
- * projectiles - The projectiles the player shot.
+ * Class to display the bonus.
+ * x, y - The position of the bonus.
+ * ready - The state of the bonus image, true if loaded, false otherwise.
+ * image - The bonus image.
  */
 export default class BonusDisplay {
-	socketId;
+	id;
 	x;
 	y;
 	image;
 
 	/**
-	 * The constructor of the PlayerDisplay class.
-	 * skin - The if of the player image.
+	 * The constructor of the BonusDisplay class.
 	 */
-	constructor(socketId, x, y) {
-		this.socketId = socketId;
+	constructor(id, x, y) {
+		this.id = 1; // random entre 1 et le nombre de bonus
 		this.ready = false;
 		this.x = 0;
 		this.y = 0;
+
 		if (x && y) {
 			this.x = x;
 			this.y = y;
@@ -38,16 +37,13 @@ export default class BonusDisplay {
 	 * Function to display the player image.
 	 */
 	display() {
-		/*
 		Draw.draw(
 			this.image,
 			this.x,
 			this.y,
-			BaseValue.playerWidthSize,
-			BaseValue.playerHeightSize
+			BaseValue.bonusWidth,
+			BaseValue.bonusHeight
 		);
-		Draw.drawText(this.name, this.x, this.y, 100);
-        */
 	}
 
 	/**

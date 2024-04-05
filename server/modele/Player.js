@@ -48,14 +48,6 @@ export default class Player {
 		setInterval(event => this.deleteProjectiles(event), 100);
 	}
 
-	getPlayerName() {
-		let person = '';
-		while (person == null || person == '') {
-			person = 'Example'; //prompt('Nom du joueur :'); <- prompt undifine
-		}
-		return person;
-	}
-
 	/**
 	 * Function to increase the speed of the player movements.
 	 */

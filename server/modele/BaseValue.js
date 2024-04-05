@@ -61,4 +61,10 @@ export default class BaseValue {
 	static initialiseBackgroundConstants(backgroundSpeed) {
 		this.backgroundSpeed = backgroundSpeed;
 	}
+
+	/**
+	 * Bonus Constants
+	 */
+	bonusWidth = 64;
+	bonusHeight = 64;
 }

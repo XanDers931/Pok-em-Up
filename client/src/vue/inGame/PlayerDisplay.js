@@ -19,7 +19,7 @@ export default class PlayerDisplay {
 
 	/**
 	 * The constructor of the PlayerDisplay class.
-	 * skin - The if of the player image.
+	 * skin - The id of the player image.
 	 */
 	constructor(skin, socketId, x, y, name) {
 		this.socketId = socketId;
