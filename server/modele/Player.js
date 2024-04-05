@@ -176,7 +176,7 @@ export default class Player {
 
 	/*
 	detectsCollision(damageAreaList) {
-		if (allColision(damageAreaList, x, y, playerWidthSize, playerHeightSize)) {
+		if (allColision(damageAreaList, x, y, playerWidthSize, playerHeightSize)>0) {
 			Router.navigate('/gameover');
 		}
 	}

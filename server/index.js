@@ -139,12 +139,12 @@ function getPlayerBySocket(socket) {
 /**
  * Function to spawn bonus
  */
+
 function spawnBonus() {
-	this.bonus.push(new Bonus());
+	bonus.push(new Bonus());
 	io.emit('newBonus', bonus);
 	console.log('ici');
 }
-
 /**
  * Function to initialize the game and start the server sending datas to clients about the running game.
  */

@@ -22,7 +22,7 @@ export function isIn(value, otherValue, size) {
  * @returns
  */
 export function allColision(damageAreaList, x, y, width, height) {
-	let ret = false;
+	let ret = -1;
 	damageAreaList.forEach(element => {
 		if (
 			isIn(x, element.firstX, element.secondX) ||
@@ -34,7 +34,7 @@ export function allColision(damageAreaList, x, y, width, height) {
 				isIn(y + height, element.firstY, element.secondY) ||
 				isIn(y + height / 2, element.firstY, element.secondY)
 			) {
-				ret = true;
+				ret = damageAreaList.indexOf(element);
 			}
 		}
 	});

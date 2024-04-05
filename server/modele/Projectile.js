@@ -60,9 +60,8 @@ export default class Projectile {
 	Detect collision for Projectiles with ennemies
 	*/
 	detectCollision(damageAreaList){
-		if(allColision(damageAreaList, this.x, this.y, BaseValue.projectileWidth, BaseValue.projectileHeight)){
+		if(allColision(damageAreaList, this.x, this.y, BaseValue.projectileWidth, BaseValue.projectileHeight)>0){
 			return true;
-			//delete projectile (Player when it's on server)
 			//delete ennemy (ajout d'id)
 			//Increase score (Player)
 		}
