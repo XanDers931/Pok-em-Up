@@ -161,7 +161,6 @@ function getPlayerBySocket(socket) {
 function spawnBonus() {
 	if (running == true) {
 		bonus.push(new Bonus());
-		console.log(bonus);
 		io.emit('newBonus', bonus);
 	}
 }

@@ -205,7 +205,6 @@ export default class GameView extends View {
 			if (element.getReady()) {
 				element.display();
 			}
-			console.log(Ennemy.lastId);
 		});
 
 		this.ennemies.forEach(element => {
