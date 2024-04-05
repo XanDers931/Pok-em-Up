@@ -68,8 +68,15 @@ export default class BaseValue {
 	bonusWidth = 0;
 	bonusHeight = 0;
 
-	static initialiseBonusConstants(bonusWidth, bonusHeight) {
+	static initialiseBonusConstants(
+		bonusWidth,
+		bonusHeight,
+		bonusSpawnRate,
+		bonusSpeed
+	) {
 		this.bonusWidth = bonusWidth;
 		this.bonusHeight = bonusHeight;
+		this.bonusSpawnRate = bonusSpawnRate;
+		this.bonusSpawnRate = bonusSpeed;
 	}
 }

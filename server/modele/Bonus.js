@@ -6,17 +6,20 @@ import BaseValue from './BaseValue.js';
  * xSpeed - The movement speed of the bonus
  */
 export default class Bonus {
+	static lastId = 0;
 	id;
 	x;
 	y;
 	xSpeed;
 
 	constructor() {
-		this.id = 0; // à changer pour en avoir un unique
+		Bonus.lastId++;
+		this.id = Bonus.lastId; // à changer pour en avoir un unique
 		this.x = BaseValue.width;
-		this.y = Math.random() * (BaseValue.height - BaseValue.bonusHeight);
-		this.xSpeed = 5;
-
+		this.y = Math.floor(
+			Math.random() * (BaseValue.height - BaseValue.bonusHeight)
+		);
+		this.xSpeed = 10;
 		setInterval(event => this.move(event), BaseValue.frameRate);
 	}
 
@@ -24,7 +27,7 @@ export default class Bonus {
 	 * Function to move the bonus based on the speed constants
 	 */
 	move() {
-		this.x += this.xSpeed;
+		this.x -= this.xSpeed;
 	}
 
 	/**
@@ -39,5 +42,12 @@ export default class Bonus {
 	 */
 	getY() {
 		return this.y;
+	}
+
+	/**
+	 * Delete Bonus
+	 */
+	isOutCanva() {
+		return this.x < 0 - ennemyWidhtSize;
 	}
 }

@@ -100,13 +100,12 @@ export default class GameView extends View {
 					});
 				}
 			});
-			this.socket.on('bonusPosition'),
-				data => {
-					for (let index = 0; index < data.length; index++) {
-						this.bonus[index].setX(data[index][0]);
-						this.bonus[index].setY(data[index][1]);
-					}
-				};
+			this.socket.on('bonusPosition', data => {
+				for (let index = 0; index < data.length; index++) {
+					this.bonus[index].setX(data[index].x);
+					this.bonus[index].setY(data[index].y);
+				}
+			});
 
 			this.damageAreaList = [];
 			this.ennemies.forEach(element => {
@@ -124,7 +123,7 @@ export default class GameView extends View {
 			this.socket.on('newBonus', bonus => {
 				this.bonus = [];
 				bonus.forEach(element => {
-					this.bonus.push(new BonusDisplay(bonus.x, bonus.y));
+					this.bonus.push(new BonusDisplay(element.id, element.x, element.y));
 				});
 			});
 			this.socket.on('leftBonus', id => {

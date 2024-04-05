@@ -29,7 +29,7 @@ httpServer.listen(PORT, () => {
 BaseValue.initialiseSimpleConstants(1920, 1080, 1000 / 60, 1);
 BaseValue.initialisePlayerConstants(48, 64, 0.5, 8, 10, 0.96);
 BaseValue.initialiseBackgroundConstants(1);
-BaseValue.initialiseBonusConstants(64, 64);
+BaseValue.initialiseBonusConstants(64, 64, 1000 / 6, 8);
 
 /**
  * Initialize game values.
@@ -111,6 +111,7 @@ function sendData() {
 	io.emit('bgPosition', background.getPosition());
 	io.emit('playerPosition', makePlayerPositionTable());
 	io.emit('projectilePosition', makeProjectilePositionTable());
+	io.emit('bonusPosition', bonus);
 }
 
 /**
@@ -163,6 +164,12 @@ function spawnBonus() {
 	if (running == true) {
 		bonus.push(new Bonus());
 		io.emit('newBonus', bonus);
+		bonus.forEach(element => {
+			if (element.x < 0 - BaseValue.bonusWidth) {
+				let index = bonus.indexOf(element);
+				bonus.splice(index, 1);
+			}
+		});
 	}
 }
 /**

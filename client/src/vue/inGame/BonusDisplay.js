@@ -19,13 +19,8 @@ export default class BonusDisplay {
 	constructor(id, x, y) {
 		this.id = 1; // random entre 1 et le nombre de bonus
 		this.ready = false;
-		this.x = 0;
-		this.y = 0;
-
-		if (x && y) {
-			this.x = x;
-			this.y = y;
-		}
+		this.x = x;
+		this.y = y;
 		this.image = new Image();
 		this.image.src = this.skin();
 		this.image.addEventListener('load', event => {
