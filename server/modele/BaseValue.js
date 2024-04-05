@@ -65,6 +65,11 @@ export default class BaseValue {
 	/**
 	 * Bonus Constants
 	 */
-	bonusWidth = 64;
-	bonusHeight = 64;
+	bonusWidth = 0;
+	bonusHeight = 0;
+
+	static initialiseBonusConstants(bonusWidth, bonusHeight) {
+		this.bonusWidth = bonusWidth;
+		this.bonusHeight = bonusHeight;
+	}
 }
