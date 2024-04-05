@@ -14,9 +14,7 @@ export default class Bonus {
 	constructor() {
 		this.id = 0; // à changer pour en avoir un unique
 		this.x = BaseValue.width;
-		this.y = Math.floor(
-			Math.random() * (BaseValue.height - BaseValue.bonusHeight) + 1
-		);
+		this.y = Math.random() * (BaseValue.height - BaseValue.bonusHeight);
 		this.xSpeed = 5;
 
 		setInterval(event => this.move(event), BaseValue.frameRate);

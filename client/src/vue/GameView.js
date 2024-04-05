@@ -51,9 +51,14 @@ export default class GameView extends View {
 
 	show() {
 		super.show();
-		this.socket.emit('bg', true);
-		const pseudo = prompt('Votre pseudo');
+
+		let pseudo = '';
+		while (pseudo == null || pseudo == '') {
+			pseudo = prompt('Votre pseudo');
+		}
 		this.socket.emit('pseudo', pseudo);
+
+		this.socket.emit('game', true);
 		this.players[this.players.length - 1].name = pseudo;
 		if (this.start == false) {
 			this.start = true;
@@ -206,6 +211,12 @@ export default class GameView extends View {
 			if (element.isOutCanva()) {
 				let index = this.ennemies.indexOf(element);
 				this.ennemies.splice(index, 1);
+			}
+		});
+
+		this.bonus.forEach(element => {
+			if (element.getReady()) {
+				element.display();
 			}
 		});
 
