@@ -1,4 +1,5 @@
 import BaseValue from './BaseValue.js';
+import { allColision } from '../../client/src/modele/inGame/Collision.js';
 
 /**
  * Class to manage a projectile of the game.
@@ -53,5 +54,18 @@ export default class Projectile {
 	 */
 	getY() {
 		return this.y;
+	}
+
+	/*
+	Detect collision for Projectiles with ennemies
+	*/
+	detectCollision(damageAreaList){
+		if(allColision(damageAreaList, this.x, this.y, BaseValue.projectileWidth, BaseValue.projectileHeight)){
+			return true;
+			//delete projectile (Player when it's on server)
+			//delete ennemy (ajout d'id)
+			//Increase score (Player)
+		}
+		return false;
 	}
 }

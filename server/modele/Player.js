@@ -27,6 +27,8 @@ export default class Player {
 	down;
 	fire;
 	projectiles;
+	ennemiesKilled;
+
 	constructor(socketId) {
 		this.socketId = socketId;
 		this.x = BaseValue.width / 8 - BaseValue.playerWidthSize;
@@ -40,12 +42,13 @@ export default class Player {
 		this.down = false;
 		this.fire = false;
 		this.projectiles = [];
+		this.ennemiesKilled;
 
 		setInterval(event => this.increaseSpeed(event), BaseValue.frameRate);
 		setInterval(event => this.move(event), BaseValue.frameRate);
 		setInterval(event => this.decreaseSpeed(event), BaseValue.frameRate);
 		setInterval(event => this.shootProjectile(event), 100);
-		setInterval(event => this.deleteProjectiles(event), 100);
+		setInterval(event => this.deleteOutProjectiles(event), BaseValue.frameRate);
 	}
 
 	getPlayerName() {
@@ -160,12 +163,23 @@ export default class Player {
 	/**
 	 * Function to delete all projectiles that are out of the canva (not displayed anymore)
 	 */
-	deleteProjectiles() {
+	deleteOutProjectiles() {
 		this.projectiles.forEach(element => {
 			if (element.isOutCanva()) {
-				this.projectiles.splice(0, 1);
+				let index = this.projectiles.indexOf(element);
+				this.projectiles.splice(index, 1);
 			}
 		});
+	}
+
+	deleteHitProjectiles(damageArea){
+		this.projectiles.forEach(element =>{
+			if(element.detectCollision(damageArea)){
+				let index = this.projectiles.indexOf(element);
+				this.projectiles.splice(index, 1);
+				this.ennemiesKilled++;
+			}
+		})
 	}
 
 	/*

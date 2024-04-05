@@ -5,6 +5,8 @@ const ennemyWidhtSize = 96;
 const ennemyHeightSize = 96;
 
 export default class Ennemy {
+	static lastId = 0;
+	id;
 	x;
 	y;
 	ennemySkin;
@@ -13,16 +15,15 @@ export default class Ennemy {
 	ennemyReady = false;
 
 	constructor(skin, speed, fireRate) {
-		setTimeout(() => {
-			this.spawn();
-		}, 100);
+		Ennemy.lastId++;
+		this. id = Ennemy.lastId;
+		this.spawn();
 		this.ennemySpeed = speed;
 		this.ennemySkin = skin;
 		this.image = new Image();
 		this.image.src = skin;
 		this.image.addEventListener('load', event => {
-			setInterval(event => this.move(), 1000 / 60);
-			//setInterval(this.fire, 1000/fireRate);
+			setInterval(event => this.move(), BaseValue.frameRate);
 			this.ennemyReady = true;
 		});
 	}
@@ -36,11 +37,9 @@ export default class Ennemy {
 		this.x -= this.ennemySpeed;
 	}
 
-	/*
-    fire(){
-        new Projectile();
-    }
-    */
+	getId(){
+		return this.id;
+	}
 
 	getX() {
 		return this.x;

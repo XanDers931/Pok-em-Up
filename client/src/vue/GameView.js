@@ -31,6 +31,7 @@ export default class GameView extends View {
 		this.players = [];
 		this.ennemies = [];
 		this.idEnnemiesList = [];
+		this.damageAreaList
 		this.addIdEnnemiesList();
 
 		this.socket.on('newPlayer', players => {
@@ -88,6 +89,7 @@ export default class GameView extends View {
 			this.ennemies.forEach(element => {
 				this.damageAreaList.push(
 					new damageArea(
+						element.getId(),
 						element.getX(),
 						element.getY(),
 						element.getEnnemyWidth(),
@@ -155,6 +157,7 @@ export default class GameView extends View {
 			if (player.getReady()) {
 				player.display();
 			}
+			//player.deleteHitProjectiles(this.damageAreaList);
 		});
 
 		this.players.forEach(player => {
@@ -169,11 +172,13 @@ export default class GameView extends View {
 			if (element.getReady()) {
 				element.display();
 			}
+			console.log(Ennemy.lastId);
 		});
 
 		this.ennemies.forEach(element => {
 			if (element.isOutCanva()) {
-				this.ennemies.splice(0, 1);
+				let index = this.ennemies.indexOf(element);
+				this.ennemies.splice(index, 1);
 			}
 		});
 
