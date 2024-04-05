@@ -31,7 +31,7 @@ export default class Player {
 		this.socketId = socketId;
 		this.x = BaseValue.width / 8 - BaseValue.playerWidthSize;
 		this.y = BaseValue.height / 2 - BaseValue.playerHeightSize;
-		this.name = this.getPlayerName();
+		this.name = '';
 		this.xSpeed = 0;
 		this.ySpeed = 0;
 		this.left = false;

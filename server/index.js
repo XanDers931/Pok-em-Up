@@ -51,6 +51,11 @@ io.on('connection', socket => {
 
 	io.emit('newPlayer', players);
 
+	socket.on('pseudo', pseudo => {
+		getPlayerBySocket(socket.id).name = pseudo;
+		io.emit('newPlayer', players);
+	});
+
 	socket.on('disconnect', () => {
 		console.log(`Déconnexion du Joueur ${socket.id}`);
 		io.emit('leftPlayer', socket.id);
@@ -84,7 +89,6 @@ function sendData() {
 	// a modifier creer un objet {bg: background.getPosition(), player: makePlayerPositionTable()} ...
 	io.emit('bgPosition', background.getPosition());
 	io.emit('playerPosition', makePlayerPositionTable());
-	//io.emit('playerName', getPlayerName());
 	io.emit('projectilePosition', makeProjectilePositionTable());
 }
 

@@ -35,6 +35,7 @@ export default class GameView extends View {
 
 		this.socket.on('newPlayer', players => {
 			this.players = [];
+
 			players.forEach(player => {
 				this.players.push(
 					new PlayerDisplay(1, player.socketId, player.x, player.y, player.name)
@@ -49,6 +50,9 @@ export default class GameView extends View {
 	show() {
 		super.show();
 		this.socket.emit('bg', true);
+		const pseudo = prompt('Votre pseudo');
+		this.socket.emit('pseudo', pseudo);
+		this.players[this.players.length - 1].name = pseudo;
 		if (this.start == false) {
 			this.start = true;
 
@@ -77,12 +81,6 @@ export default class GameView extends View {
 					});
 				}
 			});
-
-			/*
-			this.socket.on('playerName', data => {
-				console.log(data);
-			});
-			*/
 
 			this.damageAreaList = [];
 			this.ennemies.forEach(element => {

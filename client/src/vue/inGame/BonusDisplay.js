@@ -8,20 +8,17 @@ import BaseValue from '../BaseValue.js';
  * image - The player image.
  * projectiles - The projectiles the player shot.
  */
-export default class PlayerDisplay {
+export default class BonusDisplay {
 	socketId;
 	x;
 	y;
-	name;
-	ready;
 	image;
-	projectiles;
 
 	/**
 	 * The constructor of the PlayerDisplay class.
 	 * skin - The if of the player image.
 	 */
-	constructor(skin, socketId, x, y, name) {
+	constructor(socketId, x, y) {
 		this.socketId = socketId;
 		this.ready = false;
 		this.x = 0;
@@ -30,11 +27,8 @@ export default class PlayerDisplay {
 			this.x = x;
 			this.y = y;
 		}
-
-		this.name = name;
-		this.projectiles = [];
 		this.image = new Image();
-		this.image.src = this.skin(skin);
+		this.image.src = this.skin();
 		this.image.addEventListener('load', event => {
 			this.ready = true;
 		});
@@ -44,6 +38,7 @@ export default class PlayerDisplay {
 	 * Function to display the player image.
 	 */
 	display() {
+		/*
 		Draw.draw(
 			this.image,
 			this.x,
@@ -52,13 +47,14 @@ export default class PlayerDisplay {
 			BaseValue.playerHeightSize
 		);
 		Draw.drawText(this.name, this.x, this.y, 100);
+        */
 	}
 
 	/**
 	 * Function to make the image url with the id.
 	 */
-	skin(id) {
-		return `/images/player/${id}.png`;
+	skin() {
+		return `/images/bonus/1.png`;
 	}
 
 	/**
