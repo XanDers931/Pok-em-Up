@@ -81,6 +81,7 @@ function sendBackgroundPosition() {
  * Function which send the datas to the clients.
  */
 function sendData() {
+	// a modifier creer un objet {bg: background.getPosition(), player: makePlayerPositionTable()} ...
 	io.emit('bgPosition', background.getPosition());
 	io.emit('playerPosition', makePlayerPositionTable());
 	//io.emit('playerName', getPlayerName());
