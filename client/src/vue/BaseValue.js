@@ -8,6 +8,8 @@ export default class BaseValue {
 	hitboxCheckRate = 0;
 	projectileWidth = 0;
 	projectileHeight = 0;
+	bonusWidth = 0;
+	bonusHeight = 0;
 
 	static initialise(
 		width,
@@ -18,7 +20,9 @@ export default class BaseValue {
 		playerHeightSize,
 		hitboxCheckRate,
 		projectileWidth,
-		projectileHeight
+		projectileHeight,
+		bonusWidth,
+		bonusHeight
 	) {
 		this.width = width;
 		this.height = height;
@@ -29,5 +33,7 @@ export default class BaseValue {
 		this.hitboxCheckRate = hitboxCheckRate;
 		this.projectileWidth = projectileWidth;
 		this.projectileHeight = projectileHeight;
+		this.bonusWidth = bonusWidth;
+		this.bonusHeight = bonusHeight;
 	}
 }

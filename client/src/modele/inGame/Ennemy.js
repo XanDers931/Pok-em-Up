@@ -5,6 +5,8 @@ const ennemyWidhtSize = 96;
 const ennemyHeightSize = 96;
 
 export default class Ennemy {
+	static lastId = 0;
+	id;
 	x;
 	y;
 	ennemySkin;
@@ -12,6 +14,8 @@ export default class Ennemy {
 	ennemyReady = false;
 
 	constructor(x, y, skin) {
+		Ennemy.lastId++;
+		this.id = Ennemy.lastId;
 		this.x = x;
 		this.y = y;
 		this.ennemySkin = skin;
@@ -28,6 +32,10 @@ export default class Ennemy {
 
 	setY(y) {
 		this.y = y;
+	}
+
+	getId() {
+		return this.id;
 	}
 
 	getX() {

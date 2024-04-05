@@ -75,4 +75,22 @@ export default class BaseValue {
 		this.ennemyWidth = ennemyWidth;
 		this.ennemyHeight = ennemyHeight;
 	}
+
+	/**
+	 * Bonus Constants
+	 */
+	bonusWidth = 0;
+	bonusHeight = 0;
+
+	static initialiseBonusConstants(
+		bonusWidth,
+		bonusHeight,
+		bonusSpawnRate,
+		bonusSpeed
+	) {
+		this.bonusWidth = bonusWidth;
+		this.bonusHeight = bonusHeight;
+		this.bonusSpawnRate = bonusSpawnRate;
+		this.bonusSpawnRate = bonusSpeed;
+	}
 }

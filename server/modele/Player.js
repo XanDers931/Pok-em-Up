@@ -27,6 +27,8 @@ export default class Player {
 	down;
 	fire;
 	projectiles;
+	ennemiesKilled;
+
 	constructor(socketId) {
 		this.socketId = socketId;
 		this.x = BaseValue.width / 8 - BaseValue.playerWidth;
@@ -40,20 +42,13 @@ export default class Player {
 		this.down = false;
 		this.fire = false;
 		this.projectiles = [];
+		this.ennemiesKilled;
 
 		setInterval(event => this.increaseSpeed(event), BaseValue.frameRate);
 		setInterval(event => this.move(event), BaseValue.frameRate);
 		setInterval(event => this.decreaseSpeed(event), BaseValue.frameRate);
 		setInterval(event => this.shootProjectile(event), 100);
-		setInterval(event => this.deleteProjectiles(event), 100);
-	}
-
-	getPlayerName() {
-		let person = '';
-		while (person == null || person == '') {
-			person = 'Example'; //prompt('Nom du joueur :'); <- prompt undifine
-		}
-		return person;
+		setInterval(event => this.deleteOutProjectiles(event), BaseValue.frameRate);
 	}
 
 	/**
@@ -160,17 +155,28 @@ export default class Player {
 	/**
 	 * Function to delete all projectiles that are out of the canva (not displayed anymore)
 	 */
-	deleteProjectiles() {
+	deleteOutProjectiles() {
 		this.projectiles.forEach(element => {
 			if (element.isOutCanva()) {
-				this.projectiles.splice(0, 1);
+				let index = this.projectiles.indexOf(element);
+				this.projectiles.splice(index, 1);
 			}
 		});
 	}
 
+	deleteHitProjectiles(damageArea){
+		this.projectiles.forEach(element =>{
+			if(element.detectCollision(damageArea)){
+				let index = this.projectiles.indexOf(element);
+				this.projectiles.splice(index, 1);
+				this.ennemiesKilled++;
+			}
+		})
+	}
+
 	/*
 	detectsCollision(damageAreaList) {
-		if (allColision(damageAreaList, x, y, playerWidthSize, playerHeightSize)) {
+		if (allColision(damageAreaList, x, y, playerWidthSize, playerHeightSize)>0) {
 			Router.navigate('/gameover');
 		}
 	}
@@ -188,5 +194,9 @@ export default class Player {
 	 */
 	getY() {
 		return this.y;
+	}
+
+	getEnnemisKilled(){
+		return this.ennemiesKilled;
 	}
 }

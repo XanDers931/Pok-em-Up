@@ -7,7 +7,7 @@ import Router from './Router.js';
 import Draw from './Draw.js';
 import BaseValue from './BaseValue.js';
 import DamageArea from '../modele/inGame/DamageArea.js';
-import Data from '../../../server/modele/Data.js';
+import BonusDisplay from './inGame/BonusDisplay.js';
 
 export default class GameView extends View {
 	start;
@@ -31,6 +31,7 @@ export default class GameView extends View {
 		this.players = [];
 		this.ennemies = [];
 		this.idEnnemiesList = [];
+		this.bonus = [];
 		this.addIdEnnemiesList();
 
 		this.socket.on('newPlayer', players => {
@@ -49,9 +50,14 @@ export default class GameView extends View {
 
 	show() {
 		super.show();
-		this.socket.emit('bg', true);
-		const pseudo = prompt('Votre pseudo');
+
+		let pseudo = '';
+		while (pseudo == null || pseudo == '') {
+			pseudo = prompt('Votre pseudo');
+		}
 		this.socket.emit('pseudo', pseudo);
+
+		this.socket.emit('game', true);
 		this.players[this.players.length - 1].name = pseudo;
 		if (this.start == false) {
 			this.start = true;
@@ -68,7 +74,9 @@ export default class GameView extends View {
 				64,
 				1000 / 30,
 				30,
-				10
+				10,
+				64,
+				64
 			);
 
 			this.background = new BackgroundDisplay();
@@ -111,17 +119,34 @@ export default class GameView extends View {
 					this.ennemies[index].setY(data[index].y);
 				}
 			});
+			this.socket.on('bonusPosition', data => {
+				for (let index = 0; index < data.length; index++) {
+					this.bonus[index].setX(data[index].x);
+					this.bonus[index].setY(data[index].y);
+				}
+			});
 
 			this.damageAreaList = [];
 			this.ennemies.forEach(element => {
 				this.damageAreaList.push(
 					new damageArea(
+						element.getId(),
 						element.getX(),
 						element.getY(),
 						element.getEnnemyWidth(),
 						element.getEnnemyHeight()
 					)
 				);
+			});
+
+			this.socket.on('newBonus', bonus => {
+				this.bonus = [];
+				bonus.forEach(element => {
+					this.bonus.push(new BonusDisplay(element.id, element.x, element.y));
+				});
+			});
+			this.socket.on('leftBonus', id => {
+				this.bonus = this.bonus.filter(element => element.id != id);
 			});
 
 			this.refresh = true;
@@ -189,6 +214,8 @@ export default class GameView extends View {
 			if (player.getReady()) {
 				player.display();
 			}
+			//Draw.drawScore(player.getEnnemiesKilled(), 2);
+			//player.deleteHitProjectiles(this.damageAreaList);
 		});
 
 		this.players.forEach(player => {
@@ -208,12 +235,19 @@ export default class GameView extends View {
 		/*
 		this.ennemies.forEach(element => {
 			if (element.isOutCanva()) {
-				this.ennemies.splice(0, 1);
+				let index = this.ennemies.indexOf(element);
+				this.ennemies.splice(index, 1);
 			}
 		});
 		*/
 
-		Draw.drawScore(10, 2);
+		this.bonus.forEach(element => {
+			if (element.getReady()) {
+				element.display();
+			}
+		});
+
+		this.players.forEach(player => {});
 
 		/*
 		this.context.font = '48px serif';
