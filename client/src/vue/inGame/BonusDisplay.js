@@ -26,6 +26,7 @@ export default class BonusDisplay {
 			this.x = x;
 			this.y = y;
 		}
+		//console.log(x);
 		this.image = new Image();
 		this.image.src = this.skin();
 		this.image.addEventListener('load', event => {

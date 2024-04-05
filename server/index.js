@@ -29,6 +29,7 @@ httpServer.listen(PORT, () => {
 BaseValue.initialiseSimpleConstants(1920, 1080, 1000 / 60, 1);
 BaseValue.initialisePlayerConstants(48, 64, 0.5, 8, 10, 0.96);
 BaseValue.initialiseBackgroundConstants(1);
+BaseValue.initialiseBonusConstants(64, 64);
 
 /**
  * Initialize game values.
@@ -39,6 +40,7 @@ let sockets;
 let ennemies;
 let background;
 let bonus;
+let running;
 
 init();
 
@@ -50,6 +52,10 @@ io.on('connection', socket => {
 	//init();
 	sockets.push(socket.id);
 	players.push(new Player(socket.id));
+
+	if (players.length <= 1) {
+		restart();
+	}
 
 	io.emit('newPlayer', players);
 
@@ -63,10 +69,14 @@ io.on('connection', socket => {
 		io.emit('leftPlayer', socket.id);
 		sockets = sockets.filter(socketId => socketId != socket.id);
 		players = players.filter(player => player.socketId != socket.id);
+		if (players.length <= 1) {
+			restart();
+		}
 	});
 
-	socket.on('bg', state => {
+	socket.on('game', state => {
 		background.setState(state);
+		running = true;
 	});
 
 	socket.on('keyDown', code => {
@@ -77,6 +87,15 @@ io.on('connection', socket => {
 		getPlayerBySocket(socket.id).desactiveDirectionShot(code);
 	});
 });
+
+/**
+ * Fonction pour redémarrez une partie
+ */
+function restart() {
+	bonus = [];
+	ennemies = [];
+	running = false;
+}
 
 /* a voir si ca ne pose pas de probleme d'exécuter tous les emit dans une seule methode sendData 
 function sendBackgroundPosition() {
@@ -140,9 +159,11 @@ function getPlayerBySocket(socket) {
  * Function to spawn bonus
  */
 function spawnBonus() {
-	this.bonus.push(new Bonus());
-	io.emit('newBonus', bonus);
-	console.log('ici');
+	if (running == true) {
+		bonus.push(new Bonus());
+		console.log(bonus);
+		io.emit('newBonus', bonus);
+	}
 }
 
 /**
@@ -155,6 +176,7 @@ function init() {
 	sockets = [];
 	background = new Background();
 	bonus = [];
+	running = false;
 	setInterval(sendData, 1000 / 60);
-	setInterval(spawnBonus, 1000 / 1000);
+	setInterval(spawnBonus, 2000);
 }
