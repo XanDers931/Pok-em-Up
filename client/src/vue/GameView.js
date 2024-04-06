@@ -179,7 +179,7 @@ export default class GameView extends View {
 	}
 
 	handleKeyDown(event) {
-		if (event.key == 'Escape') {
+		if (event.key == 'Escape' && this.players.length == 1) {
 			this.socket.emit('game', false);
 			Router.navigate('/pause');
 		} else {
