@@ -3,6 +3,7 @@ import Router from './vue/Router.js';
 import { io } from 'socket.io-client';
 import MenuView from './vue/MenuView.js';
 import EndView from './vue/EndView.js';
+import PauseView from './vue/PauseView.js';
 
 /**
  * Link the client to the server.
@@ -17,6 +18,10 @@ const gameView = new GameView(
 	socket
 );
 const menuView = new MenuView(document.querySelector('.viewContent .menu'));
+const pauseView = new PauseView(
+	document.querySelector('.viewContent .pause'),
+	socket
+);
 const endView = new EndView(document.querySelector('.viewContent .end'));
 
 /**
@@ -25,6 +30,7 @@ const endView = new EndView(document.querySelector('.viewContent .end'));
 const routes = [
 	{ path: '/', view: menuView },
 	{ path: '/game', view: gameView },
+	{ path: '/pause', view: pauseView },
 	{ path: '/gameover', view: endView },
 ];
 Router.routes = routes;

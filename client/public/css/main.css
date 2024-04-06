@@ -21,7 +21,7 @@ body {
 	align-items: center;
 	justify-content: center;
 }
-.menu h1 {
+.menu h1, .pause h1 {
 	font-weight: 100;
 	color: #000000;
 	font-size: 3em;
@@ -31,7 +31,7 @@ body {
 	padding-left: 15px;
 	padding-right: 15px ;
 }
-.menu h1 em {
+.menu h1 em, .pause h1 em {
 	font-style: normal;
 	font-weight: bold;
 	color: #000000;
@@ -53,7 +53,7 @@ canvas {
 	border: none;
 }
 
-.menu{
+.menu, .pause{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -69,7 +69,7 @@ canvas {
 	top: 0;
 	left: 0;
 }
-.menuButtons{
+.menuButtons, .pauseButtons{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -77,7 +77,7 @@ canvas {
 	
 }
 
-.menu button{
+.menu button, .pause button{
 	font-size: 1.5em;
 	background-color: rgb(0, 174, 255);
 	border-color: rgb(0, 174, 255);

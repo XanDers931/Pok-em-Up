@@ -36,7 +36,13 @@ export default class GameView extends View {
 
 			players.forEach(player => {
 				this.players.push(
-					new PlayerDisplay(player.skinId, player.socketId, player.x, player.y, player.name)
+					new PlayerDisplay(
+						player.skinId,
+						player.socketId,
+						player.x,
+						player.y,
+						player.name
+					)
 				);
 			});
 		});
@@ -99,22 +105,22 @@ export default class GameView extends View {
 			this.players = [];
 			this.ennemies = [];
 			this.bonus = [];
-		})
+		});
 	}
 
 	show() {
 		super.show();
-
-		let pseudo = '';
-		while (pseudo == null || pseudo == '') {
-			pseudo = prompt('Votre pseudo');
-		}
-		this.socket.emit('pseudo', pseudo);
-
-		this.socket.emit('game', true);
-		this.players[this.players.length - 1].name = pseudo;
 		if (this.start == false) {
 			this.start = true;
+
+			let pseudo = '';
+			while (pseudo == null || pseudo == '') {
+				pseudo = prompt('Votre pseudo');
+			}
+			this.socket.emit('pseudo', pseudo);
+
+			this.socket.emit('game', true);
+			this.players[this.players.length - 1].name = pseudo;
 
 			this.canvas = this.element.querySelector('.gameCanvas');
 			this.context = this.canvas.getContext('2d');
@@ -174,8 +180,8 @@ export default class GameView extends View {
 
 	handleKeyDown(event) {
 		if (event.key == 'Escape') {
-			Router.navigate('/');
-			this.socket.emit('bg', false);
+			this.socket.emit('game', false);
+			Router.navigate('/pause');
 		} else {
 			this.socket.emit('keyDown', event.code);
 		}

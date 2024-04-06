@@ -32,12 +32,11 @@ BaseValue.initialisePlayerConstants(48, 64, 0.5, 8, 10, 0.96);
 BaseValue.initialiseBackgroundConstants(1);
 BaseValue.initialiseEnnemyConstants(96, 96);
 BaseValue.initialiseBonusConstants(48, 16, 1000 / 6, 5);
-BaseValue.initialiseSkinIdList([1,4,7,152,155,158])
+BaseValue.initialiseSkinIdList([1, 4, 7, 152, 155, 158]);
 
 /**
  * Initialize game values.
  */
-// let running;
 let players;
 let skinId;
 let skinIdList;
@@ -53,8 +52,7 @@ init();
  */
 io.on('connection', socket => {
 	console.log(`Nouvelle connexion du Joueur ${socket.id}`);
-	
-	//init();
+
 	sockets.push(socket.id);
 	skinId = giveRandomSkinId();
 	players.push(new Player(socket.id, skinId));
@@ -69,7 +67,7 @@ io.on('connection', socket => {
 
 	socket.on('disconnect', () => {
 		console.log(`Déconnexion du Joueur ${socket.id}`);
-		
+
 		io.emit('leftPlayer', socket.id);
 		sockets = sockets.filter(socketId => socketId != socket.id);
 		//skinIdList = skinIdList.filter(skinId => skinId != player.socketId) enlever le skin de la liste
@@ -82,6 +80,18 @@ io.on('connection', socket => {
 
 	socket.on('game', state => {
 		background.setState(state);
+		players.forEach(player => {
+			player.setState(state);
+			player.projectiles.forEach(projectile => {
+				projectile.setState(state);
+			});
+		});
+		ennemies.forEach(ennemy => {
+			ennemy.setState(state);
+		});
+		bonus.forEach(element => {
+			element.setState(state);
+		});
 		running = state;
 	});
 
@@ -94,17 +104,18 @@ io.on('connection', socket => {
 	});
 });
 
-function giveRandomSkinId(){
+function giveRandomSkinId() {
 	const initialList = BaseValue.skinIdlist;
-	if (skinIdList.length == 6){
+	if (skinIdList.length == 6) {
 		return 0;
 	} else {
-		const difference = initialList.filter(element => !skinIdList.includes(element));
-		const id = difference[Math.floor(Math.random() * difference.length)]
+		const difference = initialList.filter(
+			element => !skinIdList.includes(element)
+		);
+		const id = difference[Math.floor(Math.random() * difference.length)];
 		skinIdList.push(id);
 		return id;
 	}
-	
 }
 
 /**

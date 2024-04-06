@@ -6,19 +6,22 @@ import { allColision } from '../../client/src/modele/inGame/Collision.js';
  * Allow to move a projectile and get his position.
  * x, y - The position of the projectile.
  * speed - The speed of the projectile movement.
- * direction - The direction of the projectile, if 0 then going to the right (shot by player), otherwise going to the left (shot by monster)
+ * direction - The direction of the projectile, if 0 then going to the right (shot by player), otherwise going to the left (shot by monster).
+ * runnning - The state of the projectile, true if moving, false otherwise.
  */
 export default class Projectile {
 	x;
 	y;
 	speed;
 	direction;
+	running;
 
 	constructor(x, y, speed, direction) {
 		this.x = x;
 		this.y = y;
 		this.speed = speed;
 		this.direction = direction;
+		this.running = true;
 
 		setInterval(event => this.move(event), BaseValue.frameRate);
 	}
@@ -27,11 +30,13 @@ export default class Projectile {
 	 * Function to move the projectile based on his speed and direction.
 	 */
 	move() {
-		if ((this.direction = 0)) {
-			this.x -= this.speed;
-		}
-		if ((this.direction = 1)) {
-			this.x += this.speed;
+		if (this.running == true) {
+			if ((this.direction = 0)) {
+				this.x -= this.speed;
+			}
+			if ((this.direction = 1)) {
+				this.x += this.speed;
+			}
 		}
 	}
 
@@ -40,6 +45,33 @@ export default class Projectile {
 	 */
 	isOutCanva() {
 		return this.x > BaseValue.width || this.x < 0;
+	}
+
+	/*
+	Detect collision for Projectiles with ennemies
+	*/
+	detectCollision(damageAreaList) {
+		if (
+			allColision(
+				damageAreaList,
+				this.x,
+				this.y,
+				BaseValue.projectileWidth,
+				BaseValue.projectileHeight
+			) > 0
+		) {
+			return true;
+			//delete ennemy (ajout d'id)
+			//Increase score (Player)
+		}
+		return false;
+	}
+
+	/**
+	 * Setter of the projectile state, use to start and stop the movement of the projectile.
+	 */
+	setState(state) {
+		this.running = state;
 	}
 
 	/**
@@ -54,17 +86,5 @@ export default class Projectile {
 	 */
 	getY() {
 		return this.y;
-	}
-
-	/*
-	Detect collision for Projectiles with ennemies
-	*/
-	detectCollision(damageAreaList){
-		if(allColision(damageAreaList, this.x, this.y, BaseValue.projectileWidth, BaseValue.projectileHeight)>0){
-			return true;
-			//delete ennemy (ajout d'id)
-			//Increase score (Player)
-		}
-		return false;
 	}
 }

@@ -15,6 +15,7 @@ import { allColision } from './Collision.js';
  * fire - The status of the shooting, true if the player is shooting, false otherwise.
  * projectiles - The projectiles shot by the player.
  * ennemiesKilled - The number of ennemies killed by the player.
+ * runnning - The state of the player, true if moving, false otherwise.
  */
 export default class Player {
 	skinId;
@@ -31,6 +32,7 @@ export default class Player {
 	fire;
 	projectiles;
 	ennemiesKilled;
+	running;
 
 	constructor(socketId, skinId) {
 		this.skinId = skinId;
@@ -47,6 +49,7 @@ export default class Player {
 		this.fire = false;
 		this.projectiles = [];
 		this.ennemiesKilled;
+		this.running = true;
 
 		setInterval(event => this.increaseSpeed(event), BaseValue.frameRate);
 		setInterval(event => this.move(event), BaseValue.frameRate);
@@ -59,43 +62,49 @@ export default class Player {
 	 * Function to increase the speed of the player movements.
 	 */
 	increaseSpeed() {
-		if (this.left && this.xSpeed > -BaseValue.maxSpeed)
-			this.xSpeed -= BaseValue.generalSpeed;
-		if (this.right && this.xSpeed <= BaseValue.maxSpeed)
-			this.xSpeed += BaseValue.generalSpeed;
-		if (this.up && this.ySpeed > -BaseValue.maxSpeed)
-			this.ySpeed -= BaseValue.generalSpeed;
-		if (this.down && this.ySpeed <= BaseValue.maxSpeed)
-			this.ySpeed += BaseValue.generalSpeed;
+		if (this.running == true) {
+			if (this.left && this.xSpeed > -BaseValue.maxSpeed)
+				this.xSpeed -= BaseValue.generalSpeed;
+			if (this.right && this.xSpeed <= BaseValue.maxSpeed)
+				this.xSpeed += BaseValue.generalSpeed;
+			if (this.up && this.ySpeed > -BaseValue.maxSpeed)
+				this.ySpeed -= BaseValue.generalSpeed;
+			if (this.down && this.ySpeed <= BaseValue.maxSpeed)
+				this.ySpeed += BaseValue.generalSpeed;
+		}
 	}
 
 	/**
 	 * Function to decrease the speed of the player movements.
 	 */
 	decreaseSpeed() {
-		this.xSpeed = this.xSpeed * BaseValue.decreaseSpeedMult;
-		this.ySpeed = this.ySpeed * BaseValue.decreaseSpeedMult;
+		if (this.running == true) {
+			this.xSpeed = this.xSpeed * BaseValue.decreaseSpeedMult;
+			this.ySpeed = this.ySpeed * BaseValue.decreaseSpeedMult;
+		}
 	}
 
 	/**
 	 * Function to move the player based on his speed vectors without allowing it to go out of the frame.
 	 */
 	move() {
-		if (this.x + this.xSpeed < BaseValue.playerBorder) this.xSpeed = 0;
-		if (
-			this.x + this.xSpeed >
-			BaseValue.width - (BaseValue.playerBorder + BaseValue.playerWidth)
-		)
-			this.xSpeed = 0;
-		if (this.y + this.ySpeed < BaseValue.playerBorder) this.ySpeed = 0;
-		if (
-			this.y + this.ySpeed >
-			BaseValue.height - (BaseValue.playerBorder + BaseValue.playerHeight)
-		)
-			this.ySpeed = 0;
+		if (this.running == true) {
+			if (this.x + this.xSpeed < BaseValue.playerBorder) this.xSpeed = 0;
+			if (
+				this.x + this.xSpeed >
+				BaseValue.width - (BaseValue.playerBorder + BaseValue.playerWidth)
+			)
+				this.xSpeed = 0;
+			if (this.y + this.ySpeed < BaseValue.playerBorder) this.ySpeed = 0;
+			if (
+				this.y + this.ySpeed >
+				BaseValue.height - (BaseValue.playerBorder + BaseValue.playerHeight)
+			)
+				this.ySpeed = 0;
 
-		this.x += this.xSpeed;
-		this.y += this.ySpeed;
+			this.x += this.xSpeed;
+			this.y += this.ySpeed;
+		}
 	}
 
 	/**
@@ -144,7 +153,7 @@ export default class Player {
 	 * Function to fire a new projectile when fire is active.
 	 */
 	shootProjectile() {
-		if (this.fire) {
+		if (this.running && this.fire) {
 			this.projectiles.push(
 				new Projectile(
 					this.x + BaseValue.playerWidth / 2,
@@ -188,6 +197,13 @@ export default class Player {
 		}
 	}
 	*/
+
+	/**
+	 * Setter of the player state, use to start and stop the movement of the player.
+	 */
+	setState(state) {
+		this.running = state;
+	}
 
 	/**
 	 * Getter of the player position on the x axe.
