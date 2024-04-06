@@ -36,7 +36,7 @@ export default class GameView extends View {
 
 			players.forEach(player => {
 				this.players.push(
-					new PlayerDisplay(1, player.socketId, player.x, player.y, player.name)
+					new PlayerDisplay(player.skinId, player.socketId, player.x, player.y, player.name)
 				);
 			});
 		});

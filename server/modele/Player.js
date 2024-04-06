@@ -17,6 +17,7 @@ import { allColision } from './Collision.js';
  * ennemiesKilled - The number of ennemies killed by the player.
  */
 export default class Player {
+	skinId;
 	socketId;
 	x;
 	y;
@@ -31,7 +32,8 @@ export default class Player {
 	projectiles;
 	ennemiesKilled;
 
-	constructor(socketId) {
+	constructor(socketId, skinId) {
+		this.skinId = skinId;
 		this.socketId = socketId;
 		this.x = BaseValue.width / 8 - BaseValue.playerWidth;
 		this.y = BaseValue.height / 2 - BaseValue.playerHeight;

@@ -96,4 +96,8 @@ export default class BaseValue {
 		this.bonusSpawnRate = bonusSpawnRate;
 		this.bonusSpeed = bonusSpeed;
 	}
+
+	static initialiseSkinIdList(skinIdlist) {
+		this.skinIdlist = skinIdlist;
+	}
 }

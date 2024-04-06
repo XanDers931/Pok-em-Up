@@ -31,13 +31,16 @@ BaseValue.initialiseSimpleConstants(1920, 1080, 1000 / 60, 1500);
 BaseValue.initialisePlayerConstants(48, 64, 0.5, 8, 10, 0.96);
 BaseValue.initialiseBackgroundConstants(1);
 BaseValue.initialiseEnnemyConstants(96, 96);
-BaseValue.initialiseBonusConstants(64, 32, 1000 / 6, 5);
+BaseValue.initialiseBonusConstants(48, 16, 1000 / 6, 5);
+BaseValue.initialiseSkinIdList([1,4,7,152,155,158])
 
 /**
  * Initialize game values.
  */
 // let running;
 let players;
+let skinId;
+let skinIdList;
 let sockets;
 let ennemies;
 let background;
@@ -53,8 +56,8 @@ io.on('connection', socket => {
 	
 	//init();
 	sockets.push(socket.id);
-	players.push(new Player(socket.id));
-	console.log(players.length);
+	skinId = giveRandomSkinId();
+	players.push(new Player(socket.id, skinId));
 
 	io.emit('newPlayer', players);
 	socket.emit('initEnnemies', ennemies);
@@ -69,12 +72,11 @@ io.on('connection', socket => {
 		
 		io.emit('leftPlayer', socket.id);
 		sockets = sockets.filter(socketId => socketId != socket.id);
+		//skinIdList = skinIdList.filter(skinId => skinId != player.socketId) enlever le skin de la liste
 		players = players.filter(player => player.socketId != socket.id);
 
-		console.log(players.length);
 		if (players.length < 1) {
 			restart();
-			console.log("restart");
 		}
 	});
 
@@ -92,6 +94,19 @@ io.on('connection', socket => {
 	});
 });
 
+function giveRandomSkinId(){
+	const initialList = BaseValue.skinIdlist;
+	if (skinIdList.length == 6){
+		return 0;
+	} else {
+		const difference = initialList.filter(element => !skinIdList.includes(element));
+		const id = difference[Math.floor(Math.random() * difference.length)]
+		skinIdList.push(id);
+		return id;
+	}
+	
+}
+
 /**
  * Fonction pour redémarrez une partie.
  */
@@ -101,6 +116,7 @@ function restart() {
 	players = [];
 	ennemies = [];
 	bonus = [];
+	// + voir pour la musique
 	io.emit('restart', null);
 }
 
@@ -206,8 +222,10 @@ function init() {
 	sockets = [];
 	background = new Background();
 	players = [];
+	skinId = 0;
 	ennemies = [];
 	bonus = [];
+	skinIdList = [];
 
 	setInterval(event => sendData(event), BaseValue.frameRate);
 	setInterval(event => spawnEnnemy(event), BaseValue.spawnRate);
