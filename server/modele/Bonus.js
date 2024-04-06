@@ -19,7 +19,7 @@ export default class Bonus {
 		this.y = Math.floor(
 			Math.random() * (BaseValue.height - BaseValue.bonusHeight)
 		);
-		this.xSpeed = 10;
+		this.xSpeed = BaseValue.bonusSpeed;
 
 		setInterval(event => this.move(event), BaseValue.frameRate);
 	}

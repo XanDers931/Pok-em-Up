@@ -93,6 +93,13 @@ export default class GameView extends View {
 		this.socket.on('leftPlayer', socketId => {
 			this.players = this.players.filter(player => player.socketId != socketId);
 		});
+		this.socket.on('restart', element => {
+			this.start = false;
+			this.background = new BackgroundDisplay();
+			this.players = [];
+			this.ennemies = [];
+			this.bonus = [];
+		})
 	}
 
 	show() {

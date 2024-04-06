@@ -31,7 +31,7 @@ BaseValue.initialiseSimpleConstants(1920, 1080, 1000 / 60, 1500);
 BaseValue.initialisePlayerConstants(48, 64, 0.5, 8, 10, 0.96);
 BaseValue.initialiseBackgroundConstants(1);
 BaseValue.initialiseEnnemyConstants(96, 96);
-BaseValue.initialiseBonusConstants(64, 64, 1000 / 6, 8);
+BaseValue.initialiseBonusConstants(64, 32, 1000 / 6, 5);
 
 /**
  * Initialize game values.
@@ -50,9 +50,11 @@ init();
  */
 io.on('connection', socket => {
 	console.log(`Nouvelle connexion du Joueur ${socket.id}`);
+	
 	//init();
 	sockets.push(socket.id);
 	players.push(new Player(socket.id));
+	console.log(players.length);
 
 	io.emit('newPlayer', players);
 	socket.emit('initEnnemies', ennemies);
@@ -64,11 +66,15 @@ io.on('connection', socket => {
 
 	socket.on('disconnect', () => {
 		console.log(`Déconnexion du Joueur ${socket.id}`);
+		
 		io.emit('leftPlayer', socket.id);
 		sockets = sockets.filter(socketId => socketId != socket.id);
 		players = players.filter(player => player.socketId != socket.id);
+
+		console.log(players.length);
 		if (players.length < 1) {
 			restart();
+			console.log("restart");
 		}
 	});
 
@@ -90,9 +96,12 @@ io.on('connection', socket => {
  * Fonction pour redémarrez une partie.
  */
 function restart() {
-	bonus = [];
-	ennemies = [];
 	running = false;
+	//background = new Background(); à voir
+	players = [];
+	ennemies = [];
+	bonus = [];
+	io.emit('restart', null);
 }
 
 /**

@@ -94,6 +94,6 @@ export default class BaseValue {
 		this.bonusWidth = bonusWidth;
 		this.bonusHeight = bonusHeight;
 		this.bonusSpawnRate = bonusSpawnRate;
-		this.bonusSpawnRate = bonusSpeed;
+		this.bonusSpeed = bonusSpeed;
 	}
 }
