@@ -73,6 +73,15 @@ export default class GameView extends View {
 		this.socket.on('ennemyRecycle', data => {
 			this.ennemies.splice(0, 1);
 		});
+		this.socket.on('newBonus', bonus => {
+			this.bonus = [];
+			bonus.forEach(element => {
+				this.bonus.push(new BonusDisplay(element.id, element.x, element.y));
+			});
+		});
+		this.socket.on('leftBonus', id => {
+			this.bonus = this.bonus.filter(element => element.id != id);
+		});
 		this.socket.on('updatePositions', data => {
 			this.background.setX(data.bg);
 			for (let index = 0; index < data.players.length; index++) {
@@ -153,16 +162,6 @@ export default class GameView extends View {
 				);
 			});
 			*/
-
-			this.socket.on('newBonus', bonus => {
-				this.bonus = [];
-				bonus.forEach(element => {
-					this.bonus.push(new BonusDisplay(element.id, element.x, element.y));
-				});
-			});
-			this.socket.on('leftBonus', id => {
-				this.bonus = this.bonus.filter(element => element.id != id);
-			});
 
 			this.refresh = true;
 

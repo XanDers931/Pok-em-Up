@@ -70,7 +70,12 @@ io.on('connection', socket => {
 
 		io.emit('leftPlayer', socket.id);
 		sockets = sockets.filter(socketId => socketId != socket.id);
-		//skinIdList = skinIdList.filter(skinId => skinId != player.socketId) enlever le skin de la liste
+
+		/*
+		skinIdList = skinIdList.filter(
+			id => id != players.find(player => (player.socketId = socket.id)).skinId
+		);
+		*/
 		players = players.filter(player => player.socketId != socket.id);
 
 		if (players.length < 1) {
@@ -104,6 +109,9 @@ io.on('connection', socket => {
 	});
 });
 
+/**
+ * Function to give an id randomized from a list
+ */
 function giveRandomSkinId() {
 	const initialList = BaseValue.skinIdlist;
 	if (skinIdList.length == 6) {
@@ -119,7 +127,7 @@ function giveRandomSkinId() {
 }
 
 /**
- * Fonction pour redémarrez une partie.
+ * Function to restart the game.
  */
 function restart() {
 	running = false;
