@@ -33,6 +33,7 @@ BaseValue.initialiseBackgroundConstants(1);
 BaseValue.initialiseEnnemyConstants(96, 96);
 BaseValue.initialiseBonusConstants(48, 16, 1000 / 6, 5,2);
 BaseValue.initialiseSkinIdList([1, 4, 7, 152, 155, 158]);
+BaseValue.initialiseEnnemyConstants(30,10);
 
 /**
  * Initialize game values.
@@ -235,6 +236,24 @@ function spawnBonus() {
 }
 
 /**
+ * Function to check if a player collide with an ennemy
+ */
+function ennemyKillPlayer(){
+	if(running == true){
+		players.forEach(player => {
+			ennemies.forEach(ennemy => {
+				if(ennemy.collideWithPlayer(player.getX(), player.getY(), BaseValue.playerWidth, BaseValue.playerHeight, ennemy.getX(), ennemy.getY(), BaseValue.ennemyWidth, BaseValue.ennemyHeight)){
+					let index = ennemies.indexOf(ennemy);
+					ennemies.splice(index, 1);
+					io.emit('ennemyKillPLayer', ennemy);
+					io.emit('reduceLife', null);
+				}
+			})
+		});
+	}
+}
+
+/**
  * Function to initialize the game and start the server sending datas to clients about the running game.
  */
 function init() {
@@ -251,4 +270,5 @@ function init() {
 	setInterval(event => spawnEnnemy(event), BaseValue.spawnRate);
 	setInterval(event => recycleEnnemies(event), BaseValue.frameRate);
 	setInterval(event => spawnBonus(event), 2000);
+	setInterval(event => ennemyKillPlayer(event), BaseValue.frameRate);
 }

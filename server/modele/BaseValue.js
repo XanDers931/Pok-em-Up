@@ -77,6 +77,21 @@ export default class BaseValue {
 	}
 
 	/**
+	 * Projectile constant.
+	 */
+	projectileWidth = 0;
+	projectileheight = 0;
+	
+	/**
+	 *Initialize Projectile Constants. 
+	*/
+	static initialiseProjectileConstants(projectileWidth, projectileHeight){
+		this.projectileWidth = projectileWidth;
+		this.projectileHeight = projectileHeight;
+	}
+
+
+	/**
 	 * Bonus Constants
 	 */
 	bonusWidth = 0;
