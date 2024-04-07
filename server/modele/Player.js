@@ -1,9 +1,5 @@
 import BaseValue from './BaseValue.js';
 import Projectile from './Projectile.js';
-/*
-import Router from '../../vue/Router.js';
-import { allColision } from './Collision.js';
-*/
 
 /**
  * Class to manage a player of the game.
@@ -159,7 +155,8 @@ export default class Player {
 					this.x + BaseValue.playerWidth / 2,
 					this.y + BaseValue.playerHeight / 2,
 					20,
-					0
+					0,
+					this.socketId
 				)
 			);
 		}
@@ -180,23 +177,17 @@ export default class Player {
 	/**
 	 * Function to delete all projectiles that hit an ennemy.
 	 */
-	deleteHitProjectiles(damageArea) {
-		this.projectiles.forEach(element => {
-			if (element.detectCollision(damageArea)) {
-				let index = this.projectiles.indexOf(element);
+	deleteHitProjectiles(damagerX, damagerY, damagerWidth, damagerHeight, hitX, hitY, hitWidht, hitHeight) {
+		this.projectiles.forEach(projectile => {
+			if (projectile.detectCollision(damagerX, damagerY, damagerWidth, damagerHeight, hitX, hitY, hitWidht, hitHeight)) {
+				let index = this.projectiles.indexOf(projectile);
 				this.projectiles.splice(index, 1);
 				this.ennemiesKilled++;
+				return true;
 			}
 		});
+		return false;
 	}
-
-	/*
-	detectsCollision(damageAreaList) {
-		if (allColision(damageAreaList, x, y, playerWidthSize, playerHeightSize)>0) {
-			Router.navigate('/gameover');
-		}
-	}
-	*/
 
 	/**
 	 * Setter of the player state, use to start and stop the movement of the player.
