@@ -1,10 +1,19 @@
 import BaseValue from './BaseValue.js';
 import { calculateScore } from '../modele/inGame/score.js';
 
+/**
+ * Class to draw in the canvas with automatic resize
+ * canvas - the canvas
+ * context - the context of the canvas
+ */
 export default class Draw {
 	canvas;
 	context;
 
+	/**
+	 * give the canvas to the class
+	 * @param {*} canvas 
+	 */
 	static initialise(canvas) {
 		this.canvas = canvas;
 		this.context = this.canvas.getContext('2d');
@@ -14,6 +23,14 @@ export default class Draw {
 		canvasResizeObserver.observe(this.canvas);
 	}
 
+	/**
+	 * function to draw any image in the canvas and automatically resize it
+	 * @param {*} image 
+	 * @param {*} x 
+	 * @param {*} y 
+	 * @param {*} width 
+	 * @param {*} height 
+	 */
 	static draw(image, x, y, width, height) {
 		this.context.drawImage(
 			image,
@@ -24,11 +41,21 @@ export default class Draw {
 		);
 	}
 
+	/**
+	 * resize the canvas
+	 */
 	static resampleCanvas() {
 		this.canvas.width = this.canvas.clientWidth;
 		this.canvas.height = this.canvas.clientHeight;
 	}
 
+	/**
+	 * function to draw any text in the canvas and automatically resize it
+	 * @param {*} text 
+	 * @param {*} x 
+	 * @param {*} y 
+	 * @param {*} size 
+	 */
 	static drawText(text, x, y, size) {
 		this.context.font = `${Draw.canvas.width / size}px Comic sans ms`;
 		this.context.fillStyle = '#FF2222';
@@ -39,8 +66,12 @@ export default class Draw {
 		);
 	}
 
+	/**
+	 * function to draw the score
+	 * @param {*} monsterKill 
+	 * @param {*} time 
+	 */
 	static drawScore(monsterKill, time) {
-		// à mieux centrée
 		let score = calculateScore(monsterKill, time);
 		let size = Draw.canvas.width / 60;
 		this.context.font = `${size}px Comic sans ms`;

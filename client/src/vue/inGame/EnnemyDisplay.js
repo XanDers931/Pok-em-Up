@@ -1,9 +1,6 @@
 import BaseValue from '../BaseValue.js';
 import Draw from '../Draw.js';
 
-const ennemyWidhtSize = 96;
-const ennemyHeightSize = 96;
-
 /**
  * Class to display the ennemy.
  * lastId - ? (maybe to put to erver side)
@@ -40,7 +37,7 @@ export default class Ennemy {
 	 * Function to display the ennemy image.
 	 */
 	display() {
-		Draw.draw(this.image, this.x, this.y, ennemyWidhtSize, ennemyHeightSize);
+		Draw.draw(this.image, this.x, this.y, BaseValue.ennemyWidhtSize, BaseValue.ennemyHeightSize);
 	}
 
 	/**

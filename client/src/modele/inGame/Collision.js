@@ -1,5 +1,5 @@
 /**
- *
+ * Check if an coord is in the range of the other coord + size
  * @param {the value to check} value
  * @param {the first value of the area} otherValue
  * @param {the size of the area} size
@@ -13,7 +13,7 @@ export function isIn(value, otherValue, size) {
 }
 
 /**
- *
+ * Check collision for 9 points and ret -1 if their are not in the List of Area
  * @param {List of coordinates off all the Area who deal damage actually} damageAreaList
  * @param {the Player x position} x
  * @param {the Player y position} y

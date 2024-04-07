@@ -9,6 +9,11 @@ import BaseValue from './BaseValue.js';
 import DamageArea from '../modele/inGame/DamageArea.js';
 import BonusDisplay from './inGame/BonusDisplay.js';
 
+/**
+ * GameView, the view use to play the game client side
+ * many information needed to play like the players or
+ * the ennemies.
+ */
 export default class GameView extends View {
 	start;
 	socket;
@@ -117,6 +122,9 @@ export default class GameView extends View {
 		});
 	}
 
+	/**
+	 * Initialize the game
+	 */
 	show() {
 		super.show();
 		if (this.start == false) {
@@ -145,7 +153,9 @@ export default class GameView extends View {
 				30,
 				10,
 				64,
-				64
+				64,
+				96,
+				96
 			);
 
 			/*
@@ -177,6 +187,10 @@ export default class GameView extends View {
 		}
 	}
 
+	/**
+	 * Stop the game (only in single player mode)
+	 * @param {*} event 
+	 */
 	handleKeyDown(event) {
 		if (event.key == 'Escape' && this.players.length == 1) {
 			this.socket.emit('game', false);
@@ -203,6 +217,9 @@ export default class GameView extends View {
 	}
 	*/
 
+	/**
+	 * Do the display for the canvas each requestAnimationFrame
+	 */
 	render() {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -247,18 +264,6 @@ export default class GameView extends View {
 				element.display();
 			}
 		});
-
-		/*
-		this.context.font = '48px serif';
-		this.context.fillText('Hello world', 10, 50);
-
-		/* Il faut laisser le code commenté pour visualiser les hitsbox
-		this.damageAreaList.forEach(element => {
-			if (element.getReady()) {
-				element.display();
-			}
-		});
-		*/
 
 		this.context.stroke();
 		requestAnimationFrame(event => this.render(event));
