@@ -225,7 +225,6 @@ function spawnBonus() {
 	if (running == true) {
 		bonus.push(new Bonus());
 		io.emit('newBonus', bonus);
-		console.log(bonus);
 		bonus.forEach(element => {
 			if (element.x < 0 - BaseValue.bonusWidth) {
 				let index = bonus.indexOf(element);
