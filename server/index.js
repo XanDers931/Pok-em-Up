@@ -31,7 +31,7 @@ BaseValue.initialiseSimpleConstants(1920, 1080, 1000 / 60, 1500);
 BaseValue.initialisePlayerConstants(48, 64, 0.5, 8, 10, 0.96);
 BaseValue.initialiseBackgroundConstants(1);
 BaseValue.initialiseEnnemyConstants(96, 96);
-BaseValue.initialiseBonusConstants(48, 16, 1000 / 6, 5);
+BaseValue.initialiseBonusConstants(48, 16, 1000 / 6, 5,2);
 BaseValue.initialiseSkinIdList([1, 4, 7, 152, 155, 158]);
 
 /**
@@ -224,6 +224,7 @@ function spawnBonus() {
 	if (running == true) {
 		bonus.push(new Bonus());
 		io.emit('newBonus', bonus);
+		console.log(bonus);
 		bonus.forEach(element => {
 			if (element.x < 0 - BaseValue.bonusWidth) {
 				let index = bonus.indexOf(element);

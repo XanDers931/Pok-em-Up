@@ -9,6 +9,8 @@ import BaseValue from './BaseValue.js';
 export default class Bonus {
 	static lastId = 0;
 	id;
+	effectId;
+	haveBeenActivated;
 	x;
 	y;
 	xSpeed;
@@ -16,7 +18,11 @@ export default class Bonus {
 
 	constructor() {
 		Bonus.lastId++;
-		this.id = Bonus.lastId; // à changer pour en avoir un unique
+		this.id = Bonus.lastId;
+		this.effectId = Math.floor(
+			(Math.random() * BaseValue.bonusEffectNumber) + 1
+		);
+		this.haveBeenActivated = false;
 		this.x = BaseValue.width;
 		this.y = Math.floor(
 			Math.random() * (BaseValue.height - BaseValue.bonusHeight)
