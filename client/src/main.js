@@ -4,6 +4,7 @@ import { io } from 'socket.io-client';
 import MenuView from './vue/MenuView.js';
 import EndView from './vue/EndView.js';
 import PauseView from './vue/PauseView.js';
+import CreditsView from './vue/CreditsView.js';
 
 /**
  * Link the client to the server.
@@ -23,6 +24,7 @@ const pauseView = new PauseView(
 	socket
 );
 const endView = new EndView(document.querySelector('.viewContent .end'));
+const creditsView = new CreditsView(document.querySelector('.viewContent .credits'))
 
 /**
  * Initialize the Router.
@@ -30,6 +32,7 @@ const endView = new EndView(document.querySelector('.viewContent .end'));
 const routes = [
 	{ path: '/', view: menuView },
 	{ path: '/game', view: gameView },
+	{ path: '/credits', view: creditsView},
 	{ path: '/pause', view: pauseView },
 	{ path: '/gameover', view: endView },
 ];

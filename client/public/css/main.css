@@ -96,3 +96,47 @@ canvas {
 	padding-left: 15px;
 	padding-right: 15px ;
 }
+
+.credits {
+	background-image: url("../images/background/galaxie.jpg");
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.credits button {
+	font-size: 1.5em;
+	background-color: rgb(100, 20, 30);
+	border-color: rgb(200, 40, 60);
+	border-radius: 10%;
+	border-width: 5px;
+}
+
+.credits h1 {
+	font-size: 32px;
+	color: bisque;
+	margin-top: 5%;
+	margin-left: 45%; 
+}
+
+.credits table {
+	margin-top: 5%;
+	margin-left: 15%;
+	margin-bottom: 9% ;
+	border: 2px solid black;
+	text-align: center;
+}
+
+.credits table th{
+	margin:1%;
+	font-size: 20px;
+	border: 2px solid black;
+}
+
+.credits table td{
+	margin:1%;
+	font-size: 20px;
+	border: 2px solid black;
+}
