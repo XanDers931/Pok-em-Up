@@ -106,6 +106,16 @@ export default class GameView extends View {
 			this.ennemies = [];
 			this.bonus = [];
 		});
+
+		this.socket.on('ennemyKillPlayer', ennemy =>{
+			let index = this.ennemies.indexOf(ennemy);
+			this.ennemies.splice(index, 1);
+		})
+
+		this.socket.on('ennemyHit', ennemy => {
+			let index = this.ennemies.indexOf(ennemy);
+			this.ennemies.splice(index, 1);
+		});
 	}
 
 	show() {
