@@ -1,3 +1,6 @@
+/**
+ * Class for every constants we need
+ */
 export default class BaseValue {
 	width = 0;
 	height = 0;
@@ -10,6 +13,8 @@ export default class BaseValue {
 	projectileHeight = 0;
 	bonusWidth = 0;
 	bonusHeight = 0;
+	ennemyWidhtSize = 0;
+	ennemyHeightSize = 0;
 
 	static initialise(
 		width,
@@ -22,7 +27,9 @@ export default class BaseValue {
 		projectileWidth,
 		projectileHeight,
 		bonusWidth,
-		bonusHeight
+		bonusHeight,
+		ennemyWidhtSize,
+		ennemyHeightSize
 	) {
 		this.width = width;
 		this.height = height;
@@ -35,5 +42,7 @@ export default class BaseValue {
 		this.projectileHeight = projectileHeight;
 		this.bonusWidth = bonusWidth;
 		this.bonusHeight = bonusHeight;
+		this.ennemyWidhtSize = ennemyWidhtSize;
+		this.ennemyHeightSize = ennemyHeightSize;
 	}
 }

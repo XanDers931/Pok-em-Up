@@ -27,7 +27,9 @@ export default class Player {
 	down;
 	fire;
 	projectiles;
+	shootNumber;
 	ennemiesKilled;
+	bonus;
 	running;
 
 	constructor(socketId, skinId) {
@@ -44,7 +46,9 @@ export default class Player {
 		this.down = false;
 		this.fire = false;
 		this.projectiles = [];
+		this.shootNumber = 1;
 		this.ennemiesKilled;
+		this.bonus = [];
 		this.running = true;
 
 		setInterval(event => this.increaseSpeed(event), BaseValue.frameRate);
@@ -52,6 +56,7 @@ export default class Player {
 		setInterval(event => this.decreaseSpeed(event), BaseValue.frameRate);
 		setInterval(event => this.shootProjectile(event), 100);
 		setInterval(event => this.deleteOutProjectiles(event), BaseValue.frameRate);
+		setInterval(event => this.useBonusEffect(event), BaseValue.frameRate);
 	}
 
 	/**
@@ -150,15 +155,17 @@ export default class Player {
 	 */
 	shootProjectile() {
 		if (this.running && this.fire) {
-			this.projectiles.push(
-				new Projectile(
-					this.x + BaseValue.playerWidth / 2,
-					this.y + BaseValue.playerHeight / 2,
-					20,
-					0,
+			for (let i = 0; i < this.shootNumber; i++){
+				this.projectiles.push(
+					new Projectile(
+						this.x + BaseValue.playerWidth / 2,
+						this.y + BaseValue.playerHeight * ((i+1)/(this.shootNumber+2)),
+						20,
+						0,
 					this.socketId
-				)
-			);
+					)
+				);
+			}	
 		}
 	}
 
@@ -188,6 +195,28 @@ export default class Player {
 		});
 		return false;
 	}
+
+	useBonusEffect(){
+		this.bonus.forEach(element => {
+			if (element.haveBeenActivated != true){
+				if (element.effectId == 1){
+					this.shootNumber++;
+					setTimeout(() => {
+						this.shootNumber--;
+					}, 5000);
+				}
+				element.haveBeenActivated=true;
+			}
+		})
+	}
+
+	/*
+	detectsCollision(damageAreaList) {
+		if (allColision(damageAreaList, x, y, playerWidthSize, playerHeightSize)>0) {
+			Router.navigate('/gameover');
+		}
+	}
+	*/
 
 	/**
 	 * Setter of the player state, use to start and stop the movement of the player.

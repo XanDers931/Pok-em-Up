@@ -3,6 +3,9 @@ import { calculateScore } from '../modele/inGame/score.js';
 import Router from './Router.js';
 import GameView from './GameView.js';
 
+/**
+ * Game Over View with restart button and the score
+ */
 export default class EndView extends View {
 	constructor(element) {
 		super(element);

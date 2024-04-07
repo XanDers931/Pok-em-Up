@@ -1,12 +1,15 @@
-import Draw from '../../vue/Draw.js';
-
+/**
+ * Class to manage a damageArea of the game to check the collision.
+ * id - The id of the damageArea to know the one who have collision.
+ * firstX, firstY - The position of the points.
+ * secondX, secondY - Their size for the range.
+ */
 export default class DamageArea {
 	id;
 	firstX;
 	firstY;
 	secondX;
 	secondY;
-	ready;
 
 	constructor(firstX, firstY, secondX, secondY) {
 		this.firstX = firstX;
@@ -14,29 +17,5 @@ export default class DamageArea {
 		this.secondX = secondX;
 		this.secondY = secondY;
 
-		/* Il faut laisser le code commenté pour visualiser les hitbox
-		this.ready = false;
-		this.image = new Image();
-		this.image.src = `/images/damageArea.png`;
-		this.image.addEventListener('load', event => {
-			this.ready = true;
-		});
-		*/
-	}
-
-	/*
-	display() {
-		Draw.draw(
-			this.image,
-			this.firstX + this.secondX * 0.1,
-			this.firstY + this.secondY * 0.1,
-			this.secondX - this.secondX * 0.3,
-			this.secondY - this.secondY * 0.3
-		);
-	}
-	*/
-
-	getReady() {
-		return this.ready;
 	}
 }

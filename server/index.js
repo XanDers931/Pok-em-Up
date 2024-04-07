@@ -31,7 +31,7 @@ BaseValue.initialiseSimpleConstants(1920, 1080, 1000 / 60, 1500);
 BaseValue.initialisePlayerConstants(48, 64, 0.5, 8, 10, 0.96);
 BaseValue.initialiseBackgroundConstants(1);
 BaseValue.initialiseEnnemyConstants(96, 96);
-BaseValue.initialiseBonusConstants(48, 16, 1000 / 6, 5);
+BaseValue.initialiseBonusConstants(48, 16, 1000 / 6, 5,2);
 BaseValue.initialiseSkinIdList([1, 4, 7, 152, 155, 158]);
 BaseValue.initialiseEnnemyConstants(30,10);
 
@@ -71,7 +71,12 @@ io.on('connection', socket => {
 
 		io.emit('leftPlayer', socket.id);
 		sockets = sockets.filter(socketId => socketId != socket.id);
-		//skinIdList = skinIdList.filter(skinId => skinId != player.socketId) enlever le skin de la liste
+
+		/*
+		skinIdList = skinIdList.filter(
+			id => id != players.find(player => (player.socketId = socket.id)).skinId
+		);
+		*/
 		players = players.filter(player => player.socketId != socket.id);
 
 		if (players.length < 1) {
@@ -105,6 +110,9 @@ io.on('connection', socket => {
 	});
 });
 
+/**
+ * Function to give an id randomized from a list
+ */
 function giveRandomSkinId() {
 	const initialList = BaseValue.skinIdlist;
 	if (skinIdList.length == 6) {
@@ -120,7 +128,7 @@ function giveRandomSkinId() {
 }
 
 /**
- * Fonction pour redémarrez une partie.
+ * Function to restart the game.
  */
 function restart() {
 	running = false;
@@ -217,6 +225,7 @@ function spawnBonus() {
 	if (running == true) {
 		bonus.push(new Bonus());
 		io.emit('newBonus', bonus);
+		console.log(bonus);
 		bonus.forEach(element => {
 			if (element.x < 0 - BaseValue.bonusWidth) {
 				let index = bonus.indexOf(element);

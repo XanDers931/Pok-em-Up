@@ -104,12 +104,14 @@ export default class BaseValue {
 		bonusWidth,
 		bonusHeight,
 		bonusSpawnRate,
-		bonusSpeed
+		bonusSpeed,
+		bonusEffectNumber
 	) {
 		this.bonusWidth = bonusWidth;
 		this.bonusHeight = bonusHeight;
 		this.bonusSpawnRate = bonusSpawnRate;
 		this.bonusSpeed = bonusSpeed;
+		this.bonusEffectNumber = bonusEffectNumber;
 	}
 
 	static initialiseSkinIdList(skinIdlist) {
