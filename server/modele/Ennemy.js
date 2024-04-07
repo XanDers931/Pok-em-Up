@@ -1,3 +1,4 @@
+import { collider } from '../../client/src/modele/inGame/Collision.js';
 import BaseValue from './BaseValue.js';
 import DATA from './Data.js';
 
@@ -10,6 +11,8 @@ import DATA from './Data.js';
  * runnning - The state of the ennemy, true if moving, false otherwise.
  */
 export default class Ennemy {
+	static lastId = 0;
+	id;
 	x;
 	y;
 	speed;
@@ -17,6 +20,9 @@ export default class Ennemy {
 	running;
 
 	constructor(speed) {
+		this.lastId++;
+		this.id = this.lastId;
+		this.x = BaseValue.width;
 		this.idImage = DATA[Math.floor(Math.random() * DATA.length + 1)];
 		this.x = BaseValue.width;
 		this.y = Math.random() * (BaseValue.height - BaseValue.ennemyHeight);
@@ -61,5 +67,12 @@ export default class Ennemy {
 	 */
 	getY() {
 		return this.y;
+	}
+
+	collideWithPlayer(damagerX, damagerY, damagerWidth, damagerHeight, hitX, hitY, hitWidht, hitHeight){
+		if(collider(damagerX, damagerY, damagerWidth, damagerHeight, hitX, hitY, hitWidht, hitHeight)){
+			return true;
+		}
+		return false;
 	}
 }
