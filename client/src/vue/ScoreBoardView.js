@@ -27,6 +27,8 @@ export default class ScoreBoardView extends View {
 			})
 		);
 
+		const base = `<table class="table"><tr><th>Nom</th><th>Score</th></tr></table>`;
+
 		this.socket.emit('showScoreBoard', null);
 
 		this.socket.on('sendScoresData', data => {
@@ -34,7 +36,7 @@ export default class ScoreBoardView extends View {
 
 			const table = this.element.querySelector('.scoreBoard .table');
 
-			table.innerHTML += getAllValueInTable(this.value);
+			table.innerHTML = base + getAllValueInTable(this.value);
 		});
 	}
 }
