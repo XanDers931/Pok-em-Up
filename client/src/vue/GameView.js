@@ -124,7 +124,7 @@ export default class GameView extends View {
 			this.bonus = [];
 		});
 
-		this.socket.on('ennemyKillPlayer', ennemyUpdate => {
+		this.socket.on('ennemyDispawn', ennemyUpdate => {
 			const ennemyToDelete = this.ennemies.find(
 				ennemy => ennemy.id == ennemyUpdate.id
 			);
@@ -195,21 +195,6 @@ export default class GameView extends View {
 				96
 			);
 
-			/*
-			this.damageAreaList = [];
-			this.ennemies.forEach(element => {
-				this.damageAreaList.push(
-					new damageArea(
-						element.getId(),
-						element.getX(),
-						element.getY(),
-						element.getEnnemyWidth(),
-						element.getEnnemyHeight()
-					)
-				);
-			});
-			*/
-
 			this.refresh = true;
 
 			this.audio = document.querySelector('.mainTheme');
@@ -237,23 +222,6 @@ export default class GameView extends View {
 		}
 	}
 
-	/*
-	collisionMaj(ennemy) {
-		this.damageAreaList = [];
-		this.ennemies.forEach(element => {
-			this.damageAreaList.push(
-				new DamageArea(
-					element.getX(),
-					element.getY(),
-					element.getEnnemyWidth(),
-					element.getEnnemyHeight()
-				)
-			);
-		});
-		return this.damageAreaList;
-	}
-	*/
-
 	/**
 	 * Do the display for the canvas each requestAnimationFrame
 	 */
@@ -261,11 +229,7 @@ export default class GameView extends View {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
 		if (this.refresh) {
-			/*
-			this.damageAreaList = this.collisionMaj(this.ennemies);
-			*/
 			this.refresh = false;
-			//this.player.detectsCollision(this.damageAreaList);
 			setTimeout(() => {
 				this.refresh = true;
 			}, BaseValue.hitboxCheckRate);
@@ -279,7 +243,6 @@ export default class GameView extends View {
 				player.display();
 			}
 			//Draw.drawScore(player.getEnnemiesKilled(), 2);
-			//player.deleteHitProjectiles(this.damageAreaList);
 		});
 
 		this.players.forEach(player => {

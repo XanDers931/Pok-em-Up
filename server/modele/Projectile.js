@@ -10,6 +10,8 @@ import { collider } from '../../client/src/modele/inGame/Collision.js';
  * runnning - The state of the projectile, true if moving, false otherwise.
  */
 export default class Projectile {
+	static lastId = 0;
+	id;
 	x;
 	y;
 	speed;
@@ -18,6 +20,8 @@ export default class Projectile {
 	running;
 
 	constructor(x, y, speed, direction, socketID) {
+		Projectile.lastId++;
+		this.id = Projectile.lastId;
 		this.x = x;
 		this.y = y;
 		this.speed = speed;
@@ -49,8 +53,26 @@ export default class Projectile {
 		return this.x > BaseValue.width || this.x < 0;
 	}
 
-	detectCollision(damagerX, damagerY, damagerWidth, damagerHeight, hitX, hitY, hitWidht, hitHeight) {
-		return collider(damagerX, damagerY, damagerWidth, damagerHeight, hitX, hitY, hitWidht, hitHeight);
+	detectCollision(
+		damagerX,
+		damagerY,
+		damagerWidth,
+		damagerHeight,
+		hitX,
+		hitY,
+		hitWidht,
+		hitHeight
+	) {
+		return collider(
+			damagerX,
+			damagerY,
+			damagerWidth,
+			damagerHeight,
+			hitX,
+			hitY,
+			hitWidht,
+			hitHeight
+		);
 	}
 
 	/**
@@ -74,7 +96,7 @@ export default class Projectile {
 		return this.y;
 	}
 
-	getSocketId(){
+	getSocketId() {
 		return this.socketID;
 	}
 }
