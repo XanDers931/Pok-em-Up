@@ -214,13 +214,18 @@ export default class Player {
 		return false;
 	}
 
+	/**
+	 * Use the bonus by the player who get it
+	 * @param {} bonus
+	 */
 	useBonusEffect(bonus) {
+		// effet multishoot
 		if (bonus.effectId == 1) {
 			console.log(true);
 			this.shootNumber++;
 			setTimeout(() => {
 				this.shootNumber--;
-			}, 5000);
+			}, 10000);
 		}
 	}
 
