@@ -92,9 +92,13 @@ io.on('connection', socket => {
 	});
 
 	socket.on('restartGame', () => {
-		//if ((players.length = 1)) {
-		restart();
-		//}
+		background = new Background();
+		time = 0;
+		ennemies = [];
+		bonus = [];
+		const player = getPlayerBySocketId(socket.id);
+		player.reset();
+		socket.emit('initEnnemies', ennemies);
 	});
 
 	socket.on('showScoreBoard', () => {

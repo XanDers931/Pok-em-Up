@@ -17,10 +17,6 @@ export default class EndView extends View {
 		this.socket.on('timeUpdate', newTime => {
 			this.time = newTime;
 		});
-	}
-
-	show() {
-		super.show();
 
 		const menuButtons = this.element.querySelectorAll('.end button');
 
@@ -31,6 +27,10 @@ export default class EndView extends View {
 				Router.navigate(buttonHref);
 			})
 		);
+	}
+
+	show() {
+		super.show();
 
 		const score = this.element.querySelector('.score');
 		const scoreDo = calculateScore(10, this.time);

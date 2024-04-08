@@ -221,6 +221,14 @@ export default class Player {
 		}
 	}
 
+	reset() {
+		this.x = BaseValue.width / 8 - BaseValue.playerWidth;
+		this.y = BaseValue.height / 2 - BaseValue.playerHeight;
+		this.ennemiesKilled = 0;
+		this.shootNumber = 1;
+		this.running = true;
+	}
+
 	/**
 	 * Setter of the player state, use to start and stop the movement of the player.
 	 */

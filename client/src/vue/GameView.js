@@ -160,8 +160,10 @@ export default class GameView extends View {
 	 */
 	show() {
 		super.show();
+		if (this.start == true) {
+			this.socket.emit('restartGame');
+		}
 		if (this.start == false) {
-			//this.socket.emit('restartGame');
 			this.start = true;
 
 			let pseudo = '';
