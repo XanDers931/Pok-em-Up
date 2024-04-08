@@ -7,10 +7,16 @@ import { calculateScore } from '../modele/inGame/score.js';
  */
 export default class EndView extends View {
 	socket;
+	time;
 
 	constructor(element, socket) {
 		super(element);
 		this.socket = socket;
+		this.time = 0;
+
+		this.socket.on('timeUpdate', newTime => {
+			this.time = newTime;
+		});
 	}
 
 	show() {
@@ -27,8 +33,8 @@ export default class EndView extends View {
 		);
 
 		const score = this.element.querySelector('.score');
-		const scoreDo = calculateScore(10, 10);
-		score.innerHTML = scoreDo;
+		const scoreDo = calculateScore(10, this.time);
+		score.innerHTML = `Score : ${scoreDo}, Temps survécu : ${this.time}`;
 		this.socket.emit('addScore', scoreDo);
 	}
 }

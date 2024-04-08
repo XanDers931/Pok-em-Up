@@ -15,6 +15,7 @@ export default class Ennemy {
 	id;
 	x;
 	y;
+	upsideDown;
 	speed;
 	idImage;
 	running;
@@ -28,8 +29,10 @@ export default class Ennemy {
 		this.y = Math.random() * (BaseValue.height - BaseValue.ennemyHeight);
 		this.speed = speed;
 		this.running = true;
+		this.upsideDown = true;
 
 		setInterval(event => this.move(event), 1000 / 60);
+		setInterval(event => this.takeRandomUpsideDown(event), 500);
 	}
 
 	/**
@@ -38,6 +41,22 @@ export default class Ennemy {
 	move() {
 		if (this.running == true) {
 			this.x -= this.speed;
+			if (this.upsideDown && this.y > 0) {
+				this.y++;
+			} else if (this.upsideDown == false && this.y < BaseValue.height) {
+				this.y--;
+			}
+		}
+	}
+
+	/**
+	 *
+	 */
+	takeRandomUpsideDown() {
+		if (Math.random() > 0.5) {
+			this.upsideDown = true;
+		} else {
+			this.upsideDown = false;
 		}
 	}
 

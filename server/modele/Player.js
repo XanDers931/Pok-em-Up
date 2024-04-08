@@ -29,7 +29,6 @@ export default class Player {
 	projectiles;
 	shootNumber;
 	ennemiesKilled;
-	bonus;
 	running;
 
 	constructor(socketId, skinId) {
@@ -48,7 +47,7 @@ export default class Player {
 		this.projectiles = [];
 		this.shootNumber = 1;
 		this.ennemiesKilled = 0;
-		this.bonus = [];
+
 		this.running = true;
 
 		setInterval(event => this.increaseSpeed(event), BaseValue.frameRate);
@@ -56,7 +55,6 @@ export default class Player {
 		setInterval(event => this.decreaseSpeed(event), BaseValue.frameRate);
 		setInterval(event => this.shootProjectile(event), 100);
 		setInterval(event => this.deleteOutProjectiles(event), BaseValue.frameRate);
-		setInterval(event => this.useBonusEffect(event), BaseValue.frameRate);
 	}
 
 	/**
@@ -209,27 +207,19 @@ export default class Player {
 		return isTrue;
 	}
 
-	useBonusEffect() {
-		this.bonus.forEach(element => {
-			if (element.haveBeenActivated != true) {
-				if (element.effectId == 1) {
-					this.shootNumber++;
-					setTimeout(() => {
-						this.shootNumber--;
-					}, 5000);
-				}
-				element.haveBeenActivated = true;
-			}
-		});
-	}
-
-	/*
-	detectsCollision(damageAreaList) {
-		if (allColision(damageAreaList, x, y, playerWidthSize, playerHeightSize)>0) {
-			Router.navigate('/gameover');
+	/**
+	 * Use the bonus by the player who get it
+	 * @param {} bonus
+	 */
+	useBonusEffect(bonus) {
+		// effet multishoot
+		if (bonus.effectId == 1) {
+			this.shootNumber++;
+			setTimeout(() => {
+				this.shootNumber--;
+			}, 10000);
 		}
 	}
-	*/
 
 	/**
 	 * Setter of the player state, use to start and stop the movement of the player.
@@ -257,12 +247,5 @@ export default class Player {
 	 */
 	getEnnemisKilled() {
 		return this.ennemiesKilled;
-	}
-
-	/**
-	 * Getter of the list of projectiles
-	 */
-	getProjectiles() {
-		return this.projectiles;
 	}
 }
