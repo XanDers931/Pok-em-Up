@@ -27,6 +27,7 @@ export default class GameView extends View {
 	refresh;
 	playerName;
 	bonus;
+	time;
 
 	constructor(element, socket) {
 		super(element);
@@ -36,6 +37,7 @@ export default class GameView extends View {
 		this.players = [];
 		this.ennemies = [];
 		this.bonus = [];
+		this.time;
 
 		this.socket.on('newPlayer', players => {
 			this.players = [];
@@ -145,6 +147,11 @@ export default class GameView extends View {
 			const bonusToDelete = this.bonus.find(bonus => bonus.id == plus.id);
 			const index = this.bonus.indexOf(bonusToDelete);
 			this.bonus.splice(index, 1);
+		});
+
+		this.socket.on('timeUpdate', newTime => {
+			this.time = newTime;
+			console.log(this.time);
 		});
 	}
 
