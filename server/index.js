@@ -94,12 +94,14 @@ io.on('connection', socket => {
 
 	socket.on('restartGame', () => {
 		background = new Background();
+		background.setState(true);
 		time = 0;
 		ennemies = [];
 		bonus = [];
 		const player = getPlayerBySocketId(socket.id);
 		player.reset();
 		socket.emit('initEnnemies', ennemies);
+		socket.emit('newBonus', bonus);
 	});
 
 	socket.on('showScoreBoard', () => {

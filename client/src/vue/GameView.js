@@ -55,6 +55,7 @@ export default class GameView extends View {
 			});
 		});
 		this.socket.on('initEnnemies', ennemies => {
+			this.ennemies = [];
 			ennemies.forEach(ennemy => {
 				this.ennemies.push(
 					new EnnemyDisplay(
