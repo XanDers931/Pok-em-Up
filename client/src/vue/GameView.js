@@ -139,7 +139,7 @@ export default class GameView extends View {
 			this.ennemies.splice(index, 1);
 		});
 
-		this.socket.on('reduceLife', player => {
+		this.socket.on('gameOver', player => {
 			Router.navigate('/gameover');
 		});
 
@@ -151,7 +151,6 @@ export default class GameView extends View {
 
 		this.socket.on('timeUpdate', newTime => {
 			this.time = newTime;
-			console.log(this.time);
 		});
 	}
 

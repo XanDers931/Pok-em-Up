@@ -134,4 +134,9 @@ export default class BaseValue {
 	static initialiseFireRate(fireRate) {
 		this.fireRate = fireRate;
 	}
+
+	hp = 0;
+	static initLife(hp) {
+		this.hp = hp - 1;
+	}
 }
