@@ -31,9 +31,9 @@ BaseValue.initialiseSimpleConstants(1920, 1080, 1000 / 60, 1500);
 BaseValue.initialisePlayerConstants(48, 64, 0.5, 8, 10, 0.96);
 BaseValue.initialiseBackgroundConstants(1);
 BaseValue.initialiseEnnemyConstants(96, 96);
-BaseValue.initialiseBonusConstants(48, 16, 1000 / 6, 5,2);
+BaseValue.initialiseBonusConstants(48, 16, 1000 / 6, 5, 2);
 BaseValue.initialiseSkinIdList([1, 4, 7, 152, 155, 158]);
-BaseValue.initialiseEnnemyConstants(30,10);
+BaseValue.initialiseEnnemyConstants(30, 10);
 
 /**
  * Initialize game values.
@@ -72,11 +72,9 @@ io.on('connection', socket => {
 		io.emit('leftPlayer', socket.id);
 		sockets = sockets.filter(socketId => socketId != socket.id);
 
-		/*
 		skinIdList = skinIdList.filter(
-			id => id != players.find(player => (player.socketId = socket.id)).skinId
+			id => id != players.find(player => player.socketId == socket.id).skinId
 		);
-		*/
 		players = players.filter(player => player.socketId != socket.id);
 
 		if (players.length < 1) {
@@ -237,17 +235,28 @@ function spawnBonus() {
 /**
  * Function to check if a player collide with an ennemy
  */
-function ennemyKillPlayer(){
-	if(running == true){
+function ennemyKillPlayer() {
+	if (running == true) {
 		players.forEach(player => {
 			ennemies.forEach(ennemy => {
-				if(ennemy.collideWithPlayer(player.getX(), player.getY(), BaseValue.playerWidth, BaseValue.playerHeight, ennemy.getX(), ennemy.getY(), BaseValue.ennemyWidth, BaseValue.ennemyHeight)){
+				if (
+					ennemy.collideWithPlayer(
+						player.getX(),
+						player.getY(),
+						BaseValue.playerWidth,
+						BaseValue.playerHeight,
+						ennemy.getX(),
+						ennemy.getY(),
+						BaseValue.ennemyWidth,
+						BaseValue.ennemyHeight
+					)
+				) {
 					let index = ennemies.indexOf(ennemy);
 					ennemies.splice(index, 1);
 					io.emit('ennemyKillPLayer', ennemy);
 					io.emit('reduceLife', null);
 				}
-			})
+			});
 		});
 	}
 }
