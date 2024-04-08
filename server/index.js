@@ -82,6 +82,13 @@ io.on('connection', socket => {
 		}
 	});
 
+	socket.on('restartGame', () => {
+		//if ((players.length = 1)) {
+		console.log('ici');
+		restart();
+		//}
+	});
+
 	socket.on('game', state => {
 		background.setState(state);
 		players.forEach(player => {
