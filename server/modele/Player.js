@@ -221,7 +221,6 @@ export default class Player {
 	useBonusEffect(bonus) {
 		// effet multishoot
 		if (bonus.effectId == 1) {
-			console.log(true);
 			this.shootNumber++;
 			setTimeout(() => {
 				this.shootNumber--;
