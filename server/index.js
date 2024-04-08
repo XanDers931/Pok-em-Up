@@ -18,7 +18,6 @@ const PORT = process.env.PORT || 8000;
 const app = express();
 const httpServer = http.createServer(app);
 const io = new IOServer(httpServer);
-//const fileOptions = { root: process.cwd() };
 
 addWebpackMiddleware(app);
 app.use(express.static('client/public'));
@@ -66,7 +65,7 @@ io.on('connection', socket => {
 	socket.emit('initEnnemies', ennemies);
 
 	socket.on('pseudo', pseudo => {
-		getPlayerBySocket(socket.id).name = pseudo;
+		getPlayerBySocketId(socket.id).name = pseudo;
 		io.emit('newPlayer', players);
 	});
 
@@ -81,7 +80,7 @@ io.on('connection', socket => {
 		sockets = sockets.filter(socketId => socketId != socket.id);
 
 		skinIdList = skinIdList.filter(
-			id => id != players.find(player => player.socketId == socket.id).skinId
+			id => id != getPlayerBySocketId(socket.id).skinId
 		);
 		players = players.filter(player => player.socketId != socket.id);
 
@@ -113,7 +112,9 @@ io.on('connection', socket => {
 			json.forEach(element => {
 				scoresData.push(new ScoreData(element.name, element.score));
 			});
-			scoresData.push(new ScoreData(getPlayerBySocket(socket.id).name, score));
+			scoresData.push(
+				new ScoreData(getPlayerBySocketId(socket.id).name, score)
+			);
 
 			writeFileSync('./server/scores.json', JSON.stringify(scoresData));
 		} else {
@@ -121,7 +122,7 @@ io.on('connection', socket => {
 				'./server/scores.json',
 				JSON.stringify([
 					{
-						name: getPlayerBySocket(socket.id).name,
+						name: getPlayerBySocketId(socket.id).name,
 						score: score,
 					},
 				])
@@ -129,7 +130,7 @@ io.on('connection', socket => {
 		}
 	});
 
-	socket.emit('getUserName', getPlayerBySocket(socket.id).name);
+	socket.emit('getUserName', getPlayerBySocketId(socket.id).name);
 
 	socket.on('game', state => {
 		background.setState(state);
@@ -231,14 +232,8 @@ function makeProjectilePositionTable() {
 /**
  * Function that return the player having the socketId given.
  */
-function getPlayerBySocket(socket) {
-	let result;
-	players.forEach(player => {
-		if (player.socketId == socket) {
-			result = player;
-		}
-	});
-	return result;
+function getPlayerBySocketId(id) {
+	return players.find(player => player.socketId == id);
 }
 
 /**
