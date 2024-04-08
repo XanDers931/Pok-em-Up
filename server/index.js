@@ -91,6 +91,13 @@ io.on('connection', socket => {
 	});
 
 	socket.on('showScoreBoard', () => {
+		/*
+		fs.readFile('./data.txt', (err, data) => {
+			if (err) throw err;
+			console.log(data);
+		});
+		//console.log('ici');
+		*/
 		const scoresData = [];
 		scoresData.push(new ScoreData('yolo', 100));
 		scoresData.push(new ScoreData('mdr', 247));
@@ -281,11 +288,11 @@ function ennemyKillPlayer() {
 	}
 }
 
-function playerTakeBonus(){
-	if(running ==  true){
+function playerTakeBonus() {
+	if (running == true) {
 		players.forEach(player => {
 			bonus.forEach(plus => {
-				if(
+				if (
 					plus.collideWithPlayer(
 						player.getX(),
 						player.getY(),
@@ -295,14 +302,15 @@ function playerTakeBonus(){
 						plus.getY(),
 						BaseValue.bonusWidth,
 						BaseValue.bonusHeight
-					)){
-						const index = bonus.indexOf(plus);
-						bonus.splice(index, 1);
-						io.emit('bonusTaken', plus);
-						player.useBonusEffect();
-					}
-			})
-		})
+					)
+				) {
+					const index = bonus.indexOf(plus);
+					bonus.splice(index, 1);
+					io.emit('bonusTaken', plus);
+					player.useBonusEffect();
+				}
+			});
+		});
 	}
 }
 
