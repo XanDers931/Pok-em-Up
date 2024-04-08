@@ -130,6 +130,13 @@ export default class GameView extends View {
 			let index = this.ennemies.indexOf(ennemy);
 			this.ennemies.splice(index, 1);
 		});
+
+		this.socket.on('reduceLife', player => {
+			/*
+			console.log('dz');
+			Router.navigate('./gameover');
+			*/
+		});
 	}
 
 	/**

@@ -98,13 +98,18 @@ io.on('connection', socket => {
 		});
 		running = state;
 	});
-
+	//players.filter(player => player.socketId != socket.id);
 	socket.on('keyDown', code => {
-		getPlayerBySocket(socket.id).activeDirectionShot(code);
+		players
+			.find(player => player.socketId == socket.id)
+			.activeDirectionShot(code);
 	});
+	//
 
 	socket.on('keyUp', code => {
-		getPlayerBySocket(socket.id).desactiveDirectionShot(code);
+		players
+			.find(player => player.socketId == socket.id)
+			.desactiveDirectionShot(code);
 	});
 });
 
@@ -157,11 +162,8 @@ function sendData() {
  */
 function makePlayerPositionTable() {
 	let positions = [];
-	sockets.forEach(socket => {
-		positions.push([
-			getPlayerBySocket(socket).getX(),
-			getPlayerBySocket(socket).getY(),
-		]);
+	players.forEach(player => {
+		positions.push([player.getX(), player.getY()]);
 	});
 	return positions;
 }
@@ -171,8 +173,8 @@ function makePlayerPositionTable() {
  */
 function makeProjectilePositionTable() {
 	let positions = [];
-	sockets.forEach(socket => {
-		positions.push(getPlayerBySocket(socket).projectiles);
+	players.forEach(player => {
+		positions.push(player.projectiles);
 	});
 	return positions;
 }
@@ -254,7 +256,10 @@ function ennemyKillPlayer() {
 					let index = ennemies.indexOf(ennemy);
 					ennemies.splice(index, 1);
 					io.emit('ennemyKillPLayer', ennemy);
-					io.emit('reduceLife', null);
+					io.emit('reduceLife', player);
+					player.x = -100;
+					player.y = -100;
+					player.setState(false);
 				}
 			});
 		});
