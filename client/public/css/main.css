@@ -21,7 +21,7 @@ body {
 	align-items: center;
 	justify-content: center;
 }
-.menu h1, .pause h1, .end h1 {
+.menu h1, .pause h1, .end h1, .scoreBoard h1 {
 	font-weight: 100;
 	color: #000000;
 	font-size: 3em;
@@ -31,7 +31,7 @@ body {
 	padding-left: 15px;
 	padding-right: 15px ;
 }
-.menu h1 em, .pause h1 em, .end h1 em {
+.menu h1 em, .pause h1 em, .end h1 em, .scoreBoard h1 em {
 	font-style: normal;
 	font-weight: bold;
 	color: #000000;
@@ -149,3 +149,5 @@ canvas {
 .scoreBoard{
 	background-image: url('../images/background/bg-score.png');
 }
+
+
