@@ -102,6 +102,7 @@ io.on('connection', socket => {
 		json.forEach(element => {
 			scoresData.push(new ScoreData(element.name, element.score));
 		});
+		scoresData.sort((a, b) => b.score - a.score);
 		socket.emit('sendScoresData', scoresData);
 	});
 
