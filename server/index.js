@@ -72,7 +72,6 @@ io.on('connection', socket => {
 
 	socket.on('difficulty', number => {
 		time = time + (number - 1) * 30;
-		console.log(number);
 	});
 
 	socket.on('disconnect', () => {
@@ -349,7 +348,6 @@ function increaseTime() {
 	if (running == true) {
 		time++;
 		io.emit('timeUpdate', time);
-		console.log(time);
 	}
 }
 
