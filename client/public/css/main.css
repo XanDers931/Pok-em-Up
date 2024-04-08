@@ -21,7 +21,7 @@ body {
 	align-items: center;
 	justify-content: center;
 }
-.menu h1, .pause h1 {
+.menu h1, .pause h1, .end h1, .scoreBoard h1 {
 	font-weight: 100;
 	color: #000000;
 	font-size: 3em;
@@ -31,7 +31,7 @@ body {
 	padding-left: 15px;
 	padding-right: 15px ;
 }
-.menu h1 em, .pause h1 em {
+.menu h1 em, .pause h1 em, .end h1 em, .scoreBoard h1 em {
 	font-style: normal;
 	font-weight: bold;
 	color: #000000;
@@ -53,7 +53,7 @@ canvas {
 	border: none;
 }
 
-.menu, .pause{
+.menu, .pause, .end, .scoreBoard{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -69,7 +69,7 @@ canvas {
 	top: 0;
 	left: 0;
 }
-.menuButtons, .pauseButtons{
+.menuButtons, .pauseButtons, .endButtons{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -77,7 +77,7 @@ canvas {
 	
 }
 
-.menu button, .pause button, .credits button{
+.menu button, .pause button, .credits button, .end button, .scoreBoard button{
 	font-size: 1.5em;
 	background-color: rgb(0, 174, 255);
 	border-color: rgb(0, 174, 255);
@@ -85,16 +85,17 @@ canvas {
 	border-width: 5px;
 }
 
-.end h1 {
-	/*font-weight: 86;*/
-	color: #FFFFFF;
-	font-size: 20px;
-	background-color: red;
-	/*background: #000000;*/
-	border-radius: 10%;
-	padding: 10px;
-	padding-left: 15px;
-	padding-right: 15px ;
+.end{
+	background-image: url('../images/background/bg-lose.jpg');
+}
+
+.pause{
+	background-image: url('../images/background/pause-bg.jpg');
+}
+
+.end h2{
+	color: blue;
+	font-size: 1.3em;
 }
 
 .credits {
@@ -144,3 +145,9 @@ canvas {
 	font-size: 20px;
 	border: 2px solid black;
 }
+
+.scoreBoard{
+	background-image: url('../images/background/bg-score.png');
+}
+
+

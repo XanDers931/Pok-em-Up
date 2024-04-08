@@ -12,11 +12,6 @@ export default class ScoreBoardView extends View {
 	constructor(element, socket) {
 		super(element);
 		this.socket = socket;
-	}
-
-	show() {
-		super.show();
-
 		const menuButtons = this.element.querySelectorAll('.scoreBoard button');
 
 		menuButtons.forEach(button =>
@@ -26,6 +21,10 @@ export default class ScoreBoardView extends View {
 				Router.navigate(buttonHref);
 			})
 		);
+	}
+
+	show() {
+		super.show();
 
 		const base = `<table class="table"><tr><th>Nom</th><th>Score</th></tr></table>`;
 
