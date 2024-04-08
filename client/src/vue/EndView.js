@@ -1,14 +1,22 @@
+import Router from './Router.js';
 import View from './View.js';
 import { calculateScore } from '../modele/inGame/score.js';
-import Router from './Router.js';
-import GameView from './GameView.js';
 
 /**
  * Game Over View with restart button and the score
  */
 export default class EndView extends View {
-	constructor(element) {
+	socket;
+	time;
+
+	constructor(element, socket) {
 		super(element);
+		this.socket = socket;
+		this.time = 0;
+
+		this.socket.on('timeUpdate', newTime => {
+			this.time = newTime;
+		});
 	}
 
 	show() {
@@ -25,6 +33,8 @@ export default class EndView extends View {
 		);
 
 		const score = this.element.querySelector('.score');
-		score.innerHTML = calculateScore(10, 10);
+		const scoreDo = calculateScore(10, this.time);
+		score.innerHTML = `Score : ${scoreDo}, Temps survécu : ${this.time}`;
+		this.socket.emit('addScore', scoreDo);
 	}
 }

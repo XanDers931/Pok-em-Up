@@ -81,15 +81,14 @@ export default class BaseValue {
 	 */
 	projectileWidth = 0;
 	projectileheight = 0;
-	
+
 	/**
-	 *Initialize Projectile Constants. 
-	*/
-	static initialiseProjectileConstants(projectileWidth, projectileHeight){
+	 *Initialize Projectile Constants.
+	 */
+	static initialiseProjectileConstants(projectileWidth, projectileHeight) {
 		this.projectileWidth = projectileWidth;
 		this.projectileHeight = projectileHeight;
 	}
-
 
 	/**
 	 * Bonus Constants
@@ -116,5 +115,9 @@ export default class BaseValue {
 
 	static initialiseSkinIdList(skinIdlist) {
 		this.skinIdlist = skinIdlist;
+	}
+
+	static intialiseTime(seconde) {
+		this.seconde = seconde;
 	}
 }

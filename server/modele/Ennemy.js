@@ -15,21 +15,24 @@ export default class Ennemy {
 	id;
 	x;
 	y;
+	upsideDown;
 	speed;
 	idImage;
 	running;
 
 	constructor(speed) {
-		this.lastId++;
-		this.id = this.lastId;
+		Ennemy.lastId = Ennemy.lastId + 1;
+		this.id = Ennemy.lastId;
 		this.x = BaseValue.width;
 		this.idImage = DATA[Math.floor(Math.random() * DATA.length + 1)];
 		this.x = BaseValue.width;
 		this.y = Math.random() * (BaseValue.height - BaseValue.ennemyHeight);
 		this.speed = speed;
 		this.running = true;
+		this.upsideDown = true;
 
 		setInterval(event => this.move(event), 1000 / 60);
+		setInterval(event => this.takeRandomUpsideDown(event), 500);
 	}
 
 	/**
@@ -38,6 +41,22 @@ export default class Ennemy {
 	move() {
 		if (this.running == true) {
 			this.x -= this.speed;
+			if (this.upsideDown && this.y > 0) {
+				this.y++;
+			} else if (this.upsideDown == false && this.y < BaseValue.height) {
+				this.y--;
+			}
+		}
+	}
+
+	/**
+	 *
+	 */
+	takeRandomUpsideDown() {
+		if (Math.random() > 0.5) {
+			this.upsideDown = true;
+		} else {
+			this.upsideDown = false;
 		}
 	}
 
@@ -69,8 +88,28 @@ export default class Ennemy {
 		return this.y;
 	}
 
-	collideWithPlayer(damagerX, damagerY, damagerWidth, damagerHeight, hitX, hitY, hitWidht, hitHeight){
-		if(collider(damagerX, damagerY, damagerWidth, damagerHeight, hitX, hitY, hitWidht, hitHeight)){
+	collideWithPlayer(
+		damagerX,
+		damagerY,
+		damagerWidth,
+		damagerHeight,
+		hitX,
+		hitY,
+		hitWidht,
+		hitHeight
+	) {
+		if (
+			collider(
+				damagerX,
+				damagerY,
+				damagerWidth,
+				damagerHeight,
+				hitX,
+				hitY,
+				hitWidht,
+				hitHeight
+			)
+		) {
 			return true;
 		}
 		return false;

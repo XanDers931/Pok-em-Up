@@ -51,7 +51,7 @@ export default class PlayerDisplay {
 			BaseValue.playerWidthSize,
 			BaseValue.playerHeightSize
 		);
-		Draw.drawText(this.name, this.x, this.y, 100);
+		Draw.drawText(this.name, this.x, this.y, 120, this.image.width);
 	}
 
 	/**
@@ -80,5 +80,9 @@ export default class PlayerDisplay {
 	 */
 	getReady() {
 		return this.ready;
+	}
+
+	getProjectiles() {
+		return this.projectiles;
 	}
 }

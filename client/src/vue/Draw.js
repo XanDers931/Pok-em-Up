@@ -12,7 +12,7 @@ export default class Draw {
 
 	/**
 	 * give the canvas to the class
-	 * @param {*} canvas 
+	 * @param {*} canvas
 	 */
 	static initialise(canvas) {
 		this.canvas = canvas;
@@ -25,11 +25,11 @@ export default class Draw {
 
 	/**
 	 * function to draw any image in the canvas and automatically resize it
-	 * @param {*} image 
-	 * @param {*} x 
-	 * @param {*} y 
-	 * @param {*} width 
-	 * @param {*} height 
+	 * @param {*} image
+	 * @param {*} x
+	 * @param {*} y
+	 * @param {*} width
+	 * @param {*} height
 	 */
 	static draw(image, x, y, width, height) {
 		this.context.drawImage(
@@ -51,25 +51,26 @@ export default class Draw {
 
 	/**
 	 * function to draw any text in the canvas and automatically resize it
-	 * @param {*} text 
-	 * @param {*} x 
-	 * @param {*} y 
-	 * @param {*} size 
+	 * @param {*} text
+	 * @param {*} x
+	 * @param {*} y
+	 * @param {*} size
 	 */
-	static drawText(text, x, y, size) {
+	static drawText(text, x, y, size, width) {
 		this.context.font = `${Draw.canvas.width / size}px Comic sans ms`;
 		this.context.fillStyle = '#FF2222';
+		this.context.textAlign = 'center';
 		this.context.fillText(
 			text,
-			(x * Draw.canvas.width) / BaseValue.width,
+			((x + width / 2) * Draw.canvas.width) / BaseValue.width,
 			(y * Draw.canvas.height) / BaseValue.height
 		);
 	}
 
 	/**
 	 * function to draw the score
-	 * @param {*} monsterKill 
-	 * @param {*} time 
+	 * @param {*} monsterKill
+	 * @param {*} time
 	 */
 	static drawScore(monsterKill, time) {
 		let score = calculateScore(monsterKill, time);

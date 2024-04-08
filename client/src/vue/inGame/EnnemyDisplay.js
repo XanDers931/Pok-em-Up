@@ -11,17 +11,14 @@ import Draw from '../Draw.js';
  * image - The ennemy image.
  */
 export default class Ennemy {
-	static lastId = 0;
-	id;
 	x;
 	y;
 	ready;
 	skin;
 	image;
 
-	constructor(x, y, skin) {
-		Ennemy.lastId++;
-		this.id = Ennemy.lastId;
+	constructor(x, y, skin, id) {
+		this.id = id;
 		this.ready = false;
 		this.x = x;
 		this.y = y;
@@ -37,7 +34,13 @@ export default class Ennemy {
 	 * Function to display the ennemy image.
 	 */
 	display() {
-		Draw.draw(this.image, this.x, this.y, BaseValue.ennemyWidhtSize, BaseValue.ennemyHeightSize);
+		Draw.draw(
+			this.image,
+			this.x,
+			this.y,
+			BaseValue.ennemyWidhtSize,
+			BaseValue.ennemyHeightSize
+		);
 	}
 
 	/**

@@ -10,9 +10,20 @@
  * @param {the damaged height} hitHeight
  * @returns
  */
-export function collider(damagerX, damagerY, damagerWidth, damagerHeight, hitX, hitY, hitWidht, hitHeight){
-	return damagerX < hitX + hitWidht &&
-		   damagerX + damagerWidth > hitX &&
-           damagerY < hitY + hitHeight &&
-           damagerY + damagerHeight > hitY;
+export function collider(
+	damagerX,
+	damagerY,
+	damagerWidth,
+	damagerHeight,
+	hitX,
+	hitY,
+	hitWidht,
+	hitHeight
+) {
+	return (
+		damagerX < hitX + hitWidht &&
+		damagerX + damagerWidth > hitX &&
+		damagerY < hitY + hitHeight &&
+		damagerY + damagerHeight > hitY
+	);
 }

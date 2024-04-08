@@ -26,6 +26,7 @@ export default class GameView extends View {
 	damageAreaList;
 	refresh;
 	playerName;
+	bonus;
 
 	constructor(element, socket) {
 		super(element);
@@ -59,7 +60,8 @@ export default class GameView extends View {
 						ennemy.y,
 						'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' +
 							ennemy.idImage +
-							'.png'
+							'.png',
+						ennemy.id
 					)
 				);
 			});
@@ -71,7 +73,8 @@ export default class GameView extends View {
 					data.y,
 					'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' +
 						data.idImage +
-						'.png'
+						'.png',
+					data.id
 				)
 			);
 		});
@@ -121,14 +124,27 @@ export default class GameView extends View {
 			this.bonus = [];
 		});
 
-		this.socket.on('ennemyKillPlayer', ennemy =>{
-			let index = this.ennemies.indexOf(ennemy);
+		this.socket.on('ennemyDispawn', ennemyUpdate => {
+			const ennemyToDelete = this.ennemies.find(
+				ennemy => ennemy.id == ennemyUpdate.id
+			);
+			const index = this.ennemies.indexOf(ennemyToDelete);
 			this.ennemies.splice(index, 1);
-		})
+		});
 
 		this.socket.on('ennemyHit', ennemy => {
 			let index = this.ennemies.indexOf(ennemy);
 			this.ennemies.splice(index, 1);
+		});
+
+		this.socket.on('reduceLife', player => {
+			Router.navigate('/gameover');
+		});
+
+		this.socket.on('bonusTaken', plus => {
+			const bonusToDelete = this.bonus.find(bonus => bonus.id == plus.id);
+			const index = this.bonus.indexOf(bonusToDelete);
+			this.bonus.splice(index, 1);
 		});
 	}
 
@@ -138,13 +154,24 @@ export default class GameView extends View {
 	show() {
 		super.show();
 		if (this.start == false) {
+			//this.socket.emit('restartGame');
 			this.start = true;
 
 			let pseudo = '';
-			while (pseudo == null || pseudo == '') {
-				pseudo = prompt('Votre pseudo');
+			while (pseudo == null || pseudo == '' || pseudo.length > 8) {
+				pseudo = prompt('Votre pseudo (1-8 caractères) : ');
 			}
 			this.socket.emit('pseudo', pseudo);
+
+			if (this.players.length == 1) {
+				let difficulty = 0;
+				while (difficulty != 1 && difficulty != 2 && difficulty != 3) {
+					difficulty = prompt(
+						'Choix de la difficulté : facile (1), normal (2), difficile (3)'
+					);
+				}
+				this.socket.emit('difficulty', difficulty);
+			}
 
 			this.socket.emit('game', true);
 			this.players[this.players.length - 1].name = pseudo;
@@ -168,21 +195,6 @@ export default class GameView extends View {
 				96
 			);
 
-			/*
-			this.damageAreaList = [];
-			this.ennemies.forEach(element => {
-				this.damageAreaList.push(
-					new damageArea(
-						element.getId(),
-						element.getX(),
-						element.getY(),
-						element.getEnnemyWidth(),
-						element.getEnnemyHeight()
-					)
-				);
-			});
-			*/
-
 			this.refresh = true;
 
 			this.audio = document.querySelector('.mainTheme');
@@ -199,7 +211,7 @@ export default class GameView extends View {
 
 	/**
 	 * Stop the game (only in single player mode)
-	 * @param {*} event 
+	 * @param {*} event
 	 */
 	handleKeyDown(event) {
 		if (event.key == 'Escape' && this.players.length == 1) {
@@ -210,23 +222,6 @@ export default class GameView extends View {
 		}
 	}
 
-	/*
-	collisionMaj(ennemy) {
-		this.damageAreaList = [];
-		this.ennemies.forEach(element => {
-			this.damageAreaList.push(
-				new DamageArea(
-					element.getX(),
-					element.getY(),
-					element.getEnnemyWidth(),
-					element.getEnnemyHeight()
-				)
-			);
-		});
-		return this.damageAreaList;
-	}
-	*/
-
 	/**
 	 * Do the display for the canvas each requestAnimationFrame
 	 */
@@ -234,11 +229,7 @@ export default class GameView extends View {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
 		if (this.refresh) {
-			/*
-			this.damageAreaList = this.collisionMaj(this.ennemies);
-			*/
 			this.refresh = false;
-			//this.player.detectsCollision(this.damageAreaList);
 			setTimeout(() => {
 				this.refresh = true;
 			}, BaseValue.hitboxCheckRate);
@@ -252,7 +243,6 @@ export default class GameView extends View {
 				player.display();
 			}
 			//Draw.drawScore(player.getEnnemiesKilled(), 2);
-			//player.deleteHitProjectiles(this.damageAreaList);
 		});
 
 		this.players.forEach(player => {
