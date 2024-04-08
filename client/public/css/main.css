@@ -110,6 +110,16 @@ canvas {
 	flex-direction: column;
 }
 
+.credits a{
+	text-decoration: none;
+	color: white;
+}
+
+.credits a:visited{
+	text-decoration: none;
+	color: white;
+}
+
 .credits h1 {
 	font-size: 32px;
 	color: bisque;

@@ -132,10 +132,8 @@ export default class GameView extends View {
 		});
 
 		this.socket.on('reduceLife', player => {
-			/*
 			console.log('dz');
-			Router.navigate('./gameover');
-			*/
+			Router.navigate('/gameover');
 		});
 	}
 
