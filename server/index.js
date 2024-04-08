@@ -1,4 +1,3 @@
-import { readFileSync } from 'node:fs';
 import { Server as IOServer } from 'socket.io';
 import http from 'http';
 import express from 'express';
@@ -9,6 +8,7 @@ import Player from './modele/Player.js';
 import Ennemy from './modele/Ennemy.js';
 import Bonus from './modele/Bonus.js';
 import ScoreData from './modele/ScoreData.js';
+import { readFileSync } from 'node:fs';
 
 /**
  * Manage and run the server.
@@ -91,16 +91,11 @@ io.on('connection', socket => {
 	});
 
 	socket.on('showScoreBoard', () => {
-		/*
-		fs.readFile('./data.txt', (err, data) => {
-			if (err) throw err;
-			console.log(data);
-		});
-		//console.log('ici');
-		*/
 		const scoresData = [];
-		scoresData.push(new ScoreData('yolo', 100));
-		scoresData.push(new ScoreData('mdr', 247));
+		const json = JSON.parse(readFileSync('./server/data.json'));
+		json.forEach(element => {
+			scoresData.push(new ScoreData(element.name, element.score));
+		});
 		socket.emit('sendScoresData', scoresData);
 	});
 
