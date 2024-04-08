@@ -139,7 +139,7 @@ export default class GameView extends View {
 			this.ennemies.splice(index, 1);
 		});
 
-		this.socket.on('reduceLife', player => {
+		this.socket.on('gameOver', player => {
 			Router.navigate('/gameover');
 		});
 
@@ -151,7 +151,6 @@ export default class GameView extends View {
 
 		this.socket.on('timeUpdate', newTime => {
 			this.time = newTime;
-			console.log(this.time);
 		});
 	}
 
@@ -160,8 +159,10 @@ export default class GameView extends View {
 	 */
 	show() {
 		super.show();
+		if (this.start == true) {
+			this.socket.emit('restartGame');
+		}
 		if (this.start == false) {
-			//this.socket.emit('restartGame');
 			this.start = true;
 
 			let pseudo = '';

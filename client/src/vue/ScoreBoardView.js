@@ -26,7 +26,7 @@ export default class ScoreBoardView extends View {
 	show() {
 		super.show();
 
-		const base = `<table class="table"><tr><th>Nom</th><th>Score</th></tr></table>`;
+		const base = `<table class="table"><tr><th>Rank</th><th>Nom</th><th>Score</th></tr></table>`;
 
 		this.socket.emit('showScoreBoard', null);
 

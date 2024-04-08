@@ -30,6 +30,7 @@ export default class Player {
 	shootNumber;
 	ennemiesKilled;
 	running;
+	hp;
 
 	constructor(socketId, skinId) {
 		this.skinId = skinId;
@@ -47,6 +48,7 @@ export default class Player {
 		this.projectiles = [];
 		this.shootNumber = 1;
 		this.ennemiesKilled = 0;
+		this.hp = BaseValue.hp;
 
 		this.running = true;
 
@@ -221,6 +223,21 @@ export default class Player {
 		}
 	}
 
+	reset() {
+		this.x = BaseValue.width / 8 - BaseValue.playerWidth;
+		this.y = BaseValue.height / 2 - BaseValue.playerHeight;
+		this.ennemiesKilled = 0;
+		this.shootNumber = 1;
+		this.running = true;
+	}
+
+	/**
+	 * Function to reduce playerHp
+	 */
+	reduceHp() {
+		this.hp--;
+	}
+
 	/**
 	 * Setter of the player state, use to start and stop the movement of the player.
 	 */
@@ -247,5 +264,12 @@ export default class Player {
 	 */
 	getEnnemisKilled() {
 		return this.ennemiesKilled;
+	}
+
+	/**
+	 * Getter of the player hp.
+	 */
+	getHp() {
+		return this.hp;
 	}
 }

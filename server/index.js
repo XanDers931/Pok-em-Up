@@ -38,6 +38,7 @@ BaseValue.initialiseEnnemyConstants(40, 60);
 BaseValue.initialiseProjectileConstants(30, 10);
 BaseValue.intialiseTime(1000);
 BaseValue.initialiseFireRate(500);
+BaseValue.initLife(3);
 
 /**
  * Initialize game values.
@@ -92,9 +93,13 @@ io.on('connection', socket => {
 	});
 
 	socket.on('restartGame', () => {
-		//if ((players.length = 1)) {
-		restart();
-		//}
+		background = new Background();
+		time = 0;
+		ennemies = [];
+		bonus = [];
+		const player = getPlayerBySocketId(socket.id);
+		player.reset();
+		socket.emit('initEnnemies', ennemies);
 	});
 
 	socket.on('showScoreBoard', () => {
@@ -304,10 +309,13 @@ function ennemyKillPlayer() {
 					let index = ennemies.indexOf(ennemy);
 					ennemies.splice(index, 1);
 					io.emit('ennemyDispawn', ennemy);
-					io.emit('reduceLife', player);
-					player.x = -100;
-					player.y = -100;
-					player.setState(false);
+					if (player.getHp() == 0) {
+						player.x = -100;
+						player.y = -100;
+						player.setState(false);
+						io.emit('gameOver', player);
+					}
+					player.reduceHp();
 				}
 			});
 		});
