@@ -6,8 +6,11 @@ import { calculateScore } from '../modele/inGame/score.js';
  * Game Over View with restart button and the score
  */
 export default class EndView extends View {
-	constructor(element) {
+	socket;
+
+	constructor(element, socket) {
 		super(element);
+		this.socket = socket;
 	}
 
 	show() {
@@ -24,6 +27,8 @@ export default class EndView extends View {
 		);
 
 		const score = this.element.querySelector('.score');
-		score.innerHTML = calculateScore(10, 10);
+		const scoreDo = calculateScore(10, 10);
+		score.innerHTML = scoreDo;
+		this.socket.emit('addScore', scoreDo);
 	}
 }

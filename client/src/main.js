@@ -24,7 +24,10 @@ const pauseView = new PauseView(
 	document.querySelector('.viewContent .pause'),
 	socket
 );
-const endView = new EndView(document.querySelector('.viewContent .end'));
+const endView = new EndView(
+	document.querySelector('.viewContent .end'),
+	socket
+);
 const creditsView = new CreditsView(
 	document.querySelector('.viewContent .credits')
 );

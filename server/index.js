@@ -9,6 +9,7 @@ import Ennemy from './modele/Ennemy.js';
 import Bonus from './modele/Bonus.js';
 import ScoreData from './modele/ScoreData.js';
 import { readFileSync } from 'node:fs';
+import { writeFileSync } from 'node:fs';
 
 /**
  * Manage and run the server.
@@ -85,19 +86,44 @@ io.on('connection', socket => {
 
 	socket.on('restartGame', () => {
 		//if ((players.length = 1)) {
-		console.log('ici');
 		restart();
 		//}
 	});
 
 	socket.on('showScoreBoard', () => {
 		const scoresData = [];
-		const json = JSON.parse(readFileSync('./server/data.json'));
+		const json = JSON.parse(readFileSync('./server/scores.json'));
 		json.forEach(element => {
 			scoresData.push(new ScoreData(element.name, element.score));
 		});
 		socket.emit('sendScoresData', scoresData);
 	});
+
+	socket.on('addScore', score => {
+		const scoresData = [];
+		const read = readFileSync('./server/scores.json');
+		if (read.length >= 1) {
+			const json = JSON.parse(read);
+			json.forEach(element => {
+				scoresData.push(new ScoreData(element.name, element.score));
+			});
+			scoresData.push(new ScoreData(getPlayerBySocket(socket.id).name, score));
+
+			writeFileSync('./server/scores.json', JSON.stringify(scoresData));
+		} else {
+			writeFileSync(
+				'./server/scores.json',
+				JSON.stringify([
+					{
+						name: getPlayerBySocket(socket.id).name,
+						score: score,
+					},
+				])
+			);
+		}
+	});
+
+	socket.emit('getUserName', getPlayerBySocket(socket.id).name);
 
 	socket.on('game', state => {
 		background.setState(state);
