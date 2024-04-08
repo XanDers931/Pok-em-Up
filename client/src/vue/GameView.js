@@ -26,6 +26,7 @@ export default class GameView extends View {
 	damageAreaList;
 	refresh;
 	playerName;
+	bonus;
 
 	constructor(element, socket) {
 		super(element);
@@ -138,6 +139,14 @@ export default class GameView extends View {
 
 		this.socket.on('reduceLife', player => {
 			Router.navigate('/gameover');
+		});
+
+		this.socket.on('bonusTaken', plus =>{
+			const bonusToDelete = this.bonus.find(
+				bonus => bonus.id == plus.id
+			);
+			const index = this.bonus.indexOf(bonusToDelete);
+			this.bonus.splice(index, 1);
 		});
 	}
 

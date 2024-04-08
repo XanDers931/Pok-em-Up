@@ -1,4 +1,5 @@
 import BaseValue from './BaseValue.js';
+import { collider } from '../../client/src/modele/inGame/Collision.js';
 
 /**
  * Class to manage a bonus of the game.
@@ -68,5 +69,32 @@ export default class Bonus {
 	 */
 	getY() {
 		return this.y;
+	}
+
+	collideWithPlayer(
+		damagerX,
+		damagerY,
+		damagerWidth,
+		damagerHeight,
+		hitX,
+		hitY,
+		hitWidht,
+		hitHeight
+	) {
+		if (
+			collider(
+				damagerX,
+				damagerY,
+				damagerWidth,
+				damagerHeight,
+				hitX,
+				hitY,
+				hitWidht,
+				hitHeight
+			)
+		) {
+			return true;
+		}
+		return false;
 	}
 }

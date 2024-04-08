@@ -273,6 +273,31 @@ function ennemyKillPlayer() {
 	}
 }
 
+function playerTakeBonus(){
+	if(running ==  true){
+		players.forEach(player => {
+			bonus.forEach(plus => {
+				if(
+					plus.collideWithPlayer(
+						player.getX(),
+						player.getY(),
+						BaseValue.playerWidth,
+						BaseValue.playerHeight,
+						plus.getX(),
+						plus.getY(),
+						BaseValue.bonusWidth,
+						BaseValue.bonusHeight
+					)){
+						const index = bonus.indexOf(plus);
+						bonus.splice(index, 1);
+						io.emit('bonusTaken', plus);
+						player.useBonusEffect();
+					}
+			})
+		})
+	}
+}
+
 /**
  * Function to initialize the game and start the server sending datas to clients about the running game.
  */
@@ -291,4 +316,5 @@ function init() {
 	setInterval(event => recycleEnnemies(event), BaseValue.frameRate);
 	setInterval(event => spawnBonus(event), 2000);
 	setInterval(event => ennemyKillPlayer(event), BaseValue.frameRate);
+	setInterval(event => playerTakeBonus(event), BaseValue.frameRate);
 }
