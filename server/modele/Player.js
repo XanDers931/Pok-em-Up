@@ -46,7 +46,8 @@ export default class Player {
 		this.fire = false;
 		this.projectiles = [];
 		this.shootNumber = 1;
-		this.ennemiesKilled;
+		this.ennemiesKilled = 0;
+
 		this.running = true;
 
 		setInterval(event => this.increaseSpeed(event), BaseValue.frameRate);
@@ -182,23 +183,15 @@ export default class Player {
 	/**
 	 * Function to delete all projectiles that hit an ennemy.
 	 */
-	deleteHitProjectiles(
-		damagerX,
-		damagerY,
-		damagerWidth,
-		damagerHeight,
-		hitX,
-		hitY,
-		hitWidht,
-		hitHeight
-	) {
+	deleteHitProjectiles(hitX, hitY, hitWidht, hitHeight) {
+		let isTrue = false;
 		this.projectiles.forEach(projectile => {
 			if (
 				projectile.detectCollision(
-					damagerX,
-					damagerY,
-					damagerWidth,
-					damagerHeight,
+					projectile.getX(),
+					projectile.getY(),
+					BaseValue.projectileWidth,
+					BaseValue.projectileHeight,
 					hitX,
 					hitY,
 					hitWidht,
@@ -208,10 +201,10 @@ export default class Player {
 				let index = this.projectiles.indexOf(projectile);
 				this.projectiles.splice(index, 1);
 				this.ennemiesKilled++;
-				return true;
+				isTrue = true;
 			}
 		});
-		return false;
+		return isTrue;
 	}
 
 	/**
@@ -227,14 +220,6 @@ export default class Player {
 			}, 10000);
 		}
 	}
-
-	/*
-	detectsCollision(damageAreaList) {
-		if (allColision(damageAreaList, x, y, playerWidthSize, playerHeightSize)>0) {
-			Router.navigate('/gameover');
-		}
-	}
-	*/
 
 	/**
 	 * Setter of the player state, use to start and stop the movement of the player.

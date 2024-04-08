@@ -34,7 +34,8 @@ BaseValue.initialiseBackgroundConstants(1);
 BaseValue.initialiseEnnemyConstants(96, 96);
 BaseValue.initialiseBonusConstants(48, 16, 1000 / 6, 5, 2);
 BaseValue.initialiseSkinIdList([1, 4, 7, 152, 155, 158]);
-BaseValue.initialiseEnnemyConstants(30, 10);
+BaseValue.initialiseEnnemyConstants(40, 60);
+BaseValue.initialiseProjectileConstants(30, 10);
 BaseValue.intialiseTime(1000);
 
 /**
@@ -101,6 +102,7 @@ io.on('connection', socket => {
 		json.forEach(element => {
 			scoresData.push(new ScoreData(element.name, element.score));
 		});
+		scoresData.sort((a, b) => b.score - a.score);
 		socket.emit('sendScoresData', scoresData);
 	});
 
@@ -189,6 +191,7 @@ function restart() {
 	players = [];
 	ennemies = [];
 	bonus = [];
+	time = 0;
 	// + voir pour la musique
 	io.emit('restart', null);
 }
@@ -299,7 +302,7 @@ function ennemyKillPlayer() {
 				) {
 					let index = ennemies.indexOf(ennemy);
 					ennemies.splice(index, 1);
-					io.emit('ennemyKillPlayer', ennemy);
+					io.emit('ennemyDispawn', ennemy);
 					io.emit('reduceLife', player);
 					player.x = -100;
 					player.y = -100;
@@ -310,6 +313,9 @@ function ennemyKillPlayer() {
 	}
 }
 
+/**
+ * Function to check and destroy bonus when a player collide with it
+ */
 function playerTakeBonus() {
 	if (running == true) {
 		players.forEach(player => {
@@ -330,6 +336,30 @@ function playerTakeBonus() {
 					bonus.splice(index, 1);
 					io.emit('bonusTaken', plus);
 					player.useBonusEffect(plus);
+				}
+			});
+		});
+	}
+}
+
+/**
+ * Function to check and destroy ennemy when a player shot it
+ */
+function playerKillEnnemy() {
+	if (running == true) {
+		players.forEach(player => {
+			ennemies.forEach(ennemy => {
+				if (
+					player.deleteHitProjectiles(
+						ennemy.getX(),
+						ennemy.getY(),
+						BaseValue.ennemyWidth,
+						BaseValue.ennemyHeight
+					)
+				) {
+					const index = ennemies.indexOf(ennemy);
+					ennemies.splice(index, 1);
+					io.emit('ennemyDispawn', ennemy);
 				}
 			});
 		});
@@ -376,4 +406,5 @@ function init() {
 	setInterval(event => playerTakeBonus(event), BaseValue.frameRate);
 	setInterval(event => increaseTime(event), BaseValue.seconde);
 	setInterval(event => spawnMoreEnnemy(event), BaseValue.seconde);
+	setInterval(event => playerKillEnnemy(event), BaseValue.frameRate);
 }

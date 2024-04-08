@@ -81,4 +81,8 @@ export default class PlayerDisplay {
 	getReady() {
 		return this.ready;
 	}
+
+	getProjectiles() {
+		return this.projectiles;
+	}
 }
