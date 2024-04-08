@@ -121,10 +121,10 @@ export default class GameView extends View {
 			this.bonus = [];
 		});
 
-		this.socket.on('ennemyKillPlayer', ennemy =>{
+		this.socket.on('ennemyKillPlayer', ennemy => {
 			let index = this.ennemies.indexOf(ennemy);
 			this.ennemies.splice(index, 1);
-		})
+		});
 
 		this.socket.on('ennemyHit', ennemy => {
 			let index = this.ennemies.indexOf(ennemy);
@@ -141,8 +141,8 @@ export default class GameView extends View {
 			this.start = true;
 
 			let pseudo = '';
-			while (pseudo == null || pseudo == '') {
-				pseudo = prompt('Votre pseudo');
+			while (pseudo == null || pseudo == '' || pseudo.length > 8) {
+				pseudo = prompt('Votre pseudo (1-8 caractères) : ');
 			}
 			this.socket.emit('pseudo', pseudo);
 
@@ -199,7 +199,7 @@ export default class GameView extends View {
 
 	/**
 	 * Stop the game (only in single player mode)
-	 * @param {*} event 
+	 * @param {*} event
 	 */
 	handleKeyDown(event) {
 		if (event.key == 'Escape' && this.players.length == 1) {
