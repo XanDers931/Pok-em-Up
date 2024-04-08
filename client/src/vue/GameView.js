@@ -59,7 +59,8 @@ export default class GameView extends View {
 						ennemy.y,
 						'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' +
 							ennemy.idImage +
-							'.png'
+							'.png',
+						ennemy.id
 					)
 				);
 			});
@@ -71,7 +72,8 @@ export default class GameView extends View {
 					data.y,
 					'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' +
 						data.idImage +
-						'.png'
+						'.png',
+					data.id
 				)
 			);
 		});
@@ -121,8 +123,11 @@ export default class GameView extends View {
 			this.bonus = [];
 		});
 
-		this.socket.on('ennemyKillPlayer', ennemy => {
-			let index = this.ennemies.indexOf(ennemy);
+		this.socket.on('ennemyKillPlayer', ennemyUpdate => {
+			const ennemyToDelete = this.ennemies.find(
+				ennemy => ennemy.id == ennemyUpdate.id
+			);
+			const index = this.ennemies.indexOf(ennemyToDelete);
 			this.ennemies.splice(index, 1);
 		});
 

@@ -62,7 +62,7 @@ export default class Draw {
 		this.context.textAlign = 'center';
 		this.context.fillText(
 			text,
-			x + width / 2,
+			((x + width / 2) * Draw.canvas.width) / BaseValue.width,
 			(y * Draw.canvas.height) / BaseValue.height
 		);
 	}

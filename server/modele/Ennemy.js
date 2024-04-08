@@ -20,8 +20,8 @@ export default class Ennemy {
 	running;
 
 	constructor(speed) {
-		this.lastId++;
-		this.id = this.lastId;
+		Ennemy.lastId = Ennemy.lastId + 1;
+		this.id = Ennemy.lastId;
 		this.x = BaseValue.width;
 		this.idImage = DATA[Math.floor(Math.random() * DATA.length + 1)];
 		this.x = BaseValue.width;
@@ -69,8 +69,28 @@ export default class Ennemy {
 		return this.y;
 	}
 
-	collideWithPlayer(damagerX, damagerY, damagerWidth, damagerHeight, hitX, hitY, hitWidht, hitHeight){
-		if(collider(damagerX, damagerY, damagerWidth, damagerHeight, hitX, hitY, hitWidht, hitHeight)){
+	collideWithPlayer(
+		damagerX,
+		damagerY,
+		damagerWidth,
+		damagerHeight,
+		hitX,
+		hitY,
+		hitWidht,
+		hitHeight
+	) {
+		if (
+			collider(
+				damagerX,
+				damagerY,
+				damagerWidth,
+				damagerHeight,
+				hitX,
+				hitY,
+				hitWidht,
+				hitHeight
+			)
+		) {
 			return true;
 		}
 		return false;

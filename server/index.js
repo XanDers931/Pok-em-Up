@@ -255,7 +255,7 @@ function ennemyKillPlayer() {
 				) {
 					let index = ennemies.indexOf(ennemy);
 					ennemies.splice(index, 1);
-					io.emit('ennemyKillPLayer', ennemy);
+					io.emit('ennemyKillPlayer', ennemy);
 					io.emit('reduceLife', player);
 					player.x = -100;
 					player.y = -100;
