@@ -1,7 +1,6 @@
+import Router from './Router.js';
 import View from './View.js';
 import { calculateScore } from '../modele/inGame/score.js';
-import Router from './Router.js';
-import GameView from './GameView.js';
 
 /**
  * Game Over View with restart button and the score

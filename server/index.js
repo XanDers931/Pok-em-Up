@@ -8,6 +8,7 @@ import Background from './modele/Background.js';
 import Player from './modele/Player.js';
 import Ennemy from './modele/Ennemy.js';
 import Bonus from './modele/Bonus.js';
+import ScoreData from './modele/ScoreData.js';
 
 /**
  * Manage and run the server.
@@ -87,6 +88,13 @@ io.on('connection', socket => {
 		console.log('ici');
 		restart();
 		//}
+	});
+
+	socket.on('showScoreBoard', () => {
+		const scoresData = [];
+		scoresData.push(new ScoreData('yolo', 100));
+		scoresData.push(new ScoreData('mdr', 247));
+		socket.emit('sendScoresData', scoresData);
 	});
 
 	socket.on('game', state => {
