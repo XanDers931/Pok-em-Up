@@ -17,6 +17,11 @@
 
 ## Diagrammes de séquence
 
+<img src="./client/public/images/presentation/Diagramme _de_séquence_1.jpg">
+<img src="./client/public/images/presentation/Diagramme _de_séquence_2.jpg">
+<img src="./client/public/images/presentation/Diagramme_de_séquence_3.jpg">
+<img src="./client/public/images/presentation/Diagramme_de_séquence_4.jpg">
+
 ## Difficulté techniques
 
 ### Serveur
