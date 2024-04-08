@@ -146,11 +146,13 @@ export default class GameView extends View {
 	 */
 	show() {
 		super.show();
+		/*
 		if (this.players.length == 1) {
 			this.start = false;
 		}
+		*/
 		if (this.start == false) {
-			this.socket.emit('restartGame');
+			//this.socket.emit('restartGame');
 			this.start = true;
 
 			let pseudo = '';
