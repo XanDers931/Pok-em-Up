@@ -36,6 +36,7 @@ BaseValue.initialiseEnnemyConstants(96, 96);
 BaseValue.initialiseBonusConstants(48, 16, 1000 / 6, 5, 2);
 BaseValue.initialiseSkinIdList([1, 4, 7, 152, 155, 158]);
 BaseValue.initialiseEnnemyConstants(30, 10);
+BaseValue.intialiseTime(1000);
 
 /**
  * Initialize game values.
@@ -48,6 +49,7 @@ let ennemies;
 let background;
 let bonus;
 let running;
+let time;
 
 init();
 /**
@@ -66,6 +68,11 @@ io.on('connection', socket => {
 	socket.on('pseudo', pseudo => {
 		getPlayerBySocket(socket.id).name = pseudo;
 		io.emit('newPlayer', players);
+	});
+
+	socket.on('difficulty', number => {
+		time = time + (number - 1) * 30;
+		console.log(number);
 	});
 
 	socket.on('disconnect', () => {
@@ -336,6 +343,25 @@ function playerTakeBonus() {
 }
 
 /**
+ * Increase time each seconde
+ */
+function increaseTime() {
+	if (running == true) {
+		time++;
+		io.emit('timeUpdate', time);
+		console.log(time);
+	}
+}
+
+function spawnMoreEnnemy() {
+	if (running == true) {
+		for (let i = 30; i < time; i = i + 30) {
+			spawnEnnemy();
+		}
+	}
+}
+
+/**
  * Function to initialize the game and start the server sending datas to clients about the running game.
  */
 function init() {
@@ -347,6 +373,7 @@ function init() {
 	ennemies = [];
 	bonus = [];
 	skinIdList = [];
+	time = 0;
 
 	setInterval(event => sendData(event), BaseValue.frameRate);
 	setInterval(event => spawnEnnemy(event), BaseValue.spawnRate);
@@ -354,4 +381,6 @@ function init() {
 	setInterval(event => spawnBonus(event), 2000);
 	setInterval(event => ennemyKillPlayer(event), BaseValue.frameRate);
 	setInterval(event => playerTakeBonus(event), BaseValue.frameRate);
+	setInterval(event => increaseTime(event), BaseValue.seconde);
+	setInterval(event => spawnMoreEnnemy(event), BaseValue.seconde);
 }

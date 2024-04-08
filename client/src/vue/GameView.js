@@ -141,10 +141,8 @@ export default class GameView extends View {
 			Router.navigate('/gameover');
 		});
 
-		this.socket.on('bonusTaken', plus =>{
-			const bonusToDelete = this.bonus.find(
-				bonus => bonus.id == plus.id
-			);
+		this.socket.on('bonusTaken', plus => {
+			const bonusToDelete = this.bonus.find(bonus => bonus.id == plus.id);
 			const index = this.bonus.indexOf(bonusToDelete);
 			this.bonus.splice(index, 1);
 		});
@@ -155,11 +153,6 @@ export default class GameView extends View {
 	 */
 	show() {
 		super.show();
-		/*
-		if (this.players.length == 1) {
-			this.start = false;
-		}
-		*/
 		if (this.start == false) {
 			//this.socket.emit('restartGame');
 			this.start = true;
@@ -169,6 +162,16 @@ export default class GameView extends View {
 				pseudo = prompt('Votre pseudo (1-8 caractères) : ');
 			}
 			this.socket.emit('pseudo', pseudo);
+
+			if (this.players.length == 1) {
+				let difficulty = 0;
+				while (difficulty != 1 && difficulty != 2 && difficulty != 3) {
+					difficulty = prompt(
+						'Choix de la difficulté : facile (1), normal (2), difficile (3)'
+					);
+				}
+				this.socket.emit('difficulty', difficulty);
+			}
 
 			this.socket.emit('game', true);
 			this.players[this.players.length - 1].name = pseudo;
