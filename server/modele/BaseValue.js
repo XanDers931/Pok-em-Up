@@ -113,11 +113,25 @@ export default class BaseValue {
 		this.bonusEffectNumber = bonusEffectNumber;
 	}
 
+	/**
+	 * Initialize SkinList.
+	 */
 	static initialiseSkinIdList(skinIdlist) {
 		this.skinIdlist = skinIdlist;
 	}
 
+	/**
+	 * Initialize time.
+	 */
 	static intialiseTime(seconde) {
 		this.seconde = seconde;
+	}
+
+	/**
+	 * Initialize fire rate for player.
+	 */
+	fireRate = 0;
+	static initialiseFireRate(fireRate) {
+		this.fireRate = fireRate;
 	}
 }

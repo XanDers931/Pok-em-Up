@@ -37,6 +37,7 @@ BaseValue.initialiseSkinIdList([1, 4, 7, 152, 155, 158]);
 BaseValue.initialiseEnnemyConstants(40, 60);
 BaseValue.initialiseProjectileConstants(30, 10);
 BaseValue.intialiseTime(1000);
+BaseValue.initialiseFireRate(500);
 
 /**
  * Initialize game values.

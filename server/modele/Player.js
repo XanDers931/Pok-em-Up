@@ -53,7 +53,7 @@ export default class Player {
 		setInterval(event => this.increaseSpeed(event), BaseValue.frameRate);
 		setInterval(event => this.move(event), BaseValue.frameRate);
 		setInterval(event => this.decreaseSpeed(event), BaseValue.frameRate);
-		setInterval(event => this.shootProjectile(event), 100);
+		setInterval(event => this.shootProjectile(event), BaseValue.fireRate);
 		setInterval(event => this.deleteOutProjectiles(event), BaseValue.frameRate);
 	}
 
