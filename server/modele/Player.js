@@ -29,7 +29,6 @@ export default class Player {
 	projectiles;
 	shootNumber;
 	ennemiesKilled;
-	bonus;
 	running;
 
 	constructor(socketId, skinId) {
@@ -48,7 +47,6 @@ export default class Player {
 		this.projectiles = [];
 		this.shootNumber = 1;
 		this.ennemiesKilled;
-		this.bonus = [];
 		this.running = true;
 
 		setInterval(event => this.increaseSpeed(event), BaseValue.frameRate);
@@ -56,7 +54,6 @@ export default class Player {
 		setInterval(event => this.decreaseSpeed(event), BaseValue.frameRate);
 		setInterval(event => this.shootProjectile(event), 100);
 		setInterval(event => this.deleteOutProjectiles(event), BaseValue.frameRate);
-		setInterval(event => this.useBonusEffect(event), BaseValue.frameRate);
 	}
 
 	/**
@@ -155,17 +152,18 @@ export default class Player {
 	 */
 	shootProjectile() {
 		if (this.running && this.fire) {
-			for (let i = 0; i < this.shootNumber; i++){
+			for (let i = 0; i < this.shootNumber; i++) {
 				this.projectiles.push(
 					new Projectile(
 						this.x + BaseValue.playerWidth / 2,
-						this.y + BaseValue.playerHeight * ((i+1)/(this.shootNumber+2)),
+						this.y +
+							BaseValue.playerHeight * ((i + 1) / (this.shootNumber + 2)),
 						20,
 						0,
-					this.socketId
+						this.socketId
 					)
 				);
-			}	
+			}
 		}
 	}
 
@@ -184,9 +182,29 @@ export default class Player {
 	/**
 	 * Function to delete all projectiles that hit an ennemy.
 	 */
-	deleteHitProjectiles(damagerX, damagerY, damagerWidth, damagerHeight, hitX, hitY, hitWidht, hitHeight) {
+	deleteHitProjectiles(
+		damagerX,
+		damagerY,
+		damagerWidth,
+		damagerHeight,
+		hitX,
+		hitY,
+		hitWidht,
+		hitHeight
+	) {
 		this.projectiles.forEach(projectile => {
-			if (projectile.detectCollision(damagerX, damagerY, damagerWidth, damagerHeight, hitX, hitY, hitWidht, hitHeight)) {
+			if (
+				projectile.detectCollision(
+					damagerX,
+					damagerY,
+					damagerWidth,
+					damagerHeight,
+					hitX,
+					hitY,
+					hitWidht,
+					hitHeight
+				)
+			) {
 				let index = this.projectiles.indexOf(projectile);
 				this.projectiles.splice(index, 1);
 				this.ennemiesKilled++;
@@ -196,18 +214,14 @@ export default class Player {
 		return false;
 	}
 
-	useBonusEffect(){
-		this.bonus.forEach(element => {
-			if (element.haveBeenActivated != true){
-				if (element.effectId == 1){
-					this.shootNumber++;
-					setTimeout(() => {
-						this.shootNumber--;
-					}, 5000);
-				}
-				element.haveBeenActivated=true;
-			}
-		})
+	useBonusEffect(bonus) {
+		if (bonus.effectId == 1) {
+			console.log(true);
+			this.shootNumber++;
+			setTimeout(() => {
+				this.shootNumber--;
+			}, 5000);
+		}
 	}
 
 	/*

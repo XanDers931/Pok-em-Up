@@ -334,7 +334,7 @@ function playerTakeBonus() {
 					const index = bonus.indexOf(plus);
 					bonus.splice(index, 1);
 					io.emit('bonusTaken', plus);
-					player.useBonusEffect();
+					player.useBonusEffect(plus);
 				}
 			});
 		});
